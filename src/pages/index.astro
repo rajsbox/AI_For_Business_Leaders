@@ -222,6 +222,7 @@ const weekMeta = weeks.map((w) => {
     --tv-accent-soft-bg: #f2f4ff;
     --tv-accent-soft-border: #c9cfff;
     --tv-card: #ffffff;
+    --tv-ticker-text: var(--tv-faint);
 
     background: var(--tv-paper);
     color: var(--tv-ink);
@@ -247,6 +248,7 @@ const weekMeta = weeks.map((w) => {
       --tv-accent-soft-bg: #1a1e33;
       --tv-accent-soft-border: #33396b;
       --tv-card: #1c1b16;
+      --tv-ticker-text: #fbfaf8;
     }
   }
 
@@ -267,10 +269,12 @@ const weekMeta = weeks.map((w) => {
     --tv-accent-soft-bg: #1a1e33;
     --tv-accent-soft-border: #33396b;
     --tv-card: #1c1b16;
+    --tv-ticker-text: #fbfaf8;
   }
 
   :global(:root[data-theme='light']) .tv-home {
     --tv-card: #ffffff;
+    --tv-ticker-text: var(--tv-faint);
   }
 
   .tv-home .container {
@@ -509,7 +513,7 @@ const weekMeta = weeks.map((w) => {
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
     font-size: 11px;
     letter-spacing: 0.16em;
-    color: var(--tv-faint);
+    color: var(--tv-ticker-text);
   }
 
   @keyframes tv-tick {
