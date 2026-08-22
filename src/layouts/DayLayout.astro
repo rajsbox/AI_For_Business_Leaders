@@ -20,6 +20,10 @@ const prev = days.find((d) => d.day === day - 1);
 const next = days.find((d) => d.day === day + 1);
 const total = days.length;
 const progressPct = Math.round((day / total) * 100);
+// See BaseLayout.astro for why this normalizes to a guaranteed trailing slash.
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <BaseLayout title={`Day ${day} — ${title} | AI Fluency for Leaders`}>
@@ -29,7 +33,7 @@ const progressPct = Math.round((day / total) * 100);
 
   <main class="container day-page">
     <nav class="day-crumb">
-      <a href="/">← THE TRACK</a>
+      <a href={base}>← THE TRACK</a>
       <span class="day-crumb__meta">DAY {String(day).padStart(2, '0')} / {total}</span>
     </nav>
 
@@ -81,13 +85,13 @@ const progressPct = Math.round((day / total) * 100);
 
     <nav class="day-pager">
       {prev ? (
-        <a class="day-pager__link day-pager__link--prev" href={`/day/${prev.day}`}>
+        <a class="day-pager__link day-pager__link--prev" href={`${base}day/${prev.day}`}>
           <span class="day-pager__label">← Day {prev.day}</span>
           <span class="day-pager__title">{prev.title}</span>
         </a>
       ) : <span />}
       {next ? (
-        <a class="day-pager__link day-pager__link--next" href={`/day/${next.day}`}>
+        <a class="day-pager__link day-pager__link--next" href={`${base}day/${next.day}`}>
           <span class="day-pager__label">Day {next.day} →</span>
           <span class="day-pager__title">{next.title}</span>
         </a>
