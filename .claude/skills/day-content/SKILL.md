@@ -65,12 +65,23 @@ doubt, cut the jargon rather than explain it more cleverly.
   out loud in a meeting to sound sharp and informed about that day's specific topic — this
   is the day's practical payoff, distinct from the glossary (definitions) and the quiz
   (self-testing).
-- Each question is followed by an em dash and one short clause explaining what asking it
-  actually accomplishes or exposes (see day-01.mdx's "Four questions" section for the exact
-  pattern).
+- **Each question needs a one-clause setup naming a concrete, recognisable situation** —
+  who's in the room, what's just been said or shown, what's on the table — so the reader
+  can picture themselves in that exact moment before they read the question itself. A bare
+  question with no situation is too abstract; add the moment it belongs to.
+  - Weak (no context, generic): *"Is that in the training data or the context window?"*
+  - Better (situated, specific): *"A vendor's demo just answered a question about your
+    company's own pricing sheet. Ask: 'Did you paste that in, or does the model somehow
+    already know it?'"*
+- After the situated question, keep the em-dash payoff clause explaining what asking it
+  accomplishes or exposes — same as before, just now anchored to a real moment instead of
+  floating free.
+- Vary the situations across the four questions within a day — a vendor pitch, an internal
+  build review, a budget conversation, a rollout planning meeting — so they read as four
+  different real moments, not four phrasings of the same generic skepticism.
 - Questions must be genuinely usable as spoken lines in a real meeting — natural phrasing a
   person would actually say, not a disguised trivia question.
-- Ground each question in that day's specific content; don't recycle Day 1's four
+- Ground each question in that day's specific content; don't recycle another day's four
   questions or write generic AI-skepticism one-liners that could apply to any day.
 - Give this section its own `##` heading, phrased like Day 1's: "Four questions that
   instantly sound credible in an AI meeting."
@@ -125,10 +136,10 @@ One short paragraph: what today is actually for, in plain terms.
 
 ## Four questions that instantly sound credible in an AI meeting
 
-1. *"..."* — what asking this accomplishes.
-2. *"..."* — ...
-3. *"..."* — ...
-4. *"..."* — ...
+1. [Concrete situation in one clause]. Ask: *"..."* — what asking this accomplishes.
+2. [A different situation]. Ask: *"..."* — ...
+3. [A different situation]. Ask: *"..."* — ...
+4. [A different situation]. Ask: *"..."* — ...
 
 <DayGlossary terms={[
   { term: "...", definition: "..." },
