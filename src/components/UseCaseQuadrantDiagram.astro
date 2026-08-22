@@ -1,0 +1,153 @@
+---
+// Themed (light/dark aware) 2x2 quadrant for Day 22 — volume (low/high) against
+// how well-defined a workflow is (ambiguous/well-defined), following the plain
+// HTML/CSS pattern in TrainingInferenceDiagram.astro — no external image files.
+---
+
+<div class="ucq">
+  <div class="ucq__axis ucq__axis--y" aria-hidden="true">
+    <span>High volume</span>
+    <span>Low volume</span>
+  </div>
+
+  <div class="ucq__grid">
+    <div class="ucq__cell ucq__cell--risky">
+      <p class="ucq__tag">Tempting but risky</p>
+      <p class="ucq__desc">Happens constantly, but nobody agrees on the "right" answer. Errors are frequent and hard to catch.</p>
+    </div>
+    <div class="ucq__cell ucq__cell--win">
+      <p class="ucq__tag">AI wins first</p>
+      <p class="ucq__desc">Happens constantly, and the pattern is describable. Fast to gather data, easy to eval.</p>
+    </div>
+    <div class="ucq__cell ucq__cell--avoid">
+      <p class="ucq__tag">Avoid entirely for now</p>
+      <p class="ucq__desc">Rare, and nobody could describe how it's done. No pattern to build on, no volume to learn from.</p>
+    </div>
+    <div class="ucq__cell ucq__cell--skip">
+      <p class="ucq__tag">Nice, but not worth building</p>
+      <p class="ucq__desc">Clear and easy to describe, but happens too rarely to justify the build.</p>
+    </div>
+  </div>
+
+  <div class="ucq__axis ucq__axis--x" aria-hidden="true">
+    <span>Ambiguous</span>
+    <span>Well-defined</span>
+  </div>
+</div>
+
+<style>
+  .ucq {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr auto;
+    gap: 10px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .ucq__grid {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .ucq__cell {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 16px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  :root[data-theme='light'] .ucq__cell {
+    background: #14161c;
+  }
+
+  .ucq__tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  .ucq__desc {
+    color: #c7cad1;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  .ucq__cell--win {
+    border-color: rgba(16, 185, 129, 0.5);
+    background: rgba(16, 185, 129, 0.14);
+  }
+  .ucq__cell--win .ucq__tag { color: #4fd39a; }
+
+  .ucq__cell--risky {
+    border-color: rgba(224, 169, 74, 0.5);
+    background: rgba(224, 169, 74, 0.14);
+  }
+  .ucq__cell--risky .ucq__tag { color: #e0a94a; }
+
+  .ucq__cell--skip {
+    border-color: rgba(142, 203, 251, 0.4);
+    background: rgba(142, 203, 251, 0.1);
+  }
+  .ucq__cell--skip .ucq__tag { color: #8ecbfb; }
+
+  .ucq__cell--avoid {
+    border-color: rgba(239, 100, 100, 0.4);
+    background: rgba(239, 100, 100, 0.12);
+  }
+  .ucq__cell--avoid .ucq__tag { color: #ef8080; }
+
+  .ucq__axis {
+    display: flex;
+    color: var(--mute);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .ucq__axis--y {
+    grid-column: 1;
+    grid-row: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    gap: 8px;
+    padding: 4px 0;
+  }
+
+  .ucq__axis--x {
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 640px) {
+    .ucq {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+    }
+    .ucq__axis--y {
+      display: none;
+    }
+    .ucq__grid {
+      grid-column: 1;
+    }
+    .ucq__axis--x {
+      grid-column: 1;
+    }
+  }
+</style>

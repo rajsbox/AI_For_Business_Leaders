@@ -1,0 +1,143 @@
+---
+// Themed (light/dark aware) comparison of cloud AI vs edge AI request paths,
+// as inline HTML/CSS to match the site's design system. Built for Day 26.
+---
+
+<div class="cve">
+  <div class="cve__col cve__col--cloud">
+    <p class="cve__col-title">Cloud AI</p>
+    <p class="cve__col-sub">Processing happens far away</p>
+    <div class="cve__step">
+      <strong>Device sends request</strong>
+      <span>Over the internet</span>
+    </div>
+    <div class="cve__arrow" aria-hidden="true">↓</div>
+    <div class="cve__step">
+      <strong>Distant server processes it</strong>
+      <span>Round trip, every time</span>
+    </div>
+    <div class="cve__arrow" aria-hidden="true">↓</div>
+    <div class="cve__step">
+      <strong>Response travels back</strong>
+      <span>Needs a reliable connection</span>
+    </div>
+  </div>
+
+  <div class="cve__link" aria-hidden="true">
+    <span>vs.</span>
+  </div>
+
+  <div class="cve__col cve__col--edge">
+    <p class="cve__col-title">Edge AI</p>
+    <p class="cve__col-sub">Processing happens on the device</p>
+    <div class="cve__step">
+      <strong>Device processes it locally</strong>
+      <span>No network hop</span>
+    </div>
+    <div class="cve__arrow" aria-hidden="true">↓</div>
+    <div class="cve__step">
+      <strong>Instant response</strong>
+      <span>Works offline too</span>
+    </div>
+    <div class="cve__arrow" aria-hidden="true">↓</div>
+    <div class="cve__step">
+      <strong>Usually less powerful</strong>
+      <span>Smaller model, local hardware</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cve {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .cve__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  :root[data-theme='light'] .cve__col {
+    background: #14161c;
+  }
+
+  .cve__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .cve__col-sub {
+    color: #9aa1ad;
+    font-size: 0.82rem;
+    margin: 0 0 16px;
+  }
+
+  .cve__step {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border: 1px solid;
+  }
+
+  .cve__col--cloud .cve__step {
+    background: rgba(59, 130, 246, 0.16);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+
+  .cve__col--edge .cve__step {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .cve__step strong {
+    color: #ffffff;
+    font-size: 0.92rem;
+  }
+
+  .cve__col--cloud .cve__step span {
+    color: #a8c8fb;
+    font-size: 0.8rem;
+  }
+
+  .cve__col--edge .cve__step span {
+    color: #a7ecd3;
+    font-size: 0.8rem;
+  }
+
+  .cve__arrow {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+
+  .cve__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-text-faint);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 640px) {
+    .cve {
+      grid-template-columns: 1fr;
+    }
+    .cve__link {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>

@@ -1,0 +1,120 @@
+---
+// Themed (light/dark aware) 4-column spectrum of Buy (platform) vs
+// Buy (vertical vendor) vs Partner vs Build (custom), following the plain
+// HTML/CSS pattern in TrainingInferenceDiagram.astro / DecisionFrameworkDiagram.astro
+// — no external image files.
+---
+
+<div class="ssd">
+  <div class="ssd__col ssd__col--platform">
+    <p class="ssd__title">Buy: Platform</p>
+    <p class="ssd__sub">A general copilot</p>
+    <div class="ssd__row"><span class="ssd__label">Speed</span><span class="ssd__val">Fastest — live in days</span></div>
+    <div class="ssd__row"><span class="ssd__label">Cost</span><span class="ssd__val">Lowest upfront cost</span></div>
+    <div class="ssd__row"><span class="ssd__label">Fit to your workflow</span><span class="ssd__val">Loose — built for everyone</span></div>
+    <div class="ssd__row"><span class="ssd__label">In-house need</span><span class="ssd__val">Little to none</span></div>
+  </div>
+
+  <div class="ssd__col ssd__col--vertical">
+    <p class="ssd__title">Buy: Vertical Vendor</p>
+    <p class="ssd__sub">Built for your industry or job</p>
+    <div class="ssd__row"><span class="ssd__label">Speed</span><span class="ssd__val">Fast — weeks, not months</span></div>
+    <div class="ssd__row"><span class="ssd__label">Cost</span><span class="ssd__val">Moderate, ongoing subscription</span></div>
+    <div class="ssd__row"><span class="ssd__label">Fit to your workflow</span><span class="ssd__val">Closer — tailored to the job</span></div>
+    <div class="ssd__row"><span class="ssd__label">In-house need</span><span class="ssd__val">Light — mostly rollout, not building</span></div>
+  </div>
+
+  <div class="ssd__col ssd__col--partner">
+    <p class="ssd__title">Partner</p>
+    <p class="ssd__sub">Semi-custom, with help</p>
+    <div class="ssd__row"><span class="ssd__label">Speed</span><span class="ssd__val">Moderate — a real project</span></div>
+    <div class="ssd__row"><span class="ssd__label">Cost</span><span class="ssd__val">Real money and time</span></div>
+    <div class="ssd__row"><span class="ssd__label">Fit to your workflow</span><span class="ssd__val">Good — shaped around you</span></div>
+    <div class="ssd__row"><span class="ssd__label">In-house need</span><span class="ssd__val">Moderate — you still own the outcome</span></div>
+  </div>
+
+  <div class="ssd__col ssd__col--build">
+    <p class="ssd__title">Build: Custom</p>
+    <p class="ssd__sub">Your own team, your own system</p>
+    <div class="ssd__row"><span class="ssd__label">Speed</span><span class="ssd__val">Slowest — months or more</span></div>
+    <div class="ssd__row"><span class="ssd__label">Cost</span><span class="ssd__val">Highest, plus upkeep forever</span></div>
+    <div class="ssd__row"><span class="ssd__label">Fit to your workflow</span><span class="ssd__val">Exact — built around your process</span></div>
+    <div class="ssd__row"><span class="ssd__label">In-house need</span><span class="ssd__val">High — a real engineering team</span></div>
+  </div>
+</div>
+
+<style>
+  .ssd {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .ssd__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 20px 16px;
+  }
+
+  :root[data-theme='light'] .ssd__col {
+    background: #14161c;
+  }
+
+  .ssd__title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0 0 2px;
+  }
+
+  .ssd__sub {
+    color: #9aa1ad;
+    font-size: 0.76rem;
+    margin: 0 0 16px;
+  }
+
+  .ssd__row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .ssd__row:first-of-type {
+    border-top: none;
+  }
+
+  .ssd__label {
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+  }
+
+  .ssd__val {
+    font-size: 0.82rem;
+    line-height: 1.4;
+  }
+
+  .ssd__col--platform .ssd__val { color: #a7ecd3; }
+  .ssd__col--vertical .ssd__val { color: #8ecbfb; }
+  .ssd__col--partner .ssd__val { color: #fbd38e; }
+  .ssd__col--build .ssd__val { color: #c9b8fb; }
+
+  @media (max-width: 900px) {
+    .ssd {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 520px) {
+    .ssd {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

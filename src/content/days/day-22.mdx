@@ -2,10 +2,183 @@
 day: 22
 week: 4
 title: "Use-Case Discovery — Identifying High-Volume, Well-Defined Workflows Where AI Wins First"
-summary: ""
-published: false
+summary: "How to pick the right first AI project — a plain framework for finding workflows where AI actually wins."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import UseCaseQuadrantDiagram from '../../components/UseCaseQuadrantDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Weeks 1 through 3 were about how AI works, how it gets built into a real product, and how
+you keep it reliable once it's live. Starting today, Week 4 shifts altitude. The question
+stops being "how does this work?" and becomes "where in my business should I actually point
+it?" That's a strategy question, not a technical one — and it's the one that decides whether
+your first AI project becomes a success story or a quiet write-off.
+
+## Most AI projects don't fail on the technology
+
+When an AI pilot fizzles out, the postmortem rarely says "the model wasn't good enough."
+More often, the real story is that the project was aimed at the wrong problem from day
+one — something too rare to matter, too fuzzy to build reliably, or too dependent on
+judgment nobody could actually write down. The tool might have worked fine. It just never
+had a fair problem to solve.
+
+Today is about avoiding that mistake, with a simple test you can apply before a single
+line of a project plan gets written: is this task high-volume, and is it well-defined?
+Get both right, and you've found a strong first candidate. Get either wrong, and you're
+setting up an expensive lesson.
+
+## High volume: the task has to happen often
+
+A workflow is high-volume when it happens many times a day or week — not a handful of
+times a year. This matters for two very practical reasons.
+
+First, the math only works at volume. A tool that saves two minutes on a task done twice a
+year saves almost nothing — you'll spend more time building and maintaining it than it will
+ever save. The same two minutes, saved on a task done five hundred times a week, adds up to
+real hours very fast.
+
+Second, and just as important: high volume means you get real usage data quickly. Think of
+it like a restaurant testing a new dish. If it only sells the dish twice a year, it takes
+years to learn whether customers actually like it. If it sells the dish two hundred times a
+week, it knows within days. AI is the same — a high-volume task gives you the real-world
+examples you need to build the **evals** you learned about on Day 15, the tests that
+actually tell you whether the thing is working, not just whether it looked good in a demo.
+
+## Well-defined: the task has to have a describable pattern
+
+The second property is just as important, and it's the one teams skip past most often. A
+task is well-defined when someone experienced could write down, in fairly concrete terms,
+roughly how they decide or do it — even if it still takes some judgment. It doesn't have to
+be a rigid, step-by-step recipe. It just has to be describable.
+
+The opposite is a task that's highly ambiguous: deeply dependent on unwritten institutional
+knowledge, or one where two experienced people would genuinely disagree on the right answer.
+Think of the difference between a recipe and a family cook who "just knows" when a dish is
+ready by smell and feel alone. The recipe can be handed to someone else and followed. The
+"just knows" skill can't be written down at all — and if you can't write it down for a
+person, you can't hand it to an AI model either.
+
+Well-defined tasks are easier to build reliably — this is exactly why clear system prompts
+(Day 8) and grounding a model in the right documents through
+[RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) (Day 9) work so much
+better when the task itself has a clear shape. They're also easier to eval, because you can
+actually describe what a good answer looks like — which is the whole foundation an eval is
+built on.
+
+> **Why this matters to you:** volume and clarity aren't nice-to-haves — they're the two
+> inputs everything else in this course depends on. No volume means no data. No clear
+> definition means no way to know if an answer is right. Skip either one, and every later
+> step — evals, guardrails, monitoring — is built on sand.
+
+<UseCaseQuadrantDiagram />
+
+## The trap: chasing the most exciting-sounding use case
+
+The most common mistake isn't picking a bad idea. It's picking the *best-sounding* idea —
+the one that would make the flashiest demo, or the one a competitor just announced in a
+press release — instead of the one that actually fits the two criteria above.
+
+An impressive-sounding use case that's low-volume or poorly-defined is far more likely to
+turn into an expensive failed pilot — the exact gap between pilot and production covered on
+Day 20 — than a boring, high-volume, well-defined one ever is. Nobody writes
+a press release about "we automated a routine data-entry step that ran 400 times a day." But
+that boring project is the one far more likely to actually ship, actually get used, and
+actually save money.
+
+## Where to actually look for good candidates
+
+Good candidates are usually hiding in plain sight, buried in tasks nobody thinks to mention
+because they're "just part of the job." Three places to look:
+
+- **Anything someone describes as "I do this every single day."** That's a volume signal
+  said out loud, without anyone needing to run a study to find it.
+- **Any task that already has a template, checklist, or standard set of steps written
+  down somewhere.** A written checklist is a strong sign the task is already well-defined —
+  someone has already done the work of describing the pattern for you.
+- **Any task that's currently a bottleneck because only one or two people know how to do
+  it well.** That's often a sign of a well-defined skill that simply hasn't been written
+  down yet — and writing it down to brief an AI system can be valuable on its own, even
+  before any AI gets built.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. Someone in a strategy meeting proposes an AI project because a competitor just
+   announced something similar. Ask: *"Is this actually a high-volume task for us, or are
+   we chasing a headline?"* — separates a real opportunity from a reaction to someone
+   else's press release.
+2. A team pitches an AI tool for a task they describe as "more of an art than a science."
+   Ask: *"Could an experienced person on the team actually write down how they make that
+   call?"* — tests whether the task is well-defined enough to build and eval, before any
+   money is spent.
+3. In a project shortlist review, two candidate use cases are on the table: one sounds
+   impressive but happens rarely, the other is mundane but happens constantly. Ask: *"Which
+   one actually gives us enough real examples to know if it's working within a few weeks?"*
+   — pushes the decision toward volume and away from novelty.
+4. A budget conversation is about to greenlight a project built around a task only one
+   senior person can currently do well. Ask: *"Do we actually have a clear, written pattern
+   for this, or are we hoping the AI will somehow absorb knowledge that's only in one
+   person's head?"* — catches a poorly-defined task before it becomes a stalled pilot.
+
+<DayGlossary terms={[
+  {
+    term: "Use-case discovery",
+    definition: "The process of identifying and prioritising which specific business workflows to apply AI to, before any technical build begins."
+  },
+  {
+    term: "High-volume workflow",
+    definition: "A task performed frequently — many times a day or week. High volume matters because it produces enough real usage data quickly enough to measure whether an AI system is actually working."
+  },
+  {
+    term: "Well-defined task",
+    definition: "A task where the pattern for doing it correctly can be described in fairly concrete terms by an experienced person, even if some judgment is still involved. The opposite is a highly ambiguous task with no describable pattern."
+  },
+  {
+    term: "Eval",
+    definition: "A structured test used to measure whether an AI system's outputs are actually correct or useful, rather than judging by impression alone. Covered in full on Day 15."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "Why does high task volume matter when choosing a first AI use case?",
+    options: [
+      "It guarantees the AI will never make mistakes",
+      "It means the savings add up fast, and it produces enough real usage data to actually measure whether the system works",
+      "It's required by most AI vendor contracts",
+      "It has no real effect on the outcome, only on the demo"
+    ],
+    correct: 1,
+    explain: "Low-volume tasks save too little to matter and don't generate enough data to build a real eval. High volume makes both the payoff and the ability to measure it meaningful."
+  },
+  {
+    q: "A task is 'well-defined' in the sense this lesson uses. What does that mean?",
+    options: [
+      "It never requires any human judgment at all",
+      "It's written into a formal legal contract",
+      "An experienced person could describe, in fairly concrete terms, roughly how the task is done or decided",
+      "It's a task only a machine could ever do"
+    ],
+    correct: 2,
+    explain: "Well-defined doesn't mean rigid or judgment-free — it means the pattern can be described. If even an experienced person can't explain how they make the call, there's no pattern for an AI system to learn or be measured against."
+  },
+  {
+    q: "Why is an exciting-sounding, low-volume, poorly-defined use case a risky first AI project?",
+    options: [
+      "It's more likely to become an expensive failed pilot than a boring, high-volume, well-defined one",
+      "It's always more expensive to build than any other type of project",
+      "It's illegal in most industries",
+      "It will always score worse on quiz questions"
+    ],
+    correct: 0,
+    explain: "Impressive-sounding use cases that are rare or ambiguous rarely have enough volume or clarity to build and measure reliably — which is exactly the pattern behind the pilot-to-production gap covered on Day 20."
+  }
+]} />
+</DayApply>

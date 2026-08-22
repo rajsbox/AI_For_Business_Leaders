@@ -2,10 +2,199 @@
 day: 26
 week: 4
 title: "Sovereign AI, Edge AI & AI Factories — The 2026 Infrastructure Trends"
-summary: ""
-published: false
+summary: "A plain-English guide to sovereign AI, edge AI, and AI factories — and a simple way to tell which of the three, if any, actually matters to your business."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "30–40 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import CloudVsEdgeDiagram from '../../components/CloudVsEdgeDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+You'll increasingly hear three terms in AI news and vendor pitches: sovereign AI, edge AI,
+and AI factories. They all sound like they're about the same thing — where AI computing
+happens. They're not interchangeable, and none of them require you to do anything today.
+Today is about knowing what each one actually means, and — more usefully — knowing when, if
+ever, it's relevant to a decision you're making.
+
+## Sovereign AI: who controls the infrastructure
+
+**Sovereign AI** is the idea that a country — sometimes a large company or an entire
+regulated industry — wants AI infrastructure and capability located within its own borders
+and under its own control, rather than depending entirely on AI services run by companies
+based in other countries.
+
+A simple comparison: think of why a country cares about having some domestic energy
+production or domestic food supply, even when perfectly good imported alternatives exist.
+It's not that imports are bad. It's that depending entirely on another country or company
+for something that's becoming critical to your economy and security is itself a risk worth
+managing — a supply chain risk, not a quality judgment.
+
+Day 4 covered frontier versus open-weight models — that's about who controls the *model*.
+Sovereign AI is a different question: who controls and where does the underlying
+*infrastructure* run — the data centers, the chips, the servers actually doing the
+computing. You can use an open-weight model and still run it entirely on infrastructure
+owned by a foreign company, and you can use a closed frontier model hosted on
+infrastructure guaranteed to sit within your own country. The model question and the
+infrastructure question are separate, and a business can face either one independently of
+the other.
+
+> **Why this matters to you:** this mostly shows up as government policy — incentives, or
+> sometimes requirements — pushing certain organizations toward AI infrastructure or
+> vendors that offer sovereignty guarantees. If your business is a government contractor,
+> or operates in a heavily regulated industry like healthcare, finance, or defense, this is
+> worth tracking. For most other businesses, sovereign AI is a background trend to be aware
+> of, not something that changes a vendor decision this year.
+
+## Edge AI: processing on the device, not in the cloud
+
+**[Edge AI](https://en.wikipedia.org/wiki/Edge_computing)** means running AI processing
+directly on a local device — a phone, a factory sensor, a piece of equipment — instead of
+sending everything to a distant cloud server and waiting for a response.
+
+A simple comparison: it's the difference between doing a quick calculation in your head
+right now, versus calling a colleague, waiting for them to work it out, and waiting for
+them to call you back with the answer. The phone call gets you a more careful answer from
+someone with more resources at their desk. Doing it in your head is instant, and it still
+works if the phone line is down — but you're limited to what you can actually work out
+yourself.
+
+<CloudVsEdgeDiagram />
+
+That trade-off is exactly the one edge AI makes. It's faster, because there's no round trip
+to a distant server and back. It keeps working even without a reliable internet connection.
+But it's usually less powerful than what a large cloud server can run, because the device
+itself has far less computing power than a data center.
+
+Edge AI matters for two kinds of situations. First, anything needing an instant response —
+a safety system on a factory floor that can't wait for a network round trip, or a device
+that has to keep functioning without constant connectivity. Second, situations where sending
+data to the cloud raises privacy or security concerns of its own — Day 17 covered how easily
+sensitive data can leak out through everyday AI use, and keeping processing local is one way
+some organizations manage that risk.
+
+**The trap to avoid:** for most everyday business AI use — drafting emails, summarizing a
+document, answering a question — cloud-based AI remains the simpler default, and there's no
+reason to complicate it. Edge AI is a deliberate choice for a specific latency- or
+connectivity-sensitive need, not a general upgrade every business should be moving toward.
+
+## AI factories: purpose-built infrastructure for AI at scale
+
+**AI factories** is a newer term for large-scale, purpose-built facilities designed
+specifically to run massive AI computing workloads — essentially specialized industrial
+infrastructure for AI, rather than a general-purpose data center repurposed for the job.
+
+A simple comparison: a car factory is built differently from a general warehouse, because
+it's designed around one specific, intensive job rather than flexible general storage. An
+AI factory is the same idea applied to computing — infrastructure purpose-built around the
+specific, intensive demands of training and running large AI models, rather than general
+computing.
+
+For most business leaders, this is infrastructure happening upstream, built and operated by
+large infrastructure and cloud providers. You almost certainly don't need to build one
+yourself, and there's no action item here for most businesses. But the term is worth
+knowing, because a major AI vendor's access to — or partnership with — this kind of
+large-scale infrastructure affects their capacity and reliability to serve customers at
+scale. That's a fair, specific thing to ask a major AI vendor about, rather than a fair
+thing to worry about building yourself.
+
+## Knowing when each one actually matters
+
+None of these three trends require action from most business leaders directly. The useful
+skill isn't memorizing the definitions — it's knowing when, if ever, one of them is relevant
+to a decision actually in front of you.
+
+- Is your business in a regulated or government-adjacent industry? Then sovereign AI is
+  worth tracking.
+- Does a specific use case need an instant, offline-capable response, or does it involve
+  data too sensitive to send off-site? Then edge AI is worth evaluating for that use case
+  specifically.
+- Are you evaluating a major AI vendor's capacity and reliability at scale? Then their
+  access to AI-factory-level infrastructure is a fair question to raise in that
+  conversation.
+
+For most everyday business AI use, none of these three change what you'd actually do. But
+recognizing the terms means you won't be caught out when they come up in a meeting — and
+you'll know which one, if any, is actually relevant to your situation, instead of treating
+all three as equally urgent.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A government-contract renewal is coming up, and someone mentions "data residency
+   requirements" for the first time. Ask: *"Is this about where our AI vendor's model runs,
+   or specifically about where the infrastructure and data physically sit?"* — surfaces
+   whether this is a sovereign AI requirement before it becomes a surprise late in
+   procurement.
+2. A product team proposes adding an AI feature to a device that's used in areas with
+   patchy internet access. Ask: *"Does this need to work instantly and offline, or can it
+   tolerate a short delay while it calls out to the cloud?"* — decides whether edge AI is
+   actually the right call here, instead of defaulting to cloud out of habit.
+3. In a vendor evaluation meeting, a sales rep emphasizes how much AI computing capacity
+   their company controls. Ask: *"What does that capacity actually guarantee us in terms of
+   reliability if demand spikes across your customer base?"* — turns a vague infrastructure
+   flex into a concrete answer about service reliability.
+4. During a budget review, someone suggests investing in edge AI hardware "to stay ahead of
+   the trend." Ask: *"Which specific use case of ours actually needs local, offline
+   processing — or are we buying this because it's a trend rather than a fit?"* — keeps
+   spending tied to an actual business need rather than a headline.
+
+<DayGlossary terms={[
+  {
+    term: "Sovereign AI",
+    definition: "AI infrastructure and capability located within a specific country's borders and under its own control, rather than depending entirely on AI services run by companies based elsewhere. Distinct from open- vs. closed-weight models (Day 4), which is about who controls the model rather than where the infrastructure runs."
+  },
+  {
+    term: "Edge AI",
+    definition: "Running AI processing directly on a local device — a phone, sensor, or piece of equipment — instead of sending the request to a distant cloud server. Faster and works offline, but typically less powerful than cloud-based processing."
+  },
+  {
+    term: "AI factory",
+    definition: "A large-scale facility purpose-built to run intensive AI computing workloads, as distinct from a general-purpose data center. Typically built and operated by large infrastructure and cloud providers, not by individual businesses."
+  },
+  {
+    term: "Latency",
+    definition: "The delay between sending a request and receiving a response. Edge AI reduces latency by removing the round trip to a distant server; cloud AI typically has higher latency but access to far more computing power."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "What's the key difference between sovereign AI and the open-weight vs. closed-weight model question from Day 4?",
+    options: [
+      "They're the same thing, just different names",
+      "Sovereign AI is about where the infrastructure runs and who controls it; open- vs. closed-weight is about who controls the model itself",
+      "Sovereign AI only applies to open-weight models",
+      "Sovereign AI is a marketing term with no real meaning"
+    ],
+    correct: 1,
+    explain: "A business can use an open-weight model on foreign-owned infrastructure, or a closed frontier model on infrastructure guaranteed to sit within its own country. The model question and the infrastructure question are independent of each other."
+  },
+  {
+    q: "A factory floor safety system needs to react instantly and keep working if the network goes down. What does this suggest?",
+    options: [
+      "This is a good candidate for edge AI, since it needs an instant, offline-capable response",
+      "This should always use cloud AI, since cloud is more powerful",
+      "This is an example of sovereign AI",
+      "This is an example of an AI factory"
+    ],
+    correct: 0,
+    explain: "Edge AI trades some raw power for speed and offline reliability by processing locally on the device, rather than making a round trip to a distant server. That trade-off fits a use case needing an instant, always-available response."
+  },
+  {
+    q: "Why should most business leaders care about the term 'AI factory' even though they're unlikely to build one?",
+    options: [
+      "Because every business will need to build its own AI factory soon",
+      "Because it replaces the need for cloud AI vendors entirely",
+      "Because a major AI vendor's access to this kind of infrastructure affects their capacity and reliability at scale — a fair thing to ask about",
+      "Because it's a requirement for using any generative AI tool"
+    ],
+    correct: 2,
+    explain: "AI factories are large-scale, purpose-built infrastructure mostly built by cloud and infrastructure providers. Most businesses won't build one, but a vendor's access to this kind of infrastructure is a legitimate question when evaluating that vendor's reliability at scale."
+  }
+]} />
+</DayApply>

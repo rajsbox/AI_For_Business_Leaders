@@ -2,10 +2,216 @@
 day: 25
 week: 4
 title: "AI Governance & Regulation — EU AI Act, Responsible AI, Audit Trails, Human-in-the-Loop"
-summary: ""
-published: false
+summary: "The organizational layer that makes sure the practices from Days 16-19 are actually followed, documented, and accountable — plus a plain-English look at why some of this is becoming law, not just good practice."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import GovernanceTiersDiagram from '../../components/GovernanceTiersDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Days 16 and 17 covered guardrails and security — things a good team does because it's good
+practice. Today is about a different question: how do you actually know those practices are
+being followed, consistently, across every AI project in your business — not just the one
+the engineering team happens to be proud of? That's governance. It's the organizational and
+policy layer sitting on top of the technical one, and increasingly, parts of it are becoming
+legally required rather than just advisable.
+
+## Governance is the layer that makes the technical work count
+
+A team can build excellent guardrails (Day 16) and solid security practices (Day 17) for one
+project, and have none of that for the next one, because nothing forced consistency across
+the business. Governance is the set of policies, processes, and accountability that closes
+that gap — who has to sign off before an AI system launches, what has to be documented, who
+reviews high-stakes decisions, and what happens when something goes wrong.
+
+Think of it like food safety in a restaurant chain. One kitchen having a brilliant head chef
+who personally checks every dish is not food safety — it's luck. Food safety is the health
+code, the inspections, and the paperwork that make sure *every* kitchen in the chain meets
+the same standard, whether or not that particular chef happens to be careful. Governance
+does the same job for AI: it's what turns "our best team does this well" into "our business
+does this reliably."
+
+## The EU AI Act: a real law, worth knowing exists
+
+The **[EU AI Act](https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai)**
+is a genuinely significant piece of regulation — the European Union's law governing how AI
+systems can be built and used. As a business leader, you don't need to become a regulatory
+expert on it. You need to know three things: that it exists, its general shape, and when to
+bring in help.
+
+Its general shape is a **risk-based approach**: AI systems are regulated more or less
+strictly depending on how much potential harm they could cause. An AI system that helps
+decide something like someone's employment, credit, or legal rights faces much stricter
+requirements than a low-stakes internal tool, like one that drafts internal meeting
+summaries. The stricter rules generally mean more documentation, more testing, and more
+human oversight before and during use.
+
+<GovernanceTiersDiagram />
+
+**This is the point where this course stops, on purpose.** Specific compliance obligations —
+what exactly applies to your business, what deadlines matter, what the actual penalties are
+— is a legal question for qualified legal counsel, not something a course lesson can
+responsibly tell you. Regulations like this are detailed, still evolving, and depend heavily
+on your specific business, your specific use case, and where your customers are. Treat
+anything that sounds like a specific compliance answer from an AI course, a vendor, or a
+LinkedIn post with real suspicion, and loop in legal or compliance expertise early for
+anything AI-related that touches the EU or touches a higher-stakes decision about a person.
+
+> **The leader's job here isn't to become a lawyer.** It's to know this exists, know the
+> general shape — stricter rules for higher-stakes uses — and know early enough to ask legal
+> "does this apply to us?" before a project launches, not after a regulator asks the same
+> question.
+
+## Responsible AI: good practice, independent of the law
+
+**Responsible AI** is broader than legal compliance. It's the practice of building and using
+AI in a way that's fair, accountable, and doesn't cause unintended harm — regardless of
+whether a specific law requires it. A few concrete examples of what this looks like day to
+day:
+
+- Checking that an AI system isn't systematically worse for some groups of people than
+  others — for example, an AI screening tool that performs noticeably worse for one group of
+  applicants than another.
+- Being transparent that a customer is talking to an AI, rather than letting them assume
+  they're speaking with a person.
+- Having a real process for someone to flag or appeal a decision an AI system was involved
+  in, instead of a decision that's effectively unchallengeable.
+
+The reason this matters even where no law demands it: unfair or harmful outcomes damage
+trust and reputation regardless of their legal status. A business that quietly produces
+worse outcomes for some customers, or hides that a bot is a bot, pays for that in trust long
+before any regulator gets involved — and that damage doesn't undo itself once the legal
+question is settled.
+
+## Audit trails: Day 19's tracing, now for accountability
+
+Day 19 introduced tracing — the ability to look back at one specific interaction and see
+what actually happened, mainly so an engineering team could debug it. An **audit trail** is
+the same underlying record, kept and used for a different purpose: not "can we debug this
+technically," but "can we show a regulator, an auditor, or an affected customer exactly what
+happened and why, if asked."
+
+It's the difference between a security camera an IT team occasionally checks to fix a
+network issue, and the same footage being treated as an official record that has to be kept,
+retrievable, and presentable if there's ever a formal inquiry. Same recording, but once it
+has to hold up to outside scrutiny, how it's kept, how long it's retained, and how completely
+it captures what happened all become more important. The technical capability from Day 19
+now also has to serve this accountability purpose.
+
+## Human-in-the-loop: keeping a person in the approval chain
+
+Day 12 covered tool use — a model's ability to actually take actions, not just produce text.
+Left fully on its own, a system with tool use can act entirely autonomously: decide, and do,
+with nobody checking in between. **Human-in-the-loop** is a deliberate governance choice to
+keep a person reviewing or approving an AI system's output or decision before it takes
+effect, especially for higher-stakes decisions.
+
+This connects directly to Day 16's stakes-matching principle: the higher the stakes of a
+decision, the stronger the case for keeping a human in the loop rather than letting the
+system act fully on its own. A tool that drafts an internal email and sends it automatically
+is low stakes enough that full autonomy is often fine. A system that could deny someone a
+loan, reject a job applicant, or take an action with legal weight is exactly the kind of case
+where a person should review the output before anything happens to a real person because of
+it.
+
+## What this looks like when you're the one approving a project
+
+Governance isn't red tape bolted onto AI as an afterthought. It's the accountability layer
+that makes everything from Days 15 through 19 — evals, guardrails, security, cost,
+observability — actually mean something to someone outside your own engineering team: a
+regulator, an auditor, or a customer who was harmed by a bad decision.
+
+A business that can say "here's our eval process, here's our guardrails, here's our audit
+trail, here's who reviews our high-stakes decisions" is in a fundamentally stronger position
+— legally and reputationally — than one that can only say "it worked in the demo." As a
+leader, that's the standard worth asking your teams to meet before you sign off on anything
+AI touches a real customer or a real decision about a person.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A team is proposing to roll out an AI system that helps screen job applicants across
+   several EU markets. Ask: *"Has legal or compliance reviewed this against the EU AI Act's
+   risk category for this kind of use, before we build any further?"* — makes sure a
+   higher-stakes, EU-facing use case gets the right expertise involved early, instead of
+   after launch.
+2. In an internal build review, an engineer says the new AI tool "logs everything so we're
+   covered." Ask: *"Is that log good enough to hand to an auditor or a regulator if they
+   asked, or is it just good enough for us to debug with?"* — separates a technical trace
+   built for engineers from a real audit trail built to satisfy outside scrutiny.
+3. During a budget conversation, someone argues that a human review step before a high-stakes
+   AI decision goes out is slowing the team down and should be automated away. Ask: *"What's
+   the actual harm if this decision is wrong, and does that harm justify removing the human
+   in the loop?"* — forces the stakes of the decision, not the speed of the workflow, to
+   drive the call.
+4. In a rollout planning meeting, someone says "we don't need to worry about responsible AI,
+   we're not doing anything illegal." Ask: *"Legal is one bar — but could this system still
+   produce unfair or damaging outcomes for some customers even if nothing about it breaks the
+   law?"* — separates the legal compliance question from the broader, and separately
+   important, responsible AI question.
+
+<DayGlossary terms={[
+  {
+    term: "EU AI Act",
+    definition: "A European Union law regulating AI systems using a risk-based approach — AI systems that could cause more harm, such as those affecting employment, credit, or legal rights, face stricter requirements than lower-stakes uses. Specific compliance obligations under it are a legal question for qualified counsel, not a general course topic."
+  },
+  {
+    term: "Risk-based approach",
+    definition: "A regulatory framing where the strictness of the rules applied to an AI system scales with how much potential harm that system's use could cause, rather than applying the same rules to every AI system regardless of stakes."
+  },
+  {
+    term: "Responsible AI",
+    definition: "The practice of building and using AI in a way that is fair, accountable, and avoids unintended harm, independent of whether a specific law requires it — covering things like checking for unfair outcomes across groups, being transparent that a user is interacting with AI, and providing a way to appeal an AI-involved decision."
+  },
+  {
+    term: "Audit trail",
+    definition: "A retained record of what an AI system did, when, with what inputs, and why, kept specifically so a decision can be explained and reviewed after the fact by a regulator, auditor, or affected customer — not only by the engineering team debugging it."
+  },
+  {
+    term: "Human-in-the-loop",
+    definition: "A governance pattern where a human reviews or approves an AI system's output or decision before it takes effect, rather than letting the system act fully autonomously — used especially for higher-stakes decisions."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "What is the key difference between Day 16-17's guardrails/security practices and today's governance?",
+    options: [
+      "Governance replaces the need for guardrails and security entirely",
+      "Governance is the organizational and policy layer that ensures those technical practices are actually followed, documented, and accountable across the whole business — not just within one team's project",
+      "Governance only applies to companies operating in the EU",
+      "Guardrails and governance mean the same thing"
+    ],
+    correct: 1,
+    explain: "Guardrails and security are technical practices a team can do well on one project. Governance is what makes sure that quality is consistent, documented, and accountable across every AI project in the business, not dependent on which team happens to be careful."
+  },
+  {
+    q: "What is the general shape of the EU AI Act's approach, and what should a business leader do about specific compliance questions?",
+    options: [
+      "It bans all generative AI use in the EU; no further action is needed",
+      "It applies identical rules to every AI system regardless of use; a leader can safely ignore it for low-stakes tools",
+      "It takes a risk-based approach, regulating higher-stakes uses more strictly; specific compliance obligations are a question for qualified legal counsel, not this course",
+      "It only applies to companies headquartered in the EU"
+    ],
+    correct: 2,
+    explain: "The EU AI Act's general shape is risk-based: stricter rules for higher-stakes uses. Specific obligations, deadlines, and penalties are a legal question that requires qualified counsel — not something a general course can responsibly determine for a specific business."
+  },
+  {
+    q: "A system with tool use (Day 12) could act fully autonomously on a high-stakes decision. What does human-in-the-loop add, and why does it matter more as stakes rise?",
+    options: [
+      "It slows every AI system down for no real benefit and should generally be avoided",
+      "It's only relevant to low-stakes, internal tools",
+      "It deliberately keeps a person reviewing or approving the output before it takes effect, and the case for it gets stronger the more harm a wrong decision could cause",
+      "It replaces the need for guardrails or audit trails"
+    ],
+    correct: 2,
+    explain: "Human-in-the-loop is a deliberate governance choice to keep a person in the approval chain, especially for consequential decisions. Following Day 16's stakes-matching principle, the higher the potential harm, the stronger the case for a human reviewing the outcome before it affects a real person."
+  }
+]} />
+</DayApply>

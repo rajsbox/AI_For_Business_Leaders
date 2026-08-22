@@ -2,10 +2,184 @@
 day: 24
 week: 4
 title: "Data Readiness — Why Your Data Estate Decides Your AI Ceiling"
-summary: ""
-published: false
+summary: "Why the biggest constraint on most AI projects isn't the model at all — it's the state of the documents and data the AI is actually working with."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "30–40 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import DataCeilingDiagram from '../../components/DataCeilingDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Back on Day 9, we ended with an honest caveat: RAG is only as good as what it retrieves. Today
+takes that one step further, because it's not really about the retrieval mechanism at all —
+it's about what's sitting on the other end of it. The best model in the world, wired up
+perfectly, still can't answer well from documents that are missing, outdated, contradictory,
+or unreadable. Today is about that ceiling, and how to actually check for it.
+
+## The idea in one sentence
+
+Your company's data — its quality, organization, and accessibility — sets a hard ceiling on
+how good any AI system built on top of it can be. No amount of model quality or clever
+prompting fixes that. A brilliant model handed messy data still produces messy answers; it
+will just say them more fluently and more confidently than a worse model would.
+
+<DataCeilingDiagram />
+
+This is the direct, practical follow-through on Day 9's caveat and Day 10's "search by
+meaning": a RAG system can only find what's actually there to be found, described clearly
+enough to be found, and correct once it's found. Everything below is about what "actually
+there, findable, and correct" really requires.
+
+## Four questions that decide whether your data is AI-ready
+
+These aren't abstract IT concerns — they're things a leader can genuinely check by asking
+around, before approving a project.
+
+**Is it findable?** Relevant information that's scattered across someone's inbox, a personal
+laptop, sticky notes, or an old unindexed folder isn't searchable by a retrieval system, no
+matter how good that system is. As Day 10 covered, retrieval works by comparing meaning across
+a defined set of documents — but it can only search what's actually been put somewhere it can
+reach. Information that exists but can't be reached might as well not exist at all, for AI
+purposes.
+
+**Is it current?** A stale document — an old policy that was replaced six months ago but never
+removed from the shared drive — gets retrieved and used just as confidently as the correct,
+current version. Day 16 covered grounding: basing an answer on retrieved source material
+rather than the model's own guesswork. Grounding in the *wrong* document is arguably worse
+than not grounding at all, because the answer looks just as authoritative either way. A reader
+has no way to tell, from the answer alone, whether it came from this year's policy or last
+year's.
+
+**Is it consistent?** Do different documents contradict each other — two versions of the same
+policy still both in circulation, or two reports with different numbers for the same thing?
+A retrieval system has no way to know which one is "right." It just finds something relevant
+and hands it over. If your own documents disagree with each other, the AI will happily inherit
+that disagreement and state one side of it with total confidence.
+
+**Is it accessible in the right way?** Some genuinely important information is locked in
+formats that are hard to work with — a scanned image of a document with no searchable text
+behind it, or an old system nobody can cleanly export data from. As Day 5 covered,
+vision-style tools can read scanned documents and images, but that's an extra processing step
+that has to be deliberately built in — it doesn't happen automatically just because the
+document technically exists somewhere.
+
+> **Why this matters to you:** these four checks are the practical version of "is our data
+> ready for AI?" You don't need to inspect a single document yourself to ask about all four —
+> you just need to know these are the right four things to ask about.
+
+## The reframe: "data cleanup" is an AI investment, not IT housekeeping
+
+"Let's get our documents organized" sounds like unglamorous back-office work, easy to
+deprioritize behind a flashier AI feature. In practice, it's often one of the highest-leverage
+AI investments a company can make — frequently more impactful than switching to a fancier
+model, because it directly raises the ceiling described above. A mediocre model on excellent,
+current, consistent data will usually outperform an excellent model on messy data.
+
+This also connects directly to Day 15's lesson on evals. A team can build a genuinely
+rigorous, systematic evaluation process and still get mediocre scores — correctly — because
+the documents being retrieved from are bad. The eval isn't wrong in that case; it's doing its
+job, catching the problem. But the fix isn't a better model or a fancier prompt. It's fixing
+the data the system is actually pulling from.
+
+**The trap to avoid:** treating a low eval score as proof the model needs replacing. Before
+reaching for a bigger or newer model, check whether the retrieved source material was even
+correct and current to begin with. Swapping models won't fix a filing cabinet full of
+outdated pages.
+
+## What to ask before approving a data-heavy AI project
+
+Before signing off on a RAG-based or knowledge-heavy AI project, it's fair — and useful — to
+ask about the state of the underlying data, the same way you'd ask about budget or timeline:
+
+- Is the source material centralized, or scattered across many places?
+- How current is it, and when was it last reviewed?
+- Has anyone actually checked it for contradictions between documents?
+- Is there a named owner responsible for keeping it accurate *after* launch, not just at
+  launch?
+
+That last one matters most, and gets skipped most often. A data set can be perfectly clean on
+launch day and quietly stale within a few months if nobody owns keeping it that way — which
+brings the ceiling right back down, no matter how well the project started.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A team is proposing a RAG-based assistant over your company's policy documents, and the
+   conversation is all about which model to use. Ask: *"Before we pick a model, how confident
+   are we in the documents it'll be pulling from — are they centralized, current, and free of
+   contradictions?"* — redirects the conversation to the actual ceiling on quality, before
+   money gets spent on the wrong lever.
+2. An eval report comes back showing a new AI tool scoring poorly on accuracy. Ask: *"Is this
+   the model reasoning badly, or is it working from outdated or contradictory source
+   documents?"* — separates a model problem from a data problem, which are fixed in completely
+   different ways.
+3. In a budget conversation, "document cleanup" is proposed as a separate, lower-priority line
+   item from the AI project itself. Ask: *"Since the AI can't be better than the data it reads,
+   should this actually be treated as part of the AI budget, not a nice-to-have alongside it?"*
+   — makes the connection between data quality and AI quality explicit before priorities get
+   set.
+4. A rollout is being planned for an AI tool built on a shared drive full of older documents.
+   Ask: *"Who owns keeping this data current after launch, so we're not back here in six
+   months with the same stale-answer problem?"* — surfaces whether there's a real long-term
+   owner, or whether the project assumes the data will just stay accurate on its own.
+
+<DayGlossary terms={[
+  {
+    term: "Data readiness",
+    definition: "The state of a company's documents and data with respect to how usable they are as a source for AI retrieval — specifically whether they are findable, current, consistent, and accessible in a machine-readable format."
+  },
+  {
+    term: "Data estate",
+    definition: "The full collection of an organization's data and documents, wherever they live — shared drives, databases, individual files, and systems — considered as a whole."
+  },
+  {
+    term: "Stale data",
+    definition: "Information that was once accurate but has since been superseded or outdated, while remaining present and retrievable as if it were still current."
+  },
+  {
+    term: "Data owner",
+    definition: "The person or team responsible for a given set of data or documents staying accurate and current over time, not just at the point a project launches."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A company deploys an excellent, well-tested model on top of a messy, outdated document set. What's the most likely result?",
+    options: [
+      "The model's quality overrides the data problems automatically",
+      "Answers will still be limited by the data's quality, no matter how good the model is",
+      "The model will refuse to answer until the data is fixed",
+      "Data quality only matters for fine-tuning, not RAG"
+    ],
+    correct: 1,
+    explain: "Data quality sets a ceiling on output quality. A strong model handed weak source material will still produce weak, sometimes confidently wrong, answers — just delivered more fluently."
+  },
+  {
+    q: "Why is 'grounding in the wrong document' arguably worse than not grounding at all?",
+    options: [
+      "It costs more in compute",
+      "It takes longer to generate an answer",
+      "The answer looks just as authoritative as if it were grounded in the correct document, giving the reader no way to tell the difference",
+      "It only happens with fine-tuned models"
+    ],
+    correct: 2,
+    explain: "A grounded answer looks credible regardless of whether the source document was actually correct or current. That makes an answer based on a stale or wrong document more dangerous than an obviously uncertain one, because it doesn't look uncertain at all."
+  },
+  {
+    q: "An eval process shows an AI tool scoring poorly on accuracy. What should be checked before assuming the model itself needs replacing?",
+    options: [
+      "Whether the underlying documents it retrieves from are current, consistent, and correct",
+      "Whether the model has enough parameters",
+      "Whether the context window is large enough",
+      "Whether the model was trained recently enough"
+    ],
+    correct: 0,
+    explain: "A low eval score can correctly reflect bad underlying data rather than a bad model. Swapping models won't fix outdated, contradictory, or missing source documents — the fix has to happen upstream, in the data itself."
+  }
+]} />
+</DayApply>

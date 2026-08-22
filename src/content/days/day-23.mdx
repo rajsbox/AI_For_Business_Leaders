@@ -2,10 +2,176 @@
 day: 23
 week: 4
 title: "Build vs Buy vs Partner — Platforms, Copilots, Vertical AI Vendors, and Custom Builds"
-summary: ""
-published: false
+summary: "A practical framework for deciding how to actually get an AI solution: buy a general platform, buy a vertical vendor, partner, or build custom."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import SourcingSpectrumDiagram from '../../components/SourcingSpectrumDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Once you've found the right use case (yesterday's topic), the next real decision isn't
+"should we use AI here?" — it's "where do we actually get this from?" That's a sourcing
+decision, and it has real tradeoffs most teams rush past because everyone wants to get to
+"yes" too quickly.
+
+## The four ways to get an AI solution
+
+There are roughly four paths to getting AI working on a business problem, and they sit on a
+spectrum from fastest-and-generic to slowest-and-exact.
+
+<SourcingSpectrumDiagram />
+
+**Buy a general platform.** This means using an existing, general-purpose AI product — a
+chatbot subscription, or an AI "copilot" feature already built into software you use, like
+an assistant bolted onto an office suite or a CRM. It's the fastest way to get started, with
+the lowest upfront cost and effort. The tradeoff: it's built for everyone in general, not
+your specific workflow, so it may not fit your exact process — and you're limited to
+whatever the vendor decided to build.
+
+**Buy a vertical vendor.** A vertical AI vendor builds AI for one industry or one specific
+job — say, a tool built just for reviewing legal contracts, or just for a particular kind of
+customer support in a particular industry. This is more tailored to your actual workflow
+than a general platform, and usually faster to get real value from than building it
+yourself. The tradeoff: you're dependent on that vendor's roadmap and pricing, and for a
+very niche need, a vendor built specifically for it may not exist yet.
+
+**Build custom.** Your own team builds a custom AI system using the pieces covered across
+this whole course — prompting, [retrieval-augmented generation](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)
+(Day 9), tool use (Day 12), maybe a full agent (Day 14) — tailored exactly to your specific
+process and data. This gives you full control and the best possible fit to your exact
+workflow. The tradeoff: it's the most expensive and slowest option, and it requires real
+in-house capability — an engineering team who actually understands the concepts from Weeks
+1–3 — to build it. Remember Day 19's lesson that a shipped system still needs ongoing
+operational care after launch: a custom build has to handle all of that itself, forever,
+with no vendor to call.
+
+**Partner.** This is a middle path worth naming separately: working with an implementation
+partner or consultancy to build something semi-custom. It gets you more tailoring than a
+general platform, without needing to grow a full in-house AI engineering team from scratch.
+The tradeoff: it still costs real money and real time, and you're dependent on the partner's
+quality and availability once the project is live. It's a genuine option between fully
+buying and fully building — worth knowing exists, rather than assuming the choice is only
+"buy" or "build."
+
+> **Why this matters to you:** every one of these paths can be the right answer, depending
+> on the use case. The mistake isn't picking any particular one of them — it's picking one
+> out of habit or fashion, without weighing the actual tradeoffs against what this specific
+> workflow needs.
+
+## A framework for choosing
+
+This is the same idea as Day 11's prompting-vs-RAG-vs-fine-tuning framework, applied to a
+bigger decision: not "how do we build the AI," but "where do we get it from." Three
+questions do most of the work.
+
+**How unique is this workflow to your business?** A generic task — drafting routine emails,
+summarizing meetings — is well served by a general platform. A somewhat specific task fits a
+vertical vendor or a partner. A workflow that's deeply unique to exactly how you operate,
+with no real equivalent elsewhere, is the strongest case for building.
+
+**How much in-house AI capability do you actually have, or are willing to build?** If your
+team has little AI capability today and no plan to grow it, buying or partnering is almost
+always the sounder choice — building without the team to maintain it just delays the pain.
+If you already have, or are genuinely investing in, a capable team, building becomes far
+more viable.
+
+**How fast do you actually need this?** If the honest answer is "we need something running
+now," buy. If you can invest the time for a better long-term fit, build or partner become
+realistic options.
+
+## The honest caution: build isn't the "serious" choice
+
+It's tempting to treat "build" as the sophisticated, serious option and "buy" as the lazy
+shortcut. That's backwards. Plenty of well-run companies buy for things that aren't their
+core differentiator, and build only for the small number of things that genuinely are. A
+company that insists on building everything in-house isn't being rigorous — it's spending
+scarce engineering time on problems someone else has already solved well.
+
+This is the same "match the tool to the task" discipline from earlier in the course — Day
+11's prompting-vs-RAG-vs-fine-tuning choice, Day 20's caution about pilots that never reach
+production — just applied to sourcing strategy instead of technical technique. The right
+question is never "which option sounds most impressive to say in a board meeting?" It's
+"which option actually fits this specific workflow, this team, and this timeline?"
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor is pitching their general AI copilot as the answer to a very specific,
+   specialized internal process. Ask: *"Is this built for workflows like ours specifically,
+   or is it a general tool we'd be bending our process around?"* — surfaces whether you're
+   buying a fit or buying convenience.
+2. In an internal build review, an engineering team is excited to build a custom system for
+   a fairly routine, generic task. Ask: *"Is this workflow actually unique to us, or could a
+   platform we already pay for do most of this today?"* — checks whether "build" is solving
+   a real need or just satisfying the team's appetite to build something.
+3. In a budget conversation, someone frames a vertical AI vendor's subscription as
+   "expensive compared to just building it ourselves." Ask: *"Once we count the engineering
+   time to build it and the ongoing cost to maintain it after launch, is that really
+   cheaper than the subscription?"* — pulls the comparison out of sticker price and into the
+   full cost, including the upkeep Day 19 warned about.
+4. In a rollout planning meeting, someone proposes bringing in an implementation partner.
+   Ask: *"What exactly do we own once the partner's engagement ends, and who maintains it
+   after that?"* — makes sure "partner" isn't quietly becoming "build, without a plan for
+   who runs it afterward."
+
+<DayGlossary terms={[
+  {
+    term: "General AI platform",
+    definition: "A broad, off-the-shelf AI product — such as a standalone chatbot subscription or a general copilot feature built into existing software — designed to serve many customers and use cases rather than one specific workflow."
+  },
+  {
+    term: "Vertical AI vendor",
+    definition: "A company that builds AI products specifically for one industry or one well-defined job, rather than for general use. Typically offers a closer fit to a specific workflow than a general platform, at the cost of dependence on that vendor's roadmap and pricing."
+  },
+  {
+    term: "Implementation partner",
+    definition: "A consultancy or specialist firm engaged to build a semi-custom AI solution on a business's behalf, without that business needing to grow a full in-house AI engineering team."
+  },
+  {
+    term: "Custom build",
+    definition: "An AI system built in-house, using techniques such as prompting, retrieval-augmented generation, tool use, or agents, tailored exactly to a specific business's process and data. Offers the closest possible fit, at the highest cost in time, money, and ongoing in-house maintenance."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A workflow is fairly generic — drafting routine internal emails — and the team needs something running immediately. Which sourcing path fits best?",
+    options: [
+      "Build custom",
+      "Buy a general platform",
+      "Bring in an implementation partner",
+      "Wait until a vertical vendor exists for this exact task"
+    ],
+    correct: 1,
+    explain: "A generic task with a need for speed is exactly what a general AI platform is built for — fast to start, low upfront cost, and the loose fit doesn't matter much for a routine task."
+  },
+  {
+    q: "Why might a company choose to build a custom AI system even though it's the slowest and most expensive option?",
+    options: [
+      "Building is always the more serious, more sophisticated choice",
+      "The workflow is deeply unique to how the business operates, and the company has the in-house team to build and maintain it",
+      "It avoids all ongoing costs after launch",
+      "Vendors are never a viable option for any business"
+    ],
+    correct: 1,
+    explain: "Building only makes sense when the workflow is genuinely unique enough that no platform or vendor fits it well, and the business has — or is investing in — the in-house capability to build and maintain it. Building isn't inherently more serious than buying."
+  },
+  {
+    q: "What's the main tradeoff of choosing to 'partner' with an implementation consultancy instead of buying or building outright?",
+    options: [
+      "It's always the cheapest and fastest option",
+      "It requires no in-house capability at all, forever",
+      "It still costs real money and time, and you depend on the partner's quality and availability",
+      "It guarantees a perfect fit to your workflow with zero risk"
+    ],
+    correct: 2,
+    explain: "A partner gets you more tailoring than a general platform without needing a full in-house team, but it's still a real investment of money and time, and the outcome depends on the partner you choose."
+  }
+]} />
+</DayApply>

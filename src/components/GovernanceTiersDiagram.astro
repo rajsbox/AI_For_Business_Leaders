@@ -1,0 +1,149 @@
+---
+// Themed (light/dark aware) risk-based governance tiers diagram — echoes the
+// EU AI Act's own risk-based framing in plain, generic terms: as the stakes
+// of an AI use case rise, the governance wrapped around it gets stricter.
+// Plain HTML/CSS, same card pattern as GroundingGuardrailsDiagram.astro.
+---
+
+<div class="gtd">
+  <div class="gtd__tier gtd__tier--low">
+    <div class="gtd__tier-head">
+      <span class="gtd__tier-label">Low stakes</span>
+      <strong>Internal drafting tool</strong>
+    </div>
+    <div class="gtd__tier-body">
+      <span>e.g. summarizing meeting notes for your own team</span>
+      <ul>
+        <li>Light governance</li>
+        <li>Spot checks, no formal sign-off</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gtd__arrow" aria-hidden="true">→</div>
+
+  <div class="gtd__tier gtd__tier--mid">
+    <div class="gtd__tier-head">
+      <span class="gtd__tier-label">Moderate stakes</span>
+      <strong>Customer-facing assistant</strong>
+    </div>
+    <div class="gtd__tier-body">
+      <span>e.g. answering general product questions</span>
+      <ul>
+        <li>Guardrails required (Day 16)</li>
+        <li>Audit trail kept</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="gtd__arrow" aria-hidden="true">→</div>
+
+  <div class="gtd__tier gtd__tier--high">
+    <div class="gtd__tier-head">
+      <span class="gtd__tier-label">High stakes</span>
+      <strong>Employment, credit, legal rights</strong>
+    </div>
+    <div class="gtd__tier-body">
+      <span>e.g. a system that affects a hiring or lending decision</span>
+      <ul>
+        <li>Strict governance</li>
+        <li>Human-in-the-loop before action</li>
+        <li>Full audit trail, legal review</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gtd {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: stretch;
+    gap: 10px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .gtd__tier {
+    background: var(--card);
+    border: 2px solid var(--rule);
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .gtd__tier--low {
+    border-top: 4px solid rgb(16, 185, 129);
+  }
+
+  .gtd__tier--mid {
+    border-top: 4px solid var(--blue);
+  }
+
+  .gtd__tier--high {
+    border-top: 4px solid rgb(220, 38, 38);
+  }
+
+  .gtd__tier-head {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .gtd__tier-label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+  }
+
+  .gtd__tier-head strong {
+    color: var(--ink);
+    font-size: 0.9rem;
+  }
+
+  .gtd__tier-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .gtd__tier-body > span {
+    color: var(--sub);
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .gtd__tier-body ul {
+    margin: 0;
+    padding-left: 1.1em;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .gtd__tier-body li {
+    color: var(--sub);
+    font-size: 0.78rem;
+    line-height: 1.4;
+  }
+
+  .gtd__arrow {
+    color: var(--mute);
+    font-size: 1.2rem;
+    align-self: center;
+  }
+
+  @media (max-width: 760px) {
+    .gtd {
+      grid-template-columns: 1fr;
+    }
+    .gtd__arrow {
+      transform: rotate(90deg);
+      justify-self: center;
+    }
+  }
+</style>
