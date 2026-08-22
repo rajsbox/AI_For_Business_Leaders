@@ -24,9 +24,10 @@ const categories = ['Adoption & usage', 'Quality & reliability', 'Speed & effici
       <h1 class="metrics-header__title">How outcomes get measured</h1>
       <p class="metrics-header__lede">
         A plain-English reference for the metrics organizations actually use to judge whether
-        an AI investment worked — grouped by what they measure. This is a glossary, not a
-        statistics page: no survey numbers here, just what each metric means and, where it was
-        already taught, which day covers it in depth.
+        an AI investment worked — grouped by what they measure, with each metric's range and
+        how it's actually calculated. This is a glossary, not a statistics page: no survey
+        numbers here, and no invented "good score" — most of these metrics have no universal
+        healthy number, only one that fits the specific task's stakes.
       </p>
       <p class="metrics-header__reviewed">Last reviewed: <strong>{lastReviewed}</strong></p>
     </header>
@@ -37,17 +38,27 @@ const categories = ['Adoption & usage', 'Quality & reliability', 'Speed & effici
       return (
         <section class="metrics-section">
           <h2 class="metrics-section__title">{cat}</h2>
-          <dl class="metrics-list">
+          <div class="metrics-list">
             {items.map((m) => (
-              <div class="metrics-item">
-                <dt class="metrics-item__name">
+              <article class="metrics-item">
+                <p class="metrics-item__name">
                   {m.name}
                   {m.courseDay && <a class="metrics-item__day" href={`${base}day/${m.courseDay}`}>DAY {m.courseDay}</a>}
-                </dt>
-                <dd class="metrics-item__def">{m.definition}</dd>
-              </div>
+                </p>
+                <p class="metrics-item__def">{m.definition}</p>
+                <div class="metrics-item__meta">
+                  <div class="metrics-item__meta-row">
+                    <span class="metrics-item__meta-label">Range</span>
+                    <span class="metrics-item__meta-value">{m.range}</span>
+                  </div>
+                  <div class="metrics-item__meta-row">
+                    <span class="metrics-item__meta-label">How to measure</span>
+                    <span class="metrics-item__meta-value">{m.howToMeasure}</span>
+                  </div>
+                </div>
+              </article>
             ))}
-          </dl>
+          </div>
         </section>
       );
     })}
@@ -136,7 +147,7 @@ const categories = ['Adoption & usage', 'Quality & reliability', 'Speed & effici
   }
 
   .metrics-item {
-    padding: 16px 0;
+    padding: 20px 0;
     border-top: 1px solid var(--faint);
   }
 
@@ -149,7 +160,7 @@ const categories = ['Adoption & usage', 'Quality & reliability', 'Speed & effici
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    margin: 0 0 4px;
+    margin: 0 0 6px;
     font-weight: 800;
     font-size: 1.02rem;
     letter-spacing: -0.01em;
@@ -172,9 +183,47 @@ const categories = ['Adoption & usage', 'Quality & reliability', 'Speed & effici
   }
 
   .metrics-item__def {
-    margin: 0;
+    margin: 0 0 14px;
     font-size: 0.9rem;
     line-height: 1.6;
     color: var(--sub);
+  }
+
+  .metrics-item__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: var(--paper);
+    border: 1px solid var(--faint);
+    padding: 12px 14px;
+  }
+
+  .metrics-item__meta-row {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .metrics-item__meta-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mute);
+    padding-top: 1px;
+  }
+
+  .metrics-item__meta-value {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--sub);
+  }
+
+  @media (max-width: 560px) {
+    .metrics-item__meta-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 3px;
+    }
   }
 </style>
