@@ -474,6 +474,19 @@ p {
   opacity: 0.6;
 }
 
+.site-footer__bottom-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.site-footer__visitor-badge {
+  display: block;
+  opacity: 0.85;
+  border-radius: 2px;
+}
+
 .site-footer__badge-row {
   display: flex;
   align-items: center;
