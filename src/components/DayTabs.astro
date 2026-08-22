@@ -24,27 +24,19 @@ const { day } = Astro.props;
   </div>
 
   <div class="day-tabs__body">
-    <div class="day-tabs__main">
-      <div class="day-tabs__panel day-content card" data-tab-panel="read">
-        <slot />
-      </div>
-
-      <div class="day-tabs__panel card" data-tab-panel="apply" hidden>
-        <div data-apply-target></div>
-        <p class="day-tabs__empty" data-apply-empty>No hands-on exercise for this day yet.</p>
-        <button type="button" class="btn btn--primary day-tabs__mark-done" data-mark-done>Mark Day {day} done</button>
-      </div>
-
-      <div class="day-tabs__panel card" data-tab-panel="discuss" hidden>
-        <p class="day-tabs__empty">Discussion is coming soon. For now, jot private thoughts in the note alongside this lesson — only you can see it.</p>
-      </div>
+    <div class="day-tabs__panel day-content card" data-tab-panel="read">
+      <slot />
     </div>
 
-    <aside class="day-tabs__note">
-      <p class="day-tabs__note-label">Your note</p>
-      <textarea class="day-tabs__note-input" data-note-input rows="7" placeholder="Private — saved on this device only"></textarea>
-      <p class="day-tabs__note-status" data-note-status aria-live="polite">&nbsp;</p>
-    </aside>
+    <div class="day-tabs__panel card" data-tab-panel="apply" hidden>
+      <div data-apply-target></div>
+      <p class="day-tabs__empty" data-apply-empty>No hands-on exercise for this day yet.</p>
+      <button type="button" class="btn btn--primary day-tabs__mark-done" data-mark-done>Mark Day {day} done</button>
+    </div>
+
+    <div class="day-tabs__panel card" data-tab-panel="discuss" hidden>
+      <p class="day-tabs__empty">Discussion is coming soon.</p>
+    </div>
   </div>
 </div>
 
@@ -80,13 +72,6 @@ const { day } = Astro.props;
   }
 
   .day-tabs__body {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 240px;
-    gap: 28px;
-    align-items: start;
-  }
-
-  .day-tabs__main {
     min-width: 0;
   }
 
@@ -96,9 +81,9 @@ const { day } = Astro.props;
 
   /* Lesson typography — applies to the rendered MDX inside the Read panel. */
   .day-content {
-    padding: 28px clamp(20px, 4vw, 44px);
+    padding: 32px clamp(24px, 5vw, 56px);
     font-family: var(--font-sans);
-    font-size: 1rem;
+    font-size: 1.05rem;
     font-weight: 500;
     line-height: 1.7;
     color: var(--sub);
@@ -193,61 +178,6 @@ const { day } = Astro.props;
     padding: 28px clamp(20px, 4vw, 40px);
   }
 
-  .day-tabs__note {
-    position: sticky;
-    top: 84px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    background: var(--card);
-    border: 2px solid var(--rule);
-  }
-
-  .day-tabs__note-label {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--mute);
-  }
-
-  .day-tabs__note-input {
-    resize: vertical;
-    min-height: 120px;
-    padding: 10px;
-    border: 1px solid var(--faint);
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-sans);
-    font-size: 0.88rem;
-    line-height: 1.5;
-  }
-
-  .day-tabs__note-input:focus {
-    outline: none;
-    border-color: var(--blue);
-  }
-
-  .day-tabs__note-status {
-    margin: 0;
-    min-height: 1em;
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.05em;
-    color: var(--mute);
-  }
-
-  @media (max-width: 720px) {
-    .day-tabs__body {
-      grid-template-columns: minmax(0, 1fr);
-    }
-    .day-tabs__note {
-      position: static;
-    }
-  }
 </style>
 
 <script>
@@ -310,34 +240,6 @@ const { day } = Astro.props;
         setDayDone(day, !isDayDone(day));
         paintMarkBtn();
       });
-
-      const noteInput = root.querySelector<HTMLTextAreaElement>('[data-note-input]');
-      const noteStatus = root.querySelector<HTMLElement>('[data-note-status]');
-      const noteKey = `aifluency.note.${day}`;
-      if (noteInput) {
-        try {
-          noteInput.value = localStorage.getItem(noteKey) || '';
-        } catch {
-          // ignore
-        }
-        let saveTimer: ReturnType<typeof setTimeout>;
-        noteInput.addEventListener('input', () => {
-          if (noteStatus) noteStatus.textContent = 'Saving…';
-          clearTimeout(saveTimer);
-          saveTimer = setTimeout(() => {
-            try {
-              if (noteInput.value.trim()) {
-                localStorage.setItem(noteKey, noteInput.value);
-              } else {
-                localStorage.removeItem(noteKey);
-              }
-            } catch {
-              // ignore
-            }
-            if (noteStatus) noteStatus.textContent = 'Saved on this device';
-          }, 400);
-        });
-      }
     });
   }
 
