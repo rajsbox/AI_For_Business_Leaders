@@ -1,0 +1,197 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { adoptionStories, lastReviewed } from '../data/adoptionStories';
+
+// See BaseLayout.astro for why this normalizes to a guaranteed trailing slash.
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+---
+
+<BaseLayout
+  title="Actual Adoption | AI Fluency for Leaders"
+  description="Real, sourced AI adoption stories in software development — named companies, primary sources, real numbers. No aggregator statistics."
+>
+  <main class="container adopt-page">
+    <nav class="adopt-crumb">
+      <a href={base}>← ROADMAP</a>
+    </nav>
+
+    <header class="adopt-header">
+      <span class="badge">ACTUAL ADOPTION</span>
+      <h1 class="adopt-header__title">Real cases, not slides</h1>
+      <p class="adopt-header__lede">
+        Three real, named software-development adoption stories — each traced to a primary
+        source (the company's own engineering blog, or the AI vendor's own published customer
+        story), not a marketing round-up. Real numbers, real caveats where the source gave
+        one. This is deliberately software development only, as one concrete domain — the
+        pattern behind Day 22's use-case discovery, made specific.
+      </p>
+      <p class="adopt-header__reviewed">Last reviewed: <strong>{lastReviewed}</strong></p>
+    </header>
+
+    <ul class="adopt-list">
+      {adoptionStories.map((s) => (
+        <li class="adopt-card">
+          <div class="adopt-card__top">
+            <p class="adopt-card__company">{s.company}</p>
+            <p class="adopt-card__company-desc">{s.companyDescription}</p>
+          </div>
+          <p class="adopt-card__headline">{s.headline}</p>
+          <ul class="adopt-card__facts">
+            {s.facts.map((f) => <li>{f}</li>)}
+          </ul>
+          <a class="adopt-card__source" href={s.sourceUrl} target="_blank" rel="noopener noreferrer">
+            SOURCE: {s.sourceLabel} ↗
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="adopt-footnote">
+      Every figure above is quoted or closely paraphrased from the source linked with it — not
+      independently re-verified beyond checking the source itself, and not a claim that these
+      three companies' results are typical or guaranteed for any other business. Read them the
+      way Day 15 taught: as real, specific data points, not universal proof.
+    </p>
+  </main>
+</BaseLayout>
+
+<style>
+  .adopt-page {
+    max-width: 800px;
+    padding: 32px 24px 96px;
+  }
+
+  .adopt-crumb {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+  }
+
+  .adopt-crumb a {
+    color: var(--sub);
+  }
+
+  .adopt-crumb a:hover {
+    color: var(--blue);
+  }
+
+  .adopt-header {
+    padding-bottom: 28px;
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  .adopt-header .badge {
+    background: var(--rule);
+    color: var(--paper);
+    margin-bottom: 14px;
+  }
+
+  .adopt-header__title {
+    margin: 0 0 14px;
+    font-weight: 900;
+    font-size: clamp(32px, 5vw, 48px);
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    line-height: 0.95;
+  }
+
+  .adopt-header__lede {
+    margin: 0 0 12px;
+    font-size: 0.96rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--sub);
+    max-width: 64ch;
+  }
+
+  .adopt-header__reviewed {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    text-transform: uppercase;
+  }
+
+  .adopt-list {
+    list-style: none;
+    margin: 0 0 32px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .adopt-card {
+    border: 2px solid var(--rule);
+    background: var(--card);
+    padding: 24px clamp(20px, 4vw, 32px);
+  }
+
+  .adopt-card__top {
+    margin-bottom: 14px;
+  }
+
+  .adopt-card__company {
+    margin: 0 0 2px;
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+  }
+
+  .adopt-card__company-desc {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--mute);
+  }
+
+  .adopt-card__headline {
+    margin: 0 0 14px;
+    font-weight: 700;
+    font-size: 1.02rem;
+    line-height: 1.4;
+    color: var(--blue);
+  }
+
+  .adopt-card__facts {
+    margin: 0 0 16px;
+    padding-left: 1.2em;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .adopt-card__facts li {
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--sub);
+  }
+
+  .adopt-card__source {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--mute);
+    text-transform: uppercase;
+    border-top: 1px solid var(--faint);
+    padding-top: 12px;
+    width: 100%;
+  }
+
+  .adopt-card__source:hover {
+    color: var(--blue);
+  }
+
+  .adopt-footnote {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--mute);
+    max-width: 64ch;
+  }
+</style>
