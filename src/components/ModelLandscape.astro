@@ -47,9 +47,8 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
 
 <style>
   .model-landscape {
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
+    border: 2px solid var(--rule);
+    background: var(--card);
     font-family: var(--font-sans);
     margin-bottom: 20px;
   }
@@ -60,9 +59,9 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
     justify-content: space-between;
     padding: 12px 14px;
     cursor: pointer;
-    font-size: 0.86rem;
-    font-weight: 600;
-    color: var(--color-text);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ink);
     list-style: none;
   }
 
@@ -71,7 +70,7 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
   }
 
   .model-landscape__chevron {
-    color: var(--color-text-faint);
+    color: var(--mute);
     transition: transform 0.15s ease;
     font-size: 0.75rem;
   }
@@ -82,27 +81,30 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
 
   .model-landscape__body {
     padding: 0 14px 16px;
-    border-top: 1px solid var(--color-border);
+    border-top: 2px solid var(--rule);
   }
 
   .model-landscape__updated {
-    font-size: 0.72rem;
-    color: var(--color-text-faint);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.05em;
+    color: var(--mute);
     margin: 10px 0 14px;
   }
 
   .model-landscape__group-label {
-    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-faint);
+    letter-spacing: 0.1em;
+    color: var(--mute);
     margin: 14px 0 8px;
   }
 
   .model-landscape__row {
     padding: 10px 0;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--faint);
   }
 
   .model-landscape__row:first-of-type {
@@ -110,15 +112,17 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
   }
 
   .model-landscape__name {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--color-text);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--ink);
     margin: 0;
   }
 
   .model-landscape__vendor {
-    font-size: 0.74rem;
-    color: var(--color-text-faint);
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--mute);
     margin: 0 0 6px;
   }
 
@@ -132,23 +136,25 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
   .model-landscape__specs > div {
     display: flex;
     gap: 6px;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
   }
 
   .model-landscape__specs dt {
-    color: var(--color-text-faint);
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    color: var(--mute);
     min-width: 62px;
     flex-shrink: 0;
   }
 
   .model-landscape__specs dd {
     margin: 0;
-    color: var(--color-text-muted);
+    color: var(--sub);
   }
 
   .model-landscape__footnote {
     font-size: 0.72rem;
-    color: var(--color-text-faint);
+    color: var(--mute);
     margin: 14px 0 0;
     line-height: 1.5;
   }

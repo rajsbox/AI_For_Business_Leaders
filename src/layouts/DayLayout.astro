@@ -29,11 +29,8 @@ const progressPct = Math.round((day / total) * 100);
 
   <main class="container day-page">
     <nav class="day-crumb">
-      <a href="/">Roadmap</a>
-      <span>/</span>
-      <a href={`/#week-${week}`}>Week {week}</a>
-      <span>/</span>
-      <span>Day {day}</span>
+      <a href="/">← THE TRACK</a>
+      <span class="day-crumb__meta">DAY {String(day).padStart(2, '0')} / {total}</span>
     </nav>
 
     <div class="day-progress" role="progressbar" aria-valuenow={day} aria-valuemin="1" aria-valuemax={total} aria-label={`Course progress: day ${day} of ${total}`}>
@@ -41,18 +38,17 @@ const progressPct = Math.round((day / total) * 100);
     </div>
 
     <header class="day-header">
-      <div class="day-header__meta">
-        <span class={`badge badge--week-${week}`}>Week {week} · {weekTitle(week)}</span>
-        {handsOn && <span class="badge badge--hands-on">Hands-on</span>}
-        {published
-          ? <span class="badge badge--done">Ready</span>
-          : <span class="badge badge--soon">Coming soon</span>}
+      <div class="day-header__num">{String(day).padStart(2, '0')}</div>
+      <div class="day-header__body">
+        <div class="day-header__meta">
+          <span>WEEK {String(week).padStart(2, '0')} · DAY {String(day).padStart(2, '0')} · {duration.toUpperCase()}</span>
+          {handsOn && <span class="badge badge--hands-on">Hands-on</span>}
+          {published
+            ? <span class="badge badge--done">Ready</span>
+            : <span class="badge badge--soon">Coming soon</span>}
+        </div>
+        <h1 class="day-header__title">{title}</h1>
       </div>
-      <h1 class="day-header__title">
-        <span class="day-header__num">Day {day}</span>
-        {title}
-      </h1>
-      <p class="day-header__duration">⏱ {duration}</p>
     </header>
 
     <div class="day-body">
@@ -195,64 +191,83 @@ const progressPct = Math.round((day / total) * 100);
   .day-crumb {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 8px;
-    font-size: 0.86rem;
-    color: var(--color-text-faint);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     margin-bottom: 20px;
   }
 
   .day-crumb a {
-    color: var(--color-text-muted);
+    color: var(--sub);
   }
 
   .day-crumb a:hover {
-    color: var(--color-accent);
+    color: var(--blue);
+  }
+
+  .day-crumb__meta {
+    color: var(--mute);
+    font-weight: 500;
   }
 
   .day-progress {
     height: 6px;
-    border-radius: 999px;
-    background: var(--color-border);
+    border: 1px solid var(--rule);
     overflow: hidden;
     margin-bottom: 28px;
   }
 
   .day-progress__bar {
     height: 100%;
-    background: var(--color-accent);
-    border-radius: 999px;
+    background: var(--blue);
   }
 
   .day-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    align-items: flex-start;
+    padding-bottom: 26px;
     margin-bottom: 28px;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  .day-header__num {
+    font-weight: 900;
+    font-size: clamp(56px, 9vw, 96px);
+    line-height: 0.8;
+    letter-spacing: -0.07em;
+    color: var(--blue);
+  }
+
+  .day-header__body {
+    flex: 1 1 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .day-header__meta {
     display: flex;
-    gap: 8px;
+    align-items: center;
+    gap: 10px;
     flex-wrap: wrap;
-    margin-bottom: 14px;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--mute);
   }
 
   .day-header__title {
-    font-size: clamp(1.5rem, 3vw, 2.1rem);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .day-header__num {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .day-header__duration {
-    color: var(--color-text-muted);
-    font-size: 0.92rem;
     margin: 0;
+    font-weight: 900;
+    font-size: clamp(22px, 3.2vw, 34px);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
   }
 
   /*
@@ -284,6 +299,7 @@ const progressPct = Math.round((day / total) * 100);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
+    margin-top: 40px;
   }
 
   .day-pager__link {
@@ -291,13 +307,12 @@ const progressPct = Math.round((day / total) * 100);
     flex-direction: column;
     gap: 4px;
     padding: 16px 18px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-surface);
+    border: 2px solid var(--faint);
+    background: var(--card);
   }
 
   .day-pager__link:hover {
-    border-color: var(--color-accent);
+    border-color: var(--blue);
   }
 
   .day-pager__link--next {
@@ -306,16 +321,16 @@ const progressPct = Math.round((day / total) * 100);
   }
 
   .day-pager__label {
-    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
     font-weight: 700;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    color: var(--blue);
+    letter-spacing: 0.08em;
   }
 
   .day-pager__title {
-    color: var(--color-text-muted);
-    font-size: 0.9rem;
+    color: var(--sub);
+    font-size: 0.86rem;
   }
 
   @media (max-width: 640px) {

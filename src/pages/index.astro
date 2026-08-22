@@ -9,27 +9,50 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
 ---
 
 <BaseLayout title="30-Day AI Fluency Course for Business Leaders">
-  <main class="container home">
+  <main class="home">
     <section class="hero">
-      <span class="badge badge--week-1">30 Days · One Topic a Day</span>
-      <h1>AI Fluency for Business Leaders</h1>
-      <p class="hero__lede">
-        A daily, no-fluff path to speaking AI credibly — from how LLMs work to writing your
-        own AI strategy. ~45–60 minutes a day, headings-driven, built one day at a time.
-      </p>
-      <div class="hero__actions">
-        <a class="btn btn--primary" href="/day/1" data-resume-link>Start Day 1</a>
-        <a class="btn btn--ghost" href="#roadmap">View the track</a>
+      <div class="container hero__inner">
+        <div class="hero__lead">
+          <div class="hero__kicker"><span class="hero__kicker-bar"></span>30 DAYS · ONE TOPIC A DAY</div>
+          <h1 class="hero__title">AI Fluency<br>for Business<br><span class="hero__title-accent">Leaders</span></h1>
+          <p class="hero__lede">
+            A daily, no-fluff path to speaking AI credibly — from how LLMs work to writing your
+            own AI strategy. ~45–60 minutes a day, headings-driven, built one day at a time.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href="/day/1" data-resume-link>Start Day 1</a>
+            <a class="btn btn--ghost" href="#roadmap">View the track</a>
+          </div>
+        </div>
+        <div class="hero__counter">
+          <div class="hero__counter-top">
+            <div class="hero__counter-label" data-counter-label>PUBLISHED</div>
+            <div class="hero__counter-big" data-counter-big>{String(publishedCount).padStart(2, '0')}</div>
+            <div class="hero__counter-sub">of {courseDays.length} days</div>
+          </div>
+          <div class="hero__grid">
+            {courseDays.map((d) => {
+              const isPublished = publishedByDay.get(d.day) ?? false;
+              return (
+                <a
+                  href={`/day/${d.day}`}
+                  class={`hero__cell ${isPublished ? 'hero__cell--filled' : ''}`}
+                  title={`Day ${d.day}`}
+                  aria-label={`Day ${d.day}${isPublished ? '' : ' — not published yet'}`}
+                ></a>
+              );
+            })}
+          </div>
+        </div>
       </div>
-      <p class="hero__progress">{publishedCount} / {courseDays.length} days published</p>
-      <p class="hero__your-progress" data-your-progress hidden></p>
+      <p class="hero__your-progress container" data-your-progress hidden></p>
     </section>
 
-    <section id="roadmap" class="roadmap">
+    <section id="roadmap" class="roadmap container">
       {weeks.map((w) => (
         <div class="week-block" id={`week-${w.week}`}>
           <div class="week-block__header">
-            <span class={`badge badge--week-${w.week}`}>Week {w.week}</span>
+            <span class="week-block__tag">WEEK {String(w.week).padStart(2, '0')}</span>
             <h2>{w.title}</h2>
           </div>
           <ol class="track" data-track>
@@ -39,18 +62,12 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
                 const isPublished = publishedByDay.get(d.day) ?? false;
                 return (
                   <li class="track__row" data-day={d.day} data-published={String(isPublished)}>
-                    <div class="track__rail" aria-hidden="true">
-                      <span class="track__dot" data-track-dot></span>
-                      <span class="track__line"></span>
-                    </div>
-                    <a class="track__link" href={`/day/${d.day}`}>
-                      <div class="track__main">
-                        <span class="track__num">Day {d.day}</span>
-                        <span class="track__title">{d.title}</span>
-                        {d.handsOn && <span class="badge badge--hands-on">Hands-on</span>}
-                      </div>
-                      <span class={`track__status ${isPublished ? '' : 'track__status--muted'}`} data-track-status>
-                        {isPublished ? 'Ready' : 'Coming soon'}
+                    <a class={`track__link ${isPublished ? 'track__link--open' : 'track__link--locked'}`} href={`/day/${d.day}`}>
+                      <span class="track__num">{String(d.day).padStart(2, '0')}</span>
+                      <span class="track__title">{d.title}</span>
+                      {d.handsOn && <span class="badge badge--hands-on">Hands-on</span>}
+                      <span class="track__status" data-track-status>
+                        {isPublished ? 'OPEN' : 'SOON'}
                       </span>
                     </a>
                   </li>
@@ -84,15 +101,26 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
 
       const status = row.querySelector<HTMLElement>('[data-track-status]');
       if (status && (isDone || isCurrent)) {
-        status.textContent = isDone ? 'Done' : 'Continue →';
-        status.classList.remove('track__status--muted');
+        status.textContent = isDone ? 'DONE' : 'CONTINUE →';
       }
     });
+
+    document.querySelectorAll<HTMLAnchorElement>('.hero__cell').forEach((cell, i) => {
+      const day = i + 1;
+      if (doneSet.has(day)) cell.classList.add('hero__cell--filled');
+    });
+
+    const counterBig = document.querySelector<HTMLElement>('[data-counter-big]');
+    const counterLabel = document.querySelector<HTMLElement>('[data-counter-label]');
+    if (done.length > 0) {
+      if (counterBig) counterBig.textContent = String(done.length).padStart(2, '0');
+      if (counterLabel) counterLabel.textContent = 'COMPLETED';
+    }
 
     const resumeLink = document.querySelector<HTMLAnchorElement>('[data-resume-link]');
     if (resumeLink && done.length > 0) {
       resumeLink.href = `/day/${upNext}`;
-      resumeLink.textContent = doneSet.has(upNext) ? 'Review the course' : `Resume Day ${upNext}`;
+      resumeLink.textContent = doneSet.has(upNext) ? 'REVIEW THE COURSE' : `RESUME DAY ${String(upNext).padStart(2, '0')}`;
     }
 
     const yourProgress = document.querySelector<HTMLElement>('[data-your-progress]');
@@ -110,60 +138,181 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
 
 <style>
   .home {
-    padding: 48px 24px 96px;
+    padding: 0 0 60px;
   }
+
+  /* ---------------- Hero ---------------- */
 
   .hero {
-    max-width: 760px;
-    margin: 0 auto 72px;
-    text-align: center;
+    border-bottom: 2px solid var(--rule);
+    padding: 56px 0 44px;
   }
 
-  .hero h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    margin: 18px 0 14px;
+  .hero__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 34px;
+    align-items: stretch;
+  }
+
+  .hero__lead {
+    flex: 1 1 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .hero__kicker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--blue);
+  }
+
+  .hero__kicker-bar {
+    width: 22px;
+    height: 2px;
+    background: var(--blue);
+  }
+
+  .hero__title {
+    margin: 0;
+    font-weight: 900;
+    font-size: clamp(38px, 5.4vw, 64px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+  }
+
+  .hero__title-accent {
+    color: var(--blue);
   }
 
   .hero__lede {
-    color: var(--color-text-muted);
-    font-size: 1.12rem;
-    max-width: 620px;
-    margin: 0 auto 28px;
+    margin: 0;
+    max-width: 480px;
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--sub);
   }
 
   .hero__actions {
     display: flex;
-    justify-content: center;
-    gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 16px;
+    gap: 12px;
+    margin-top: 6px;
   }
 
-  .hero__progress {
-    color: var(--color-text-faint);
-    font-size: 0.88rem;
-    margin: 0;
+  .hero__counter {
+    flex: 0 1 230px;
+    border-left: 2px solid var(--rule);
+    padding-left: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 22px;
+  }
+
+  .hero__counter-top {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .hero__counter-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    color: var(--mute);
+  }
+
+  .hero__counter-big {
+    font-weight: 900;
+    font-size: 4.4rem;
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+  }
+
+  .hero__counter-sub {
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--mute);
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+  }
+
+  .hero__cell {
+    aspect-ratio: 1;
+    border: 1px solid var(--faint);
+    display: block;
+  }
+
+  .hero__cell:hover {
+    border-color: var(--blue);
+  }
+
+  .hero__cell--filled {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+
+  .hero__your-progress {
+    margin: 20px auto 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--mute);
+    text-transform: uppercase;
+  }
+
+  /* ---------------- Roadmap / weeks ---------------- */
+
+  .roadmap {
+    padding-top: 36px;
   }
 
   .week-block {
-    margin-bottom: 56px;
+    margin-bottom: 40px;
     scroll-margin-top: 84px;
   }
 
   .week-block__header {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 22px;
     flex-wrap: wrap;
   }
 
+  .week-block__tag {
+    background: var(--rule);
+    color: var(--paper);
+    padding: 6px 11px;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+  }
+
   .week-block__header h2 {
-    font-size: 1.3rem;
+    font-size: clamp(17px, 2.2vw, 23px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
     margin: 0;
   }
 
-  /* ---------------- Track (vertical spine) ---------------- */
+  /* ---------------- Track (day rows) ---------------- */
 
   .track {
     list-style: none;
@@ -172,145 +321,96 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
   }
 
   .track__row {
-    display: flex;
-    gap: 14px;
+    border-top: 1px solid var(--faint);
   }
 
-  .track__rail {
-    width: 20px;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .track__dot {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    border: 2px solid var(--color-border-strong);
-    background: var(--color-surface);
-    margin-top: 18px;
-    flex-shrink: 0;
-  }
-
-  .track__line {
-    width: 1px;
-    flex: 1;
-    background: var(--color-border);
-    margin: 4px 0;
-  }
-
-  .track__row:last-child .track__line {
-    display: none;
+  .track__row:first-child {
+    border-top: none;
   }
 
   .track__link {
-    flex: 1;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 14px 16px;
-    margin-bottom: 6px;
-    border: 1px solid transparent;
-    border-radius: var(--radius-md);
-    color: var(--color-text);
-    transition: border-color 0.12s ease, background 0.12s ease;
+    gap: 12px;
+    padding: 15px 0;
+    color: var(--ink);
   }
 
   .track__link:hover {
-    color: var(--color-text);
-    border-color: var(--color-border);
-    background: var(--color-surface);
-  }
-
-  .track__main {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    flex-wrap: wrap;
-    min-width: 0;
+    color: var(--ink);
+    background: var(--card);
   }
 
   .track__num {
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: var(--color-text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    width: 56px;
     flex-shrink: 0;
+    font-weight: 900;
+    font-size: 1.3rem;
+    letter-spacing: -0.05em;
+    color: var(--faint);
+    text-align: center;
   }
 
   .track__title {
-    font-size: 0.96rem;
-    line-height: 1.4;
+    flex: 1 1 280px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1.35;
+    color: var(--sub);
   }
 
   .track__status {
     flex-shrink: 0;
-    font-size: 0.76rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
     font-weight: 700;
-    color: var(--color-text-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.1em;
+    color: var(--mute);
   }
 
-  .track__status--muted {
-    color: var(--color-text-faint);
-    font-weight: 500;
-    text-transform: none;
-    letter-spacing: normal;
+  /* Open (published) days: bolder number */
+  .track__link--open .track__num {
+    color: var(--mute);
   }
 
-  /* Done: filled dot with a check, muted row */
-  .track__row.is-done .track__dot {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-  }
-
-  .track__row.is-done .track__status {
-    color: var(--color-success);
+  /* Done */
+  .track__row.is-done .track__num {
+    color: var(--blue);
   }
 
   .track__row.is-done .track__title {
-    color: var(--color-text-muted);
+    color: var(--mute);
   }
 
-  /* Current/up-next: emphasized row, ring dot */
-  .track__row.is-current .track__dot {
-    width: 15px;
-    height: 15px;
-    margin-top: 16px;
-    border-color: var(--color-accent);
-    background: var(--color-surface);
+  .track__row.is-done .track__status {
+    color: var(--blue);
   }
 
-  .track__row.is-current .track__link {
-    border-color: var(--color-accent);
-    background: var(--color-accent-soft);
+  /* Current / up-next */
+  .track__row.is-current .track__num {
+    color: var(--blue);
   }
 
   .track__row.is-current .track__title {
-    font-weight: 700;
+    font-weight: 800;
+    color: var(--ink);
   }
 
   .track__row.is-current .track__status {
-    color: var(--color-accent);
-  }
-
-  .hero__your-progress {
-    color: var(--color-text-muted);
-    font-size: 0.88rem;
-    font-weight: 600;
-    margin: 10px 0 0;
+    color: var(--blue);
   }
 
   @media (max-width: 640px) {
     .track__link {
-      flex-direction: column;
       align-items: flex-start;
-      gap: 6px;
+    }
+    .hero__counter {
+      border-left: none;
+      border-top: 2px solid var(--rule);
+      padding-left: 0;
+      padding-top: 22px;
+      flex-basis: 100%;
     }
   }
 </style>

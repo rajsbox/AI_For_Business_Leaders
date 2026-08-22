@@ -43,7 +43,7 @@ const {
           <a href="/#roadmap"><span class="site-nav__label">Roadmap</span></a>
           <a href="/#week-1">Weeks</a>
           <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
-            <span id="theme-toggle-icon">🌙</span>
+            <span id="theme-toggle-icon">☾</span>
           </button>
         </nav>
       </div>
@@ -67,7 +67,7 @@ const {
             (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         }
         function paintIcon() {
-          if (icon) icon.textContent = current() === 'dark' ? '☀️' : '🌙';
+          if (icon) icon.textContent = current() === 'dark' ? '☀' : '☾';
         }
         paintIcon();
         btn?.addEventListener('click', function () {

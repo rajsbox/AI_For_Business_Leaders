@@ -11,11 +11,12 @@
 
 <style>
   .day-toc__label {
-    font-size: 0.74rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-faint);
+    letter-spacing: 0.1em;
+    color: var(--mute);
     margin: 0 0 10px;
   }
 
@@ -26,7 +27,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    border-left: 2px solid var(--color-border);
+    border-left: 2px solid var(--faint);
   }
 
   .day-toc :global(.day-toc__link) {
@@ -34,24 +35,25 @@
     padding: 6px 0 6px 14px;
     margin-left: -2px;
     border-left: 2px solid transparent;
-    font-size: 0.87rem;
-    color: var(--color-text-muted);
+    font-size: 0.84rem;
+    font-weight: 500;
+    color: var(--sub);
     line-height: 1.4;
   }
 
   .day-toc :global(.day-toc__link:hover) {
-    color: var(--color-text);
+    color: var(--ink);
   }
 
   .day-toc :global(.day-toc__link.is-active) {
-    color: var(--color-accent);
-    border-left-color: var(--color-accent);
-    font-weight: 600;
+    color: var(--blue);
+    border-left-color: var(--blue);
+    font-weight: 700;
   }
 
   .day-toc__empty {
     font-size: 0.85rem;
-    color: var(--color-text-faint);
+    color: var(--mute);
   }
 
   @media (max-width: 960px) {
