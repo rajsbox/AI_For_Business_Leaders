@@ -2,10 +2,183 @@
 day: 15
 week: 3
 title: "Evals — How You Actually Measure Whether an AI System Works"
-summary: ""
-published: false
+summary: "Why 'we tried it and it worked' isn't good enough, and what a real, systematic test of an AI system actually looks like."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import EvalCoverageDiagram from '../../components/EvalCoverageDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Week 1 was about understanding what AI actually is. Week 2 was about how it gets built into
+real products — prompts, RAG, tool use, agents. This week is about a harder question: why do
+so many AI projects look great in a demo, then quietly fail once real people start using
+them? Today is where that question actually gets answered, because today is about how you
+measure whether an AI system works at all.
+
+## Why you can't just "test it and see"
+
+With ordinary software, testing is simple. You write a function that adds two numbers, you
+check that `2 + 2` returns `4`, and you're done — there's one right answer, and a computer
+can check it instantly.
+
+AI systems break that. Ask a model to summarise a report, draft an email, or answer a
+customer's question, and there usually isn't one single "correct" string of text. Two good
+answers can be worded completely differently. So "is this a good answer" often isn't a
+yes/no question you can check with a simple line of code — and yet you still need to know: is
+this tool actually working? Is it getting better or worse over time? Is it safe to roll out
+to more people? That's the problem **evals** exist to solve.
+
+## What an eval actually is
+
+Day 7's hands-on exercise had you run the same real task through two or three chatbots and
+judge for yourself which answers were right, wrong, or shaky. That was an eval — just an
+informal, one-person version of one, done by hand, on the spot.
+
+A real **eval** does the same basic thing on purpose, at scale, and repeatably: you build a
+set of test cases with known-good answers or clear criteria, run the AI system against all of
+them, and score the results. Instead of "I tried it a few times and it seemed fine," you get
+an actual number — how often does it get this right, and on which kinds of cases does it
+struggle.
+
+Think of it like a driving test instead of a friend's opinion. Anyone can say "seems like you
+drive fine" after watching you pull out of a parking space once. A driving test is a
+standard set of situations — parallel parking, a roundabout, an emergency stop — that gets
+run the same way every time, so the result actually means something and can be compared
+across different drivers.
+
+## Why "it seemed fine when I tried it" isn't good enough
+
+A handful of manual tries only tells you about the handful of things you happened to try. If
+you test an AI assistant with three friendly, easy questions and it handles all three well,
+you've learned that it handles three easy questions well — nothing more. You haven't learned
+what happens with an angry customer, a poorly worded request, a question just outside what
+the tool was built for, or the hundredth similar question in a row.
+
+A real eval deliberately includes those harder, messier cases — not just the easy ones a
+demo naturally gravitates toward — so you find out the actual failure rate and where the
+failures cluster, before your customers find out for you.
+
+<EvalCoverageDiagram />
+
+## The different flavors of evals
+
+You don't need to build these yourself, but it helps to recognise the three common
+approaches a team might describe:
+
+- **Comparing against a known correct answer.** For tasks with one clear right answer — pull
+  the invoice total out of this PDF, extract the date from this form — you can check the
+  AI's output against the correct value directly, the same way a spelling test gets marked.
+- **Scoring against a checklist.** For more open-ended tasks, like a summary or a draft
+  email, there's no single correct string of text — but there is a checklist a good answer
+  should meet: did it cover the key points, was the tone right, was it the right length,
+  did it leave anything important out.
+- **Using another AI model as the judge.** Increasingly, teams use a second AI model to read
+  the first model's answer and score it against criteria — a technique often called
+  **[LLM-as-judge](https://arxiv.org/abs/2306.05685)**. It's a genuinely useful, practical
+  technique for scoring open-ended answers at scale, since a human can't manually read
+  thousands of them. But be honest about its limits: the judge model is itself an AI making
+  a judgment call, not a source of ground truth. It can be wrong, inconsistent, or fooled by
+  a confident-sounding bad answer, the same as any human grader having a bad day. It's a
+  useful tool, not a guarantee.
+
+## The demo trap — this week's real theme
+
+Here's the pattern that connects today to the rest of this week: a team builds an AI pilot,
+demos it a handful of times, it looks great, and it gets approved to ship. Then, once it's
+live, it starts failing regularly on cases nobody happened to try during the demo — an
+unusual customer request, an edge case in the data, a phrasing the model wasn't ready for.
+Nobody did anything wrong on purpose. They just never tested beyond what naturally came up
+in a good demo, because a demo is designed to go well.
+
+An eval is the discipline that catches this before launch instead of after it — by
+deliberately testing the awkward, unusual, and hard cases a demo would never think to
+include, and turning "it seemed fine" into an actual measured result.
+
+## What to ask for, as a leader
+
+You don't need to build or run an eval yourself. You need to know to ask for one. Before
+approving an AI project to move beyond a small pilot, ask what its eval results actually
+are — not "did it work when we tried it," but "what's the pass rate on a real test set, and
+does that test set include the hard cases, not just the easy ones." A team that can answer
+with real numbers is in a fundamentally different position than a team that can only show
+you a good demo.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor's demo runs through three smooth, impressive examples, and the room is ready to
+   sign off. Ask: *"Has this been tested against a larger set of cases, including the
+   awkward ones — or are these three the test?"* — surfaces whether you're looking at real
+   coverage or a cherry-picked showcase.
+2. In an internal build review, an engineer says the AI feature "works well in our testing."
+   Ask: *"What does 'works well' mean as a number — what's the pass rate, and on what set of
+   test cases?"* — moves the conversation from a vague impression to a measurable result.
+3. In a budget conversation, someone asks why the team needs time before launch to "build an
+   eval set." Ask: *"What would it cost us if this failed regularly on real customers instead
+   of on a test set first?"* — reframes eval-building as risk reduction, not delay.
+4. In a rollout planning meeting, someone proposes using another AI model to automatically
+   grade the system's own answers at scale. Ask: *"How do we know the judge model itself is
+   reliable, and are we spot-checking its scoring against real human judgment?"* — keeps
+   LLM-as-judge in its proper place as a useful tool, not an unquestionable verdict.
+
+<DayGlossary terms={[
+  {
+    term: "Eval (evaluation)",
+    definition: "A structured, repeatable way of testing an AI system's outputs against known-good examples or clear criteria, and scoring the results — rather than judging quality from a handful of informal tries."
+  },
+  {
+    term: "Test set",
+    definition: "The collection of example cases an eval is run against, ideally including realistic edge cases and difficult examples, not only easy ones."
+  },
+  {
+    term: "LLM-as-judge",
+    definition: "A technique where a second AI model reads and scores another model's output against given criteria, used to grade open-ended answers at a scale no human team could review manually. Useful for scaling evaluation, but the judge model is itself an imperfect AI, not a guaranteed source of truth."
+  },
+  {
+    term: "Pass rate",
+    definition: "The percentage of test cases in an eval that an AI system answered correctly or acceptably, according to the eval's scoring method. A real, comparable measure of quality, as opposed to a subjective impression from watching a demo."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "Why can't AI system quality usually be tested the same way as a normal software function, like one that adds two numbers?",
+    options: [
+      "AI systems don't produce any output that can be checked at all",
+      "Most AI tasks don't have one single correct answer, so 'is this right' isn't a simple automatic check",
+      "AI systems are too slow to test",
+      "Testing AI systems is illegal"
+    ],
+    correct: 1,
+    explain: "A function like 2 + 2 has exactly one correct output. Many AI tasks — a summary, an email draft, an open-ended answer — don't have one fixed correct string of text, which is why judging quality takes a structured eval rather than a simple equality check."
+  },
+  {
+    q: "A team demos an AI assistant with three friendly, easy example questions, and all three go well. What's the most accurate conclusion?",
+    options: [
+      "The assistant is fully ready for production use",
+      "The assistant works well on those three easy cases — that alone says little about harder or unusual ones",
+      "No further testing is needed since the demo succeeded",
+      "The assistant has been evaluated"
+    ],
+    correct: 1,
+    explain: "A handful of easy, cherry-picked demo tries only tells you about those specific cases. A real eval deliberately tests a wider set, including hard and unusual cases, to reveal the actual failure rate."
+  },
+  {
+    q: "A team proposes using a second AI model to automatically score thousands of the first model's answers (LLM-as-judge). What's the sharpest way to think about this?",
+    options: [
+      "It's unreliable and should never be used",
+      "It's a guarantee of truth since it's still an AI model doing the scoring",
+      "It's a genuinely useful way to score answers at scale, but the judge model is itself imperfect and its scoring should be spot-checked",
+      "It replaces the need for any test cases"
+    ],
+    correct: 2,
+    explain: "LLM-as-judge is a real, increasingly common practical technique for scoring open-ended answers at scale that no human team could review manually — but the judge is still an AI making a judgment call, not an infallible source of truth, so it's worth spot-checking."
+  }
+]} />
+</DayApply>

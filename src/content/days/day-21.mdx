@@ -1,11 +1,175 @@
 ---
 day: 21
 week: 3
-title: "Weekly Review + Hands-On — Build a Simple No-Code/Low-Code AI Workflow"
-summary: ""
-published: false
+title: "Weekly Review + Hands-On — Build a Simple No-Code/Low-Code AI Workflow (Claude Projects, Custom GPTs, or n8n/Zapier)"
+summary: "No new reading today. Build one small, real AI tool for a task you actually do — and try to break it."
+published: true
 handsOn: true
-duration: "45–60 min"
+duration: "1.5–3 hours (active, hands-on)"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Nothing new to read today. Weeks 1 and 2 gave you the vocabulary and the mental models. Week
+3 has been about what happens once an AI tool leaves the demo and has to survive contact with
+real use — measuring it, breaking it, securing it, paying for it, watching it, and getting it
+past a pilot. Today you build something small yourself, using all of that at once. Skim the
+recap, then close this tab and go build.
+
+## Week 3 in one paragraph
+
+Before you can trust an AI system, you need a way to actually measure whether it works — an
+**eval** (Day 15). Even a system that mostly works will confidently say wrong things, so you
+need ways to ground it in real facts and put guardrails around it (Day 16). A working system
+is also a target — prompt injection and data leakage are real, practical risks, not
+theoretical ones (Day 17). Every request has a real cost, and understanding tokens, pricing,
+and caching is how you avoid an AI bill that surprises you (Day 18). Once something is live,
+you need to actually watch it running — observability and LLMOps — rather than assume it
+keeps working just because it worked in testing (Day 19). And most companies that pilot AI
+never get it into real production — Day 20 looked at why that gap is so wide.
+
+That's a lot of "how to keep AI honest and under control." Today you'll feel a small version
+of all of it, because you're about to build something and immediately try to break it
+yourself.
+
+## The exercise: build one small AI tool, on one real task
+
+Unlike Day 7 — where you tested chatbots that already existed — today you build one. The goal
+isn't to end up with something impressive. It's to personally go through the mechanics of
+turning "a good prompt" into "a saved, reusable tool," so that the phrase "AI-powered
+workflow" stops sounding abstract.
+
+### Step 1: pick one real, recurring task
+
+Choose something from your actual job that:
+
+- You or your team does **repeatedly**, not a one-off.
+- Follows a **repeatable pattern** — the input varies, but the shape of the task doesn't.
+- Currently takes real manual effort, even if it's only a few minutes each time.
+
+Good candidates:
+
+- Drafting a first-pass reply to a common type of email or request (a customer question you
+  see weekly, a standard internal ask).
+- Summarising a recurring type of document — meeting notes, a weekly report, a set of
+  customer comments — into a consistent format.
+- Triaging or categorising incoming requests into a few clear buckets (urgent vs. routine,
+  which team should handle it, what type of issue it is).
+
+Avoid picking something high-stakes for your first build. You want a task where a wrong
+answer is annoying, not something a customer or a regulator would notice.
+
+### Step 2: pick one tool, and understand what kind it is
+
+You have two broad options. Pick whichever one you have access to — the point is the exercise,
+not the specific product.
+
+- **A saved-assistant tool** (for example, a custom project in a chatbot like Claude Projects,
+  or a Custom GPT). Underneath, this is really just a **system prompt** (Day 8) — written
+  once, saved, and reused — plus, in some tools, some reference material you attach. It's
+  something you or a teammate kick off manually each time you need it. Good fit if your task
+  is "I open this and use it when I need it."
+- **A workflow-automation tool** (for example, n8n or Zapier). This can trigger automatically
+  off a real event — a new email arriving, a form being submitted — and chain several steps
+  together, closer to the tool-use and agent territory from Week 2 (Days 12 and 14), but
+  without writing code. Good fit if your task is "this should just happen when X occurs,"
+  not something you want to remember to run.
+
+If you're not sure which fits, default to the saved-assistant option — it's the simpler build,
+and still teaches the core lesson.
+
+### Step 3: build it
+
+1. **Write clear instructions.** Apply Day 8's lesson directly: tell it exactly what job it's
+   doing, what tone to use, what it should never do, and what "done" looks like. Vague
+   instructions produce vague output — the same rule that applies to a person you're
+   delegating to.
+2. **Add real reference material if the tool allows it.** If your task depends on facts
+   specific to your company — a policy, a price list, a template — attaching that document
+   is a small, hands-on taste of the grounding idea from Day 9 and Day 16: the tool is more
+   reliable when it's reading real material, not guessing from general knowledge.
+3. **Test it on real examples from your actual work** — an email you actually received, a
+   document you actually need summarised. Not made-up examples. You can only judge whether
+   this is useful if you feed it the real thing.
+4. **Now try to break it.** Feed it a weird edge case on purpose — an email that doesn't fit
+   the usual pattern, a document that's oddly formatted, a request that's ambiguous. This is
+   a tiny, informal version of Day 15's evals — you, personally, stress-testing your own
+   build before you'd trust it with anything real.
+
+## What to notice while you're building
+
+This is the part worth paying attention to, not just the finished tool:
+
+- **Did writing the instructions feel different from asking a one-off question?** A one-off
+  prompt (Day 3) is disposable — you write it, use it, and forget it. A saved system prompt
+  has to hold up across many different inputs you haven't seen yet. That difference is the
+  whole reason context engineering became its own skill.
+- **Where did it fail, or give a strange answer?** Was the fix "be more specific in the
+  instructions," "give it more real reference material to ground it in" (Day 9), or did the
+  task turn out to be a bad fit for a simple no-code tool at all (Day 11's decision
+  framework — some tasks genuinely need more than a system prompt can deliver)?
+- **Would you trust this running with no one checking its output?** Be honest. Most first
+  builds are a good draft generator, not something to run unsupervised — and knowing which
+  one you built is exactly the judgment Day 16 asked you to practice.
+
+## What you should walk away with
+
+Not a polished tool — a working one is a nice bonus, but that's not the point. The real
+takeaway is that **"AI-powered tool" almost always means a system prompt, maybe some
+reference material, wrapped in an interface someone bothered to save.** You just did that
+yourself, in an hour or two, with no code. That's worth more than the specific thing you
+built: the next time someone in a meeting describes an "AI workflow" like it's a mysterious
+black box, you'll know it's very likely something close to what you just made.
+
+<DayGlossary terms={[
+  {
+    term: "No-code / low-code tool",
+    definition: "Software that lets someone build a working application — including an AI-powered one — by configuring settings, filling in forms, or connecting pre-built blocks, instead of writing programming code. A saved chatbot assistant and a workflow-automation platform are both examples."
+  },
+  {
+    term: "Workflow automation",
+    definition: "A tool or system that triggers automatically off a real event (a new email, a form submission) and carries out a chain of steps without a person manually starting each one — as opposed to a saved assistant, which still has to be opened and run by hand."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "You want a tool that drafts a reply the moment a specific type of email arrives, with no one having to open an app first. Which kind of tool actually fits that need?",
+    options: [
+      "A saved-assistant tool like a custom project or Custom GPT",
+      "A workflow-automation tool like n8n or Zapier, triggered off the incoming email",
+      "Neither — this always requires custom-written code",
+      "It doesn't matter, both work identically"
+    ],
+    correct: 1,
+    explain: "A saved assistant still has to be opened and run manually. Only a workflow-automation tool can trigger automatically off a real event like an incoming email, without a person kicking it off."
+  },
+  {
+    q: "You tested your build on a real example and it worked well. What's the most useful next step before trusting it?",
+    options: [
+      "Ship it immediately — one good result means it's ready",
+      "Feed it a weird edge case on purpose and see how it handles something outside the usual pattern",
+      "Stop testing, since AI tools are consistent by nature",
+      "Make the instructions shorter so it runs faster"
+    ],
+    correct: 1,
+    explain: "One good result on a normal example doesn't tell you how the tool handles the unusual case that will eventually show up in real use. Deliberately trying to break it is a small, informal version of the evals discipline from Day 15."
+  },
+  {
+    q: "Your build gives a noticeably worse answer whenever the input doesn't closely match the examples you tested. What does that suggest first?",
+    options: [
+      "The tool is fundamentally broken and no-code tools can't be trusted",
+      "It needs more specific instructions, more grounding in real reference material, or the task may not fit a simple no-code build at all",
+      "Nothing — inconsistent answers are normal and not worth investigating",
+      "Switch to a bigger model and the problem will disappear on its own"
+    ],
+    correct: 1,
+    explain: "A weak result on an edge case is useful information, not a dead end. The fix is usually clearer instructions, better reference material to ground it (Day 9), or — sometimes — recognising the task needs more than prompting can deliver (Day 11)."
+  }
+]} />
+</DayApply>

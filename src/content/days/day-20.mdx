@@ -1,11 +1,214 @@
 ---
 day: 20
 week: 3
-title: "The 79%-Adopted-but-11%-in-Production Gap — Why Pilots Fail"
-summary: ""
-published: false
+title: "The 79%-Adopted-but-11%-in-Production Gap — Why Pilots Fail and What Successful Deployments Share"
+summary: "Why so many AI pilots that 'go well' never reach production, using this week's material as the answer."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "40–50 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import PilotProductionGapDiagram from '../../components/PilotProductionGapDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Today's title borrows a pattern you've probably seen written up in different forms, with
+different exact numbers, in surveys and industry reports over the last couple of years: a
+large share of companies say they've "adopted" AI in some form, but a much smaller share
+have it running as an actual production system. We're not going to treat "79%" and "11%" as
+verified numbers to defend — the precise figures move around depending on who's counting and
+what they mean by "adopted." What's genuinely well-documented, and worth your time today, is
+the *gap itself*. Lots of individual people using an AI chatbot is common. A reliable AI
+system quietly doing real work inside a real business process, day after day, without
+someone watching it like a hawk, is rare. Today is about why that gap exists, using
+everything you learned this week as the answer.
+
+## Two very different things called "using AI"
+
+**Informal adoption** looks like this: someone on your team pastes a report into a chatbot to
+summarise it. Someone else drafts emails with it. It's genuinely useful, it spread on its
+own, and nobody had to approve a budget for it. This is real, and it's not nothing — but it's
+a person choosing, each time, whether to trust the output before they hit send.
+
+**Production** is different in kind, not just in scale. It means an AI system is wired into
+an actual business process — answering real customers, approving or flagging real
+transactions, drafting documents that go out under your company's name — running on its own,
+continuously, without a person checking every single output before it counts.
+
+Think of the difference between a person occasionally using a calculator, and a calculator
+being wired into your company's payroll system so it runs unattended every two weeks. Both
+are "using a calculator." Only one of them needs to be right every single time, with nobody
+watching.
+
+<PilotProductionGapDiagram />
+
+## Why a successful pilot isn't evidence of a production-ready system
+
+This is the one idea to take from today: **a pilot going well is not the same evidence as a
+production system being ready.** A pilot succeeding tells you the AI can do the task under
+the conditions the pilot happened to test. It tells you almost nothing about whether it can
+do the task reliably, safely, and affordably at real volume, on real customers, including the
+messy and unusual cases nobody thought to try.
+
+Walk through why, and you're really just walking back through this week:
+
+**No real evals, just a good-looking demo.** A pilot is usually judged on a handful of
+examples someone picked to show it off — often the easy ones, sometimes without even
+meaning to cherry-pick. That's not the same as [evals](https://en.wikipedia.org/wiki/Evaluation)
+run against a large, representative, and deliberately difficult set of real cases. A model can
+look impressive on ten hand-picked examples and still fail regularly on the ten-thousandth
+real customer message. Without real evals, "the demo went well" is the only evidence anyone
+has — and it's weak evidence.
+
+**Hallucinations and missing guardrails don't show up in a friendly demo.** In a pilot,
+people mostly ask reasonable questions and read the answers charitably. Real usage is
+messier: ambiguous questions, edge cases, people testing the limits on purpose, and answers
+nobody double-checks because the system is now "just running." Without grounding and
+guardrails proportional to the risk, a system that never once made up an answer during the
+pilot can start doing so regularly once it's facing real, unpredictable volume.
+
+**Security wasn't considered because the pilot never felt like a "real" system.** A pilot
+often gets waved past the security review that a traditional software project would go
+through, because it's "just a chatbot" or "just a trial." But once it's live, it's handling
+real data and real inputs from real people — including people who might deliberately try to
+manipulate it. Skipping that thinking during the pilot doesn't make the risk go away; it just
+delays when someone notices it.
+
+**The pilot's cost was fine — at pilot volume.** Ten people testing a tool for a week costs
+very little. Ten thousand customers using it every day is a completely different bill.
+Without modelling cost at realistic production volume, a pilot that "barely cost anything" can
+turn into a production system with a monthly bill nobody budgeted for.
+
+**Nobody built a way to know if it's working once it's live.** A pilot has a small, attentive
+audience watching it closely and reporting anything odd. A production system has neither —
+which is exactly why it needs its own eyes on it. Without monitoring and tracing in place,
+the first sign that something is wrong is often a customer complaint, or a much bigger
+problem, weeks after it started.
+
+None of these five gaps are exotic. Each one is a specific, previously-covered topic that a
+successful demo simply never had the chance to expose.
+
+## What successful deployments actually share
+
+The companies that do get AI systems reliably into production aren't the ones with access to
+a better model. They're the ones who treat the jump from pilot to production as its own real
+project, with its own requirements — not as "the demo worked, so let's turn it on for
+everyone."
+
+In practice, that means before scaling a pilot up, they can point to:
+
+- **Real evals**, run against a large, realistic, and deliberately hard set of test cases —
+  not just a handful of clean examples that happened to work in the room.
+- **Guardrails sized to the task's actual risk.** A tool that drafts internal meeting notes
+  needs far less scaffolding than one that tells a customer their refund was approved.
+- **A security review that assumes this is a real system**, because by the time it's serving
+  customers, it is one — regardless of how casually it started.
+- **A cost model built at real production volume**, not pilot volume, so nobody is surprised
+  by the first full month's bill.
+- **Monitoring and tracing switched on before the first real customer sees it**, not added
+  after the first complaint arrives.
+
+None of this is exotic engineering. It's closer to ordinary project discipline — the kind any
+serious software rollout would go through — applied to AI instead of being skipped because AI
+still feels new and experimental.
+
+## The one question that replaces "did the pilot go well?"
+
+When someone proposes moving a successful pilot into full production, "did the pilot go
+well?" is the wrong question to lead with — it's already been answered, and the answer was
+never going to be "no." The useful question is really five questions in one, and you now have
+all five from this week:
+
+1. Has this been eval-tested at something closer to real, realistic scale — not just the
+   examples from the demo?
+2. Does it have guardrails proportional to what happens if it gets something wrong?
+3. Has security actually been considered, on purpose, not skipped because it "felt casual"?
+4. Do we know the real cost at real volume, not pilot volume?
+5. Will we actually know if something breaks once it's live — or will we find out from a
+   customer?
+
+A "yes" to all five is what separates a system ready for production from a pilot that simply
+hasn't failed publicly yet.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A team proudly reports that their AI pilot "went really well" and wants approval to roll
+   it out to every customer next month. Ask: *"Well by what measure — a handful of examples
+   we liked, or a real eval set that includes the hard and unusual cases?"* — separates a
+   genuinely tested system from one that simply hasn't been tested hard yet.
+2. In a budget meeting, someone presents the pilot's AI spend as the expected ongoing cost.
+   Ask: *"That's the cost at pilot volume — what does it look like at the volume we'd
+   actually run once this is live for everyone?"* — surfaces the real bill before it becomes
+   a surprise.
+3. During a rollout planning meeting, the security team hasn't been looped in because "it's
+   just a chatbot." Ask: *"Once this is answering real customers, isn't it a real system now
+   — has security actually looked at it?"* — closes the gap where pilots quietly skip a review
+   a comparable piece of software wouldn't.
+4. Right before a pilot goes live company-wide, someone asks what happens if it starts
+   answering badly. Ask: *"How will we actually find out — do we have monitoring in place, or
+   are we relying on customers to tell us?"* — exposes whether anyone will notice a problem
+   before it's already caused damage.
+
+<DayGlossary terms={[
+  {
+    term: "Pilot",
+    definition: "A small-scale, limited trial of an AI system, typically tested informally by a small group before any decision to roll it out more broadly."
+  },
+  {
+    term: "Production",
+    definition: "The state of a system running as part of an actual business process on an ongoing basis — serving real customers or making real decisions — without a person reviewing every individual output before it takes effect."
+  },
+  {
+    term: "Eval",
+    definition: "A structured, repeatable test of an AI system's outputs against a representative, deliberately challenging set of cases, used to measure quality before and after changes — distinct from informally trying a few examples and judging by feel."
+  },
+  {
+    term: "Guardrail",
+    definition: "A rule, check, or piece of software placed around an AI system to catch or prevent a specific kind of bad output before it reaches a user, sized according to how much harm a mistake in that task could cause."
+  },
+  {
+    term: "Observability",
+    definition: "The ongoing ability to see what an AI system is doing in production — its inputs, outputs, errors, and performance over time — so problems can be found and fixed before, rather than after, a user reports them."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A pilot performed well when a handful of team members tried it informally. What does that actually tell you about production readiness?",
+    options: [
+      "It proves the system is ready to scale to all customers",
+      "It tells you the system can handle the specific, often easier cases that were tried — not much more than that",
+      "It guarantees the system is secure",
+      "It confirms the production cost will be manageable"
+    ],
+    correct: 1,
+    explain: "A pilot succeeding is evidence about the cases it was actually tested on, usually a small and often easier set. It says very little about reliability, safety, cost, or performance at real production scale and volume."
+  },
+  {
+    q: "Why do security problems in an AI pilot often go unnoticed until after it's already in production?",
+    options: [
+      "AI systems cannot have security vulnerabilities",
+      "Pilots are often treated as too casual or experimental to need a security review, even though they handle real data and inputs",
+      "Security only matters for traditional software, not AI",
+      "Security issues are always caught during the demo"
+    ],
+    correct: 1,
+    explain: "Pilots frequently skip the scrutiny a comparable piece of software would get, simply because they feel like a trial rather than a real system. But once real data and real users are involved, the risk is real regardless of how the project started."
+  },
+  {
+    q: "What's the practical difference between successful and unsuccessful AI deployments, according to this week's material?",
+    options: [
+      "Successful deployments use a more powerful underlying model",
+      "Successful deployments treat the move from pilot to production as its own project — with real evals, sized guardrails, security review, realistic cost modelling, and monitoring in place before scaling",
+      "Successful deployments avoid guardrails to keep the system fast",
+      "Successful deployments skip evals to save time and move faster"
+    ],
+    correct: 1,
+    explain: "The model itself is rarely the deciding factor. What separates reliable production systems from pilots that quietly fail later is whether the team did the unglamorous work first: real evals, right-sized guardrails, a security review, a cost model at real volume, and monitoring from day one."
+  }
+]} />
+</DayApply>

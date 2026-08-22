@@ -1,0 +1,139 @@
+---
+// Themed (light/dark aware) diagram contrasting "one expensive model for
+// everything" against "the right-sized model for each task" — Day 18
+// (Tokenomics). Inline HTML/CSS, no external images, matches the site's
+// design system via the existing CSS custom properties.
+---
+
+<div class="rsd">
+  <div class="rsd__col rsd__col--flat">
+    <p class="rsd__col-title">One model for everything</p>
+    <p class="rsd__col-sub">Same expensive model, every task</p>
+
+    <div class="rsd__task">
+      <span class="rsd__task-label">Classify an email</span>
+      <span class="rsd__model rsd__model--big">Frontier model</span>
+    </div>
+    <div class="rsd__task">
+      <span class="rsd__task-label">Extract a date</span>
+      <span class="rsd__model rsd__model--big">Frontier model</span>
+    </div>
+    <div class="rsd__task">
+      <span class="rsd__task-label">Draft a complex contract clause</span>
+      <span class="rsd__model rsd__model--big">Frontier model</span>
+    </div>
+
+    <p class="rsd__verdict rsd__verdict--bad">Paying top-tier price on every task, including the trivial ones</p>
+  </div>
+
+  <div class="rsd__col rsd__col--sized">
+    <p class="rsd__col-title">Right-sized per task</p>
+    <p class="rsd__col-sub">Model matched to what the task needs</p>
+
+    <div class="rsd__task">
+      <span class="rsd__task-label">Classify an email</span>
+      <span class="rsd__model rsd__model--small">Small, cheap model</span>
+    </div>
+    <div class="rsd__task">
+      <span class="rsd__task-label">Extract a date</span>
+      <span class="rsd__model rsd__model--small">Small, cheap model</span>
+    </div>
+    <div class="rsd__task">
+      <span class="rsd__task-label">Draft a complex contract clause</span>
+      <span class="rsd__model rsd__model--big">Frontier model</span>
+    </div>
+
+    <p class="rsd__verdict rsd__verdict--good">Full price only where the task actually needs it</p>
+  </div>
+</div>
+
+<style>
+  .rsd {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .rsd__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 20px 18px;
+  }
+
+  :root[data-theme='light'] .rsd__col {
+    background: #14161c;
+  }
+
+  .rsd__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.02rem;
+    margin: 0 0 2px;
+  }
+
+  .rsd__col-sub {
+    color: #9aa1ad;
+    font-size: 0.8rem;
+    margin: 0 0 16px;
+  }
+
+  .rsd__task {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .rsd__task-label {
+    color: #e5e7eb;
+    font-size: 0.82rem;
+  }
+
+  .rsd__model {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+  }
+
+  .rsd__model--big {
+    background: rgba(239, 68, 68, 0.18);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #fca5a5;
+  }
+
+  .rsd__model--small {
+    background: rgba(16, 185, 129, 0.16);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #a7ecd3;
+  }
+
+  .rsd__verdict {
+    margin: 14px 0 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
+  .rsd__verdict--bad {
+    color: #fca5a5;
+  }
+
+  .rsd__verdict--good {
+    color: #a7ecd3;
+  }
+
+  @media (max-width: 640px) {
+    .rsd {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

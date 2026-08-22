@@ -1,0 +1,157 @@
+---
+// Themed (light/dark aware) comparison diagram for Day 15: a handful of
+// cherry-picked demo tries versus a real, systematic eval set. Inline HTML/CSS,
+// following the pattern in TrainingInferenceDiagram.astro.
+---
+
+<div class="ecd">
+  <div class="ecd__col ecd__col--demo">
+    <p class="ecd__col-title">A few demo tries</p>
+    <p class="ecd__col-sub">What most pilots show leadership</p>
+    <div class="ecd__grid">
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+    </div>
+    <div class="ecd__note">
+      <strong>3 cases tried</strong>
+      <span>Easy, cherry-picked, look great</span>
+    </div>
+  </div>
+
+  <div class="ecd__link" aria-hidden="true">
+    <span>vs</span>
+    <span class="ecd__link-arrow">→</span>
+  </div>
+
+  <div class="ecd__col ecd__col--evalset">
+    <p class="ecd__col-title">A real eval set</p>
+    <p class="ecd__col-sub">What a production-ready team can show you</p>
+    <div class="ecd__grid ecd__grid--wide">
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--fail"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--fail"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+      <span class="ecd__dot ecd__dot--pass"></span>
+    </div>
+    <div class="ecd__note">
+      <strong>Many cases, including tricky ones</strong>
+      <span>Gives you an actual measured pass rate</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ecd {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .ecd__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  :root[data-theme='light'] .ecd__col {
+    background: #14161c;
+  }
+
+  .ecd__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .ecd__col-sub {
+    color: #9aa1ad;
+    font-size: 0.82rem;
+    margin: 0 0 18px;
+  }
+
+  .ecd__grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+
+  .ecd__grid--wide {
+    max-width: 220px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .ecd__dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid;
+  }
+
+  .ecd__dot--pass {
+    background: rgba(16, 185, 129, 0.25);
+    border-color: rgba(16, 185, 129, 0.6);
+  }
+
+  .ecd__dot--fail {
+    background: rgba(239, 68, 68, 0.28);
+    border-color: rgba(239, 68, 68, 0.65);
+  }
+
+  .ecd__note {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border: 1px solid rgba(124, 58, 237, 0.4);
+    background: rgba(124, 58, 237, 0.16);
+  }
+
+  .ecd__note strong {
+    color: #ffffff;
+    font-size: 0.9rem;
+  }
+
+  .ecd__note span {
+    color: #c9b8fb;
+    font-size: 0.78rem;
+  }
+
+  .ecd__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-text-faint);
+    font-size: 0.78rem;
+  }
+
+  .ecd__link-arrow {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 640px) {
+    .ecd {
+      grid-template-columns: 1fr;
+    }
+    .ecd__link {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>

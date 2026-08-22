@@ -2,10 +2,175 @@
 day: 18
 week: 3
 title: "Tokenomics — Understanding AI Costs, Pricing Models, Caching, and Model Right-Sizing"
-summary: ""
-published: false
+summary: "The practical cost levers behind an AI bill — caching and model right-sizing — and the sharper questions they let a leader ask in a budget review."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "30–40 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import RightSizingDiagram from '../../components/RightSizingDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+You already know the basics of AI pricing: tokens are the billing unit (Day 1), and vendors
+charge a rate per million tokens, split between input and output, with output costing more
+because it's generated one step at a time (Day 1, Day 4). Today builds on that. It's about
+what actually makes an AI bill bigger or smaller in practice — and the two biggest levers a
+team controls: caching and picking the right-sized model for each task.
+
+## An AI bill isn't a fixed cost — it's a series of choices
+
+It's easy to treat an AI bill the way you'd treat an electricity bill: a number that arrives
+each month, driven mostly by how much you used the thing. AI costs don't work quite like
+that. The same workload, built two different ways, can cost very different amounts — because
+the bill is shaped by engineering decisions, not just usage volume.
+
+Three of those decisions matter most: which model handles which task, whether repeated
+context is cached instead of reprocessed every time, and how much "thinking time" a model is
+allowed to spend per question (Day 6). A team that hasn't looked at any of these is very
+likely paying more than it needs to — not because AI is inherently expensive, but because the
+default settings are rarely the cheapest ones.
+
+## Caching: don't pay to re-read the same thing twice
+
+Many AI tools send the same large chunk of unchanging context with every single request — a
+long system prompt describing how the assistant should behave, a company handbook, a lengthy
+document the user is asking several questions about. Without caching, the model reprocesses
+that entire chunk from scratch on every single call, and you pay full price for it every
+time, even though nothing in it changed.
+
+**[Caching](https://docs.anthropic.com/en/docs/build-with-claude/prompt-caching)** lets a
+provider reuse the processing work already done on a piece of context that hasn't changed,
+instead of redoing it from zero. The part of the request that repeats gets billed at a much
+lower rate on the calls after the first one.
+
+A simple comparison: a restaurant kitchen making a big batch of sauce once in the morning,
+rather than cooking a fresh batch from raw ingredients for every single order. The first
+batch takes real time and effort. Every order after that just draws from what's already
+made — faster, and far cheaper per order.
+
+> **Why this matters to you:** if your AI tool sends the same large context — a handbook, a
+> style guide, a long system prompt — with every request, caching can meaningfully cut what
+> you're paying, with no change to what the assistant actually does. This is a concrete,
+> answerable question for an engineering team: "are we using caching for the context we
+> repeat on every call?" If the answer is no, that's often the single easiest cost fix
+> available, before touching anything else.
+
+## Model right-sizing: stop using a sledgehammer on everything
+
+Day 1 already made the point that a bigger model isn't automatically a better one. Day 6
+showed that "thinking time" is a separate, controllable cost dial, not a fixed property of a
+model. Day 11 taught matching the technique — prompting, [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation),
+or fine-tuning — to the actual need instead of reaching for the fanciest option by default.
+**Model right-sizing** is the same discipline, applied specifically to cost: use the
+cheapest, smallest model that's actually good enough for a given task, rather than routing
+every task through your most powerful, most expensive model by default.
+
+<RightSizingDiagram />
+
+A simple task — classifying an incoming email, pulling a date out of a form, tagging a
+support ticket by topic — often doesn't need your most capable model at all. A smaller,
+cheaper model frequently handles it just as well, with no noticeable difference in quality
+for that specific job. Save the most expensive model for the tasks that genuinely need its
+extra capability — a nuanced piece of writing, a complex analysis, a judgment call with real
+stakes.
+
+> **Why this matters to you:** a business running one expensive frontier model for
+> absolutely everything — simple lookups and hard judgment calls alike — is very likely
+> overpaying, in the same way it would be wasteful to hire your most senior, highest-paid
+> specialist to do every routine task in the building. Right-sizing isn't about using worse
+> AI. It's about not paying frontier prices for work that doesn't require frontier
+> capability.
+
+## Putting the levers together
+
+None of this requires becoming an engineer. It requires knowing that "the AI bill" is not one
+fixed number handed down from a vendor — it's the sum of choices a team makes: how much
+context gets sent on every call (Day 3), whether that repeated context is cached, how much
+thinking time is spent per question (Day 6), and which model is doing the work. Change any of
+those, and the bill changes, often without changing what the product actually does for the
+user.
+
+That means a leader who understands tokenomics can ask a sharper question in a budget review
+than "how much does the AI bill cost." The sharper version is: "is our AI bill actually
+optimized, or are we just paying the default rate for everything?" Before accepting a large
+or growing AI bill as simply the cost of doing business, it's worth asking whether the team
+has actually looked at right-sizing, caching, and unused thinking time — the concrete levers
+covered today, not vague cost-cutting ideas.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. Finance flags that the AI bill has grown every month this quarter, and the team's answer
+   is "we're just using it more." Ask: *"Beyond usage growing, have we looked at whether
+   we're using the right-sized model for each task, or defaulting to the most expensive one
+   everywhere?"* — separates genuine growth from an unoptimized setup that's quietly costing
+   more than it needs to.
+2. An engineer mentions the product sends a long system prompt or reference document with
+   every single request. Ask: *"Is that repeated content being cached, or are we
+   reprocessing it from scratch on every call?"* — surfaces one of the simplest, highest-
+   leverage cost fixes available, without touching the product experience.
+3. In a planning meeting, someone proposes routing every feature — including simple ones
+   like tagging or classification — through the same top-tier model "for consistency." Ask:
+   *"Which of these tasks are simple enough that a smaller, cheaper model would do just as
+   well?"* — turns a blanket, expensive default into a deliberate, task-by-task decision.
+4. A vendor pitching an AI platform quotes one flat price per query, regardless of task
+   complexity. Ask: *"Does this route simple requests to a cheaper model automatically, or
+   are we paying the same rate whether the task is trivial or complex?"* — reveals whether
+   the vendor has already built in right-sizing, or whether that cost discipline is left
+   entirely to you.
+
+<DayGlossary terms={[
+  {
+    term: "Caching (prompt caching)",
+    definition: "Reusing the processing already done on a piece of context that hasn't changed between requests, instead of reprocessing it from scratch each time. Cached context is billed at a lower rate than processing it fresh."
+  },
+  {
+    term: "Model right-sizing",
+    definition: "Matching the size and capability of the model used to the difficulty of the task, rather than using the most powerful available model for every task by default. Simple, well-defined tasks are typically handled well by smaller, cheaper models."
+  },
+  {
+    term: "Tokenomics",
+    definition: "The practical economics of running AI in production — how pricing, context length, caching, model choice, and thinking time combine to determine the actual cost of an AI system, as distinct from the headline per-token price."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A product sends the same long system prompt with every single request. What cost lever addresses this directly?",
+    options: [
+      "Switching to a bigger model",
+      "Caching, so the repeated context is reused instead of reprocessed from scratch every time",
+      "Increasing the context window",
+      "Enabling extended thinking"
+    ],
+    correct: 1,
+    explain: "Caching lets a provider reuse the processing already done on context that hasn't changed, billing it at a lower rate on later calls instead of paying full price to reprocess it every time."
+  },
+  {
+    q: "A team uses its most expensive frontier model for every task, including simple ones like tagging support tickets. What's the sharpest fix?",
+    options: [
+      "Switch everything to the cheapest model available, regardless of task",
+      "Right-size: use a smaller, cheaper model for the simple tasks, and reserve the expensive model for tasks that genuinely need it",
+      "Nothing — using the best model everywhere guarantees the best outcome",
+      "Turn off extended thinking"
+    ],
+    correct: 1,
+    explain: "Simple, well-defined tasks are often handled just as well by a smaller, cheaper model. Right-sizing means matching model capability to task difficulty, not defaulting to the most expensive option for everything."
+  },
+  {
+    q: "In a budget review, what question does understanding tokenomics let a leader ask, beyond 'how much does the AI bill cost'?",
+    options: [
+      "What programming language was the AI built with?",
+      "Is our AI bill actually optimized, or are we just paying the default rate for everything?",
+      "How many employees work at the AI vendor?",
+      "What color is the vendor's logo?"
+    ],
+    correct: 1,
+    explain: "Knowing that caching, model right-sizing, context length, and thinking time all shape the bill lets a leader ask whether those levers have actually been used — not just accept the total as a fixed cost of doing business."
+  }
+]} />
+</DayApply>

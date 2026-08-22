@@ -1,0 +1,161 @@
+---
+// Themed (light/dark aware) before/after comparison: a one-time pre-launch
+// eval snapshot versus ongoing production observability. Inline HTML/CSS,
+// matching the pattern in TrainingInferenceDiagram.astro.
+---
+
+<div class="otd">
+  <div class="otd__col otd__col--snapshot">
+    <p class="otd__col-title">Before launch</p>
+    <p class="otd__col-sub">A point-in-time check</p>
+    <div class="otd__step">
+      <strong>Eval on a test set</strong>
+      <span>Run once, before go-live</span>
+    </div>
+    <div class="otd__arrow" aria-hidden="true">↓</div>
+    <div class="otd__step">
+      <strong>Pass / fail results</strong>
+      <span>A single snapshot in time</span>
+    </div>
+    <div class="otd__stop" aria-hidden="true">■ stops here</div>
+  </div>
+
+  <div class="otd__link" aria-hidden="true">
+    <span>go-live</span>
+    <span class="otd__link-arrow">→</span>
+  </div>
+
+  <div class="otd__col otd__col--ongoing">
+    <p class="otd__col-title">After launch</p>
+    <p class="otd__col-sub">A continuous capability</p>
+    <div class="otd__step">
+      <strong>Monitoring</strong>
+      <span>Speed, errors, cost — every day</span>
+    </div>
+    <div class="otd__arrow" aria-hidden="true">↓</div>
+    <div class="otd__step">
+      <strong>Tracing</strong>
+      <span>Dig into any one interaction</span>
+    </div>
+    <div class="otd__arrow" aria-hidden="true">↓</div>
+    <div class="otd__step">
+      <strong>Versioning</strong>
+      <span>Know what changed, and when</span>
+    </div>
+    <div class="otd__loop" aria-hidden="true">↻ keeps running</div>
+  </div>
+</div>
+
+<style>
+  .otd {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .otd__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  :root[data-theme='light'] .otd__col {
+    background: #14161c;
+  }
+
+  .otd__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .otd__col-sub {
+    color: #9aa1ad;
+    font-size: 0.82rem;
+    margin: 0 0 16px;
+  }
+
+  .otd__step {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border: 1px solid;
+  }
+
+  .otd__col--snapshot .otd__step {
+    background: rgba(124, 58, 237, 0.16);
+    border-color: rgba(124, 58, 237, 0.4);
+  }
+
+  .otd__col--ongoing .otd__step {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .otd__step strong {
+    color: #ffffff;
+    font-size: 0.92rem;
+  }
+
+  .otd__col--snapshot .otd__step span {
+    color: #c9b8fb;
+    font-size: 0.8rem;
+  }
+
+  .otd__col--ongoing .otd__step span {
+    color: #a7ecd3;
+    font-size: 0.8rem;
+  }
+
+  .otd__arrow {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+
+  .otd__stop {
+    margin-top: 14px;
+    color: #6b7280;
+    font-size: 0.74rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+
+  .otd__loop {
+    margin-top: 14px;
+    color: #6ee7b7;
+    font-size: 0.74rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+  }
+
+  .otd__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-text-faint);
+    font-size: 0.78rem;
+  }
+
+  .otd__link-arrow {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 640px) {
+    .otd {
+      grid-template-columns: 1fr;
+    }
+    .otd__link {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>

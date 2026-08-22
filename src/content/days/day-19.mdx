@@ -2,10 +2,193 @@
 day: 19
 week: 3
 title: "Observability & LLMOps — Monitoring, Tracing, and Versioning AI in Production"
-summary: ""
-published: false
+summary: "Why passing an eval before launch isn't the same as knowing an AI system is still working today — and what observability, monitoring, tracing, and versioning actually mean."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import ObservabilityTimelineDiagram from '../../components/ObservabilityTimelineDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Evals, which you saw earlier this week, tell you whether an AI system worked well on a test
+set, before launch. Today is about what happens after that — how you actually know it's
+still working well once real people are using it, every single day. That gap between "we
+tested it and it passed" and "we know it's working right now" is where a lot of AI projects
+quietly go wrong, long after everyone stopped worrying about them.
+
+## The gap a passed eval doesn't cover
+
+Imagine a restaurant that gets inspected once, passes with a great score, and never gets
+checked again. The kitchen could still slowly slide into bad habits — nobody would know
+until a customer got sick and complained. A one-time eval is that inspection. It's real and
+useful, but it's a snapshot from one moment, not an ongoing guarantee.
+
+<ObservabilityTimelineDiagram />
+
+Once an AI system is live, its inputs keep changing — real customers ask things your test
+set never covered, a vendor quietly updates the underlying model, someone edits a prompt to
+fix one complaint and accidentally breaks something else. None of that shows up in last
+month's eval report. You need a way to keep watching, not just a certificate from opening
+day.
+
+## Observability: actually seeing what the system is doing
+
+**Observability** is the ability to see what your AI system is doing in production — what
+real users are asking, what answers it's giving, how often it's slow, wrong, or expensive,
+and why.
+
+Think of the difference between a dashboard in a car and driving blind. A dashboard shows
+you speed, fuel, and warning lights continuously, while you're driving. Driving blind means
+you only find out something was wrong when you already hit something. Most AI projects that
+work fine in a demo and quietly go bad in production were, in effect, driving blind — nobody
+had built a dashboard for what happens after launch.
+
+## Monitoring: watching the key numbers over time
+
+**Monitoring** is continuously tracking a handful of important numbers so problems get
+caught quickly, instead of surfacing weeks later as a customer complaint. Typical things
+worth watching: is the system taking longer to answer than usual, is the rate of failed or
+low-quality answers creeping up, is the cost per request (Day 18) rising unexpectedly.
+
+The value of monitoring isn't the numbers themselves — it's catching a slow, quiet drift
+early, while it's still a small fix, instead of discovering it three weeks later when a
+customer has already had a bad experience and told other people about it.
+
+## Tracing: investigating one specific interaction
+
+**Monitoring** tells you *something* is wrong in aggregate. **[Tracing](https://opentelemetry.io/docs/concepts/signals/traces/)**
+is what lets you find out *why*, for one specific case. It means being able to look back at
+one exact interaction and see, step by step, what actually happened — what was in the
+context window at the time, what tools the system called (Day 12), and exactly what the
+model received and returned.
+
+A useful comparison: monitoring is like a building's smoke alarm going off — it tells you
+something's burning somewhere. Tracing is like being able to walk back through exactly what
+happened in the kitchen five minutes before the alarm went off. Without tracing, "something
+went wrong" is often as far as anyone can get — there's no way to actually dig into a
+specific bad answer and explain it to a customer, a regulator, or your own team.
+
+## Versioning: knowing exactly what produced a result
+
+AI systems change over time in ways that are easy to miss: a vendor updates their model
+behind the scenes, someone edits the system prompt, a setting like Day 8's temperature gets
+tweaked for a different project and never gets set back. **Versioning** means keeping a
+record of exactly which model, prompt, and configuration produced a given result.
+
+Think of it like keeping the recipe and the exact ingredient batch alongside every dish a
+kitchen serves. If a customer says a dish tasted different this week, "what exactly changed
+since last week, and can we reproduce it?" is only answerable if someone wrote down what
+went into it each time. Without versioning, a real quality shift and ordinary day-to-day
+variation look identical — you can't tell if something actually changed, and you can't
+reliably reproduce or debug a specific past result.
+
+## LLMOps: the discipline that ties it together
+
+**[LLMOps](https://ml-ops.org/content/mlops-principles)** is the general practice of
+applying observability, monitoring, tracing, and versioning — plus deployment and ongoing
+updates — to AI systems specifically. It's the same idea as **DevOps**, the well-established
+discipline of running traditional software reliably, adapted for how AI systems actually
+behave and fail.
+
+That adaptation matters because AI failures often don't look like traditional software
+failures. A crashed website or an error code is obvious and gets noticed immediately. The
+"looks right but is subtly wrong" hallucination problem from Day 16 is much harder to catch
+— the system doesn't crash, it just confidently gives a wrong answer, and traditional
+monitoring built for crashes and error codes won't flag it on its own. LLMOps is, in large
+part, about building the extra layer of watching that this particular failure mode requires.
+
+## What this means when you're approving a project
+
+"We tested it and it worked" describes a moment before launch. "We can see what it's doing
+right now, and we'll know quickly if something changes" describes an ongoing operational
+capability — and that difference is often what separates a project that stays healthy after
+launch from one that quietly degrades until a customer complaint forces someone to notice.
+
+When a team brings you an AI project for production approval, the eval results answer "did
+it work in testing?" It's just as fair to ask what observability, monitoring, tracing, and
+versioning exist after launch — because that's the answer to "will we know if it stops
+working?"
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A team proudly presents strong eval results and asks for sign-off to launch. Ask: *"Once
+   this is live, how will we know if it's still performing this well next month?"* — shifts
+   the conversation from a one-time test result to an ongoing operational plan.
+2. A customer complains that an AI assistant gave a confidently wrong answer last Tuesday.
+   Ask: *"Can we trace that exact interaction and see what it actually received and
+   returned?"* — reveals whether anyone can actually investigate a specific bad answer, or
+   only shrug and say "AI is like that sometimes."
+3. In a budget meeting, someone proposes cutting the "monitoring dashboard" line item as a
+   nice-to-have. Ask: *"If cost or error rates started drifting upward next week, how would
+   we find out — and how fast?"* — tests whether monitoring is treated as optional polish or
+   as the thing that catches expensive problems early.
+4. A vendor quietly rolls out a model update, and quality on a task seems to have changed.
+   Ask: *"Do we have a record of exactly which model and prompt version produced last
+   month's results, versus this month's?"* — exposes whether versioning exists at all, and
+   whether the quality shift can even be diagnosed rather than just noticed.
+
+<DayGlossary terms={[
+  {
+    term: "Observability",
+    definition: "The ability to see what an AI system is actually doing in production — its inputs, outputs, failures, latency, and cost — rather than only knowing how it performed on a pre-launch test."
+  },
+  {
+    term: "Monitoring",
+    definition: "Continuously tracking key operational metrics (such as error rate, response time, and cost per request) over time, so that problems are caught early rather than discovered later through a complaint."
+  },
+  {
+    term: "Tracing",
+    definition: "The ability to inspect one specific past interaction in detail — including the exact context, tool calls, and model input/output — to investigate why that particular result occurred."
+  },
+  {
+    term: "Versioning",
+    definition: "Recording exactly which model, prompt, and configuration produced a given result, so that changes over time can be identified, and specific past results can be reproduced or debugged."
+  },
+  {
+    term: "LLMOps",
+    definition: "The discipline of deploying, monitoring, and maintaining large language model systems in production — the AI-specific counterpart to DevOps, adapted for failure modes such as hallucination that don't produce a traditional error or crash."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A team says their AI system passed its pre-launch eval with a strong score. What's the key limitation of that result?",
+    options: [
+      "It means the system will never make mistakes",
+      "It's a one-time snapshot from before launch, not an ongoing guarantee about production performance",
+      "It only applies to the vendor's own test environment",
+      "Eval results become invalid after 24 hours"
+    ],
+    correct: 1,
+    explain: "An eval is a point-in-time check on a test set. It doesn't tell you whether the system is still performing well days or weeks later, once it's handling real traffic — that's what observability and monitoring are for."
+  },
+  {
+    q: "A customer reports one specific AI answer that seemed confidently wrong. Which capability lets you investigate that exact interaction after the fact?",
+    options: [
+      "Monitoring",
+      "Tracing",
+      "Versioning",
+      "Evals"
+    ],
+    correct: 1,
+    explain: "Tracing lets you look back at one specific interaction step by step — what context, tools, and inputs/outputs were involved — so you can actually investigate why, rather than only knowing something went wrong."
+  },
+  {
+    q: "Why is the hallucination problem from Day 16 particularly hard to catch with traditional software monitoring?",
+    options: [
+      "Hallucinations always crash the application, which is easy to detect",
+      "A hallucination looks confident and correct on the surface, unlike a crash or error code that monitoring built for traditional software is designed to catch",
+      "Traditional monitoring tools cannot process text at all",
+      "Hallucinations only happen during training, not in production"
+    ],
+    correct: 1,
+    explain: "A hallucinating AI system doesn't crash or throw an error — it just confidently returns a wrong answer. Monitoring built for traditional failure modes won't flag that on its own, which is why LLMOps requires extra, AI-specific ways of watching for it."
+  }
+]} />
+</DayApply>

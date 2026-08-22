@@ -1,0 +1,141 @@
+---
+// Themed (light/dark aware) funnel diagram for Day 20: wide "informal adoption"
+// narrowing down to narrow "production-ready", with the five gaps that close
+// it labelled along the way. Plain HTML/CSS, no external images.
+---
+
+<div class="ppg">
+  <div class="ppg__stage ppg__stage--wide">
+    <p class="ppg__stage-title">Informal adoption</p>
+    <p class="ppg__stage-sub">People using AI tools on their own, for their own tasks</p>
+  </div>
+
+  <div class="ppg__gates">
+    <div class="ppg__gate">
+      <span class="ppg__gate-num">1</span>
+      <span class="ppg__gate-label">Real evals, not a good demo</span>
+    </div>
+    <div class="ppg__gate">
+      <span class="ppg__gate-num">2</span>
+      <span class="ppg__gate-label">Guardrails sized to the risk</span>
+    </div>
+    <div class="ppg__gate">
+      <span class="ppg__gate-num">3</span>
+      <span class="ppg__gate-label">Security considered on purpose</span>
+    </div>
+    <div class="ppg__gate">
+      <span class="ppg__gate-num">4</span>
+      <span class="ppg__gate-label">Cost modelled at real volume</span>
+    </div>
+    <div class="ppg__gate">
+      <span class="ppg__gate-num">5</span>
+      <span class="ppg__gate-label">Observability live from day one</span>
+    </div>
+  </div>
+
+  <div class="ppg__stage ppg__stage--narrow">
+    <p class="ppg__stage-title">Production</p>
+    <p class="ppg__stage-sub">A system running the business, reliably, without babysitting</p>
+  </div>
+</div>
+
+<style>
+  .ppg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .ppg__stage {
+    width: 100%;
+    text-align: center;
+    padding: 18px 20px;
+    border: 2px solid var(--rule);
+    background: var(--card);
+  }
+
+  .ppg__stage--wide {
+    max-width: 100%;
+  }
+
+  .ppg__stage--narrow {
+    max-width: 60%;
+    background: var(--color-accent-soft);
+    border-color: var(--blue);
+  }
+
+  .ppg__stage-title {
+    margin: 0 0 4px;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+
+  .ppg__stage-sub {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--mute);
+  }
+
+  .ppg__gates {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 0;
+    position: relative;
+  }
+
+  .ppg__gates::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--faint);
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+
+  .ppg__gate {
+    position: relative;
+    z-index: 1;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--card);
+    border: 1px solid var(--faint);
+    padding: 8px 16px;
+    font-size: 0.82rem;
+  }
+
+  .ppg__gate-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    background: var(--blue);
+    color: var(--color-accent-contrast);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .ppg__gate-label {
+    color: var(--sub);
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .ppg__gate {
+      width: 100%;
+    }
+  }
+</style>

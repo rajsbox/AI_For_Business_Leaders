@@ -1,0 +1,141 @@
+---
+// Themed (light/dark aware) comparison of an ungrounded answer path (model
+// guesses from trained memory alone, no check) versus a grounded, guardrailed
+// path (retrieved source + a check before the answer reaches the user).
+// Plain HTML/CSS, same pattern as TrainingInferenceDiagram.astro and
+// RagFlowDiagram.astro.
+---
+
+<div class="ggd">
+  <div class="ggd__row ggd__row--risky">
+    <span class="ggd__row-label">Ungrounded</span>
+    <div class="ggd__step ggd__step--question">
+      <strong>Question</strong>
+      <span>"What's our cancellation fee?"</span>
+    </div>
+    <div class="ggd__arrow" aria-hidden="true">→</div>
+    <div class="ggd__step ggd__step--guess">
+      <strong>Model's best guess</strong>
+      <span>Answers from trained memory alone</span>
+    </div>
+    <div class="ggd__arrow" aria-hidden="true">→</div>
+    <div class="ggd__step ggd__step--out ggd__step--warn">
+      <strong>Answer reaches user</strong>
+      <span>Fluent either way — right or fabricated</span>
+    </div>
+  </div>
+
+  <div class="ggd__row ggd__row--safe">
+    <span class="ggd__row-label">Grounded + guardrailed</span>
+    <div class="ggd__step ggd__step--question">
+      <strong>Question</strong>
+      <span>"What's our cancellation fee?"</span>
+    </div>
+    <div class="ggd__arrow" aria-hidden="true">→</div>
+    <div class="ggd__step ggd__step--source">
+      <strong>Retrieved source material</strong>
+      <span>Actual policy document, not memory</span>
+    </div>
+    <div class="ggd__arrow" aria-hidden="true">→</div>
+    <div class="ggd__step ggd__step--check">
+      <strong>Guardrail check</strong>
+      <span>Answer verified against the source, or flagged</span>
+    </div>
+    <div class="ggd__arrow" aria-hidden="true">→</div>
+    <div class="ggd__step ggd__step--out ggd__step--good">
+      <strong>Answer reaches user</strong>
+      <span>Checkable — points back to a real document</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .ggd {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .ggd__row {
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ggd__row--safe {
+    grid-template-columns: auto 1fr auto 1fr auto 1fr auto 1fr;
+  }
+
+  .ggd__row-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    justify-self: center;
+  }
+
+  .ggd__step {
+    position: relative;
+    background: var(--card);
+    border: 2px solid var(--rule);
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+  }
+
+  .ggd__step strong {
+    color: var(--ink);
+    font-size: 0.86rem;
+  }
+
+  .ggd__step span:not(.ggd__row-label) {
+    color: var(--sub);
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .ggd__step--warn {
+    border-color: rgba(220, 38, 38, 0.5);
+    border-top: 4px solid rgb(220, 38, 38);
+  }
+
+  .ggd__step--good {
+    border-color: rgba(16, 185, 129, 0.5);
+    border-top: 4px solid rgb(16, 185, 129);
+  }
+
+  .ggd__step--source,
+  .ggd__step--check {
+    border-top: 4px solid var(--blue);
+  }
+
+  .ggd__arrow {
+    color: var(--mute);
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  @media (max-width: 760px) {
+    .ggd__row,
+    .ggd__row--safe {
+      grid-template-columns: auto 1fr;
+    }
+    .ggd__row-label {
+      writing-mode: horizontal-tb;
+      transform: none;
+      grid-column: 1 / -1;
+    }
+    .ggd__arrow {
+      transform: rotate(90deg);
+    }
+  }
+</style>
