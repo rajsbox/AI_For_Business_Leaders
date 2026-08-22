@@ -499,7 +499,7 @@ const weekMeta = weeks.map((w) => {
   /* ---------------- Ticker ---------------- */
 
   .tv-ticker {
-    margin: 84px 0 40px;
+    margin: clamp(48px, 8vw, 84px) 0 0;
     padding: 13px 0;
     border-top: 1px solid var(--tv-border);
     border-bottom: 1px solid var(--tv-border);
@@ -530,7 +530,7 @@ const weekMeta = weeks.map((w) => {
   /* ---------------- Track / roadmap ---------------- */
 
   .tv-track {
-    padding: clamp(52px, 6vw, 84px) 0 40px;
+    padding: clamp(56px, 8vw, 96px) 0 40px;
   }
 
   .tv-track__header {
