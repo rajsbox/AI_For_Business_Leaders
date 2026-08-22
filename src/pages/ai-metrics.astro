@@ -1,0 +1,180 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { aiMetrics, lastReviewed } from '../data/aiMetrics';
+
+// See BaseLayout.astro for why this normalizes to a guaranteed trailing slash.
+const base = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+const categories = ['Adoption & usage', 'Quality & reliability', 'Speed & efficiency', 'Cost & ROI'] as const;
+---
+
+<BaseLayout
+  title="AI Metrics | AI Fluency for Leaders"
+  description="A plain-English reference for the metrics organizations actually use to measure AI outcomes — adoption, quality, speed, and cost."
+>
+  <main class="container metrics-page">
+    <nav class="metrics-crumb">
+      <a href={base}>← ROADMAP</a>
+    </nav>
+
+    <header class="metrics-header">
+      <span class="badge">AI METRICS</span>
+      <h1 class="metrics-header__title">How outcomes get measured</h1>
+      <p class="metrics-header__lede">
+        A plain-English reference for the metrics organizations actually use to judge whether
+        an AI investment worked — grouped by what they measure. This is a glossary, not a
+        statistics page: no survey numbers here, just what each metric means and, where it was
+        already taught, which day covers it in depth.
+      </p>
+      <p class="metrics-header__reviewed">Last reviewed: <strong>{lastReviewed}</strong></p>
+    </header>
+
+    {categories.map((cat) => {
+      const items = aiMetrics.filter((m) => m.category === cat);
+      if (items.length === 0) return null;
+      return (
+        <section class="metrics-section">
+          <h2 class="metrics-section__title">{cat}</h2>
+          <dl class="metrics-list">
+            {items.map((m) => (
+              <div class="metrics-item">
+                <dt class="metrics-item__name">
+                  {m.name}
+                  {m.courseDay && <a class="metrics-item__day" href={`${base}day/${m.courseDay}`}>DAY {m.courseDay}</a>}
+                </dt>
+                <dd class="metrics-item__def">{m.definition}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      );
+    })}
+  </main>
+</BaseLayout>
+
+<style>
+  .metrics-page {
+    max-width: 800px;
+    padding: 32px 24px 96px;
+  }
+
+  .metrics-crumb {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+  }
+
+  .metrics-crumb a {
+    color: var(--sub);
+  }
+
+  .metrics-crumb a:hover {
+    color: var(--blue);
+  }
+
+  .metrics-header {
+    padding-bottom: 28px;
+    margin-bottom: 32px;
+    border-bottom: 2px solid var(--rule);
+  }
+
+  .metrics-header .badge {
+    background: var(--rule);
+    color: var(--paper);
+    margin-bottom: 14px;
+  }
+
+  .metrics-header__title {
+    margin: 0 0 14px;
+    font-weight: 900;
+    font-size: clamp(30px, 5vw, 46px);
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    line-height: 0.98;
+  }
+
+  .metrics-header__lede {
+    margin: 0 0 12px;
+    font-size: 0.96rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--sub);
+    max-width: 64ch;
+  }
+
+  .metrics-header__reviewed {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    text-transform: uppercase;
+  }
+
+  .metrics-section {
+    margin-bottom: 36px;
+  }
+
+  .metrics-section__title {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 0 0 16px;
+  }
+
+  .metrics-list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .metrics-item {
+    padding: 16px 0;
+    border-top: 1px solid var(--faint);
+  }
+
+  .metrics-item:first-child {
+    border-top: none;
+  }
+
+  .metrics-item__name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 4px;
+    font-weight: 800;
+    font-size: 1.02rem;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+
+  .metrics-item__day {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    padding: 2px 7px;
+  }
+
+  .metrics-item__day:hover {
+    background: var(--blue);
+    color: var(--paper);
+  }
+
+  .metrics-item__def {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--sub);
+  }
+</style>
