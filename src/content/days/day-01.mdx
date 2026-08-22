@@ -1,0 +1,108 @@
+---
+day: 1
+week: 1
+title: "How LLMs Actually Work — Tokens, Parameters, Training vs Inference"
+summary: ""
+published: true
+handsOn: false
+duration: "45–60 min"
+---
+
+import TrainingInferenceDiagram from '../../components/TrainingInferenceDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+
+The goal today isn't to make you a machine learning engineer. It's so that when a vendor says "we fine-tuned a 70B parameter model with a 200K context window," you know exactly which parts of that sentence matter and which are noise.
+
+## The one sentence that explains everything
+
+An LLM is a next-token predictor. That's it. Given a sequence of text, it outputs a probability distribution over what comes next, picks one, appends it, and repeats.
+
+Everything else — reasoning, coding, summarising your transformer alarm logs — is an emergent consequence of doing that one thing extremely well at enormous scale. Hold onto this, because most bad AI decisions come from forgetting it.
+
+## Token
+
+A token is a chunk of text — roughly ¾ of a word, or about 4 characters in English. Models don't see letters or words; they see token IDs (numbers).
+
+- "The transformer is overheating" ≈ 5 tokens
+- "Omnivise" ≈ 3–4 tokens (rare/technical words get split into fragments)
+- Hindi, Tamil, or German text typically consumes 2–3× more tokens than the equivalent English
+
+> **Why a business leader cares:** tokens are the unit of billing and the unit of memory. Every API invoice, every rate limit, every context window is denominated in tokens. If your product serves Indian-language users, your unit economics are structurally worse than an English-only competitor's — and nobody's slide deck will tell you that.
+
+## Parameters
+
+Parameters (also called "weights") are the numeric values inside the model that were learned during training. A 70-billion-parameter model has 70 billion numbers that get multiplied together to produce each prediction.
+
+The analogy that will land for you: think of a DCS control loop. A traditional control system has a handful of hand-tuned coefficients — you know what each one does, you can point at the PID gains. An LLM has billions of coefficients, tuned automatically by an optimisation process, and nobody can point at any individual one and say what it does. Same mathematical family, wildly different scale and interpretability.
+
+**The trap:** parameter count is not capability. A well-trained 30B model routinely beats a badly-trained 70B one. And most frontier models now use Mixture-of-Experts (MoE) — the model has, say, 600B total parameters but only activates ~35B for any given token. So "600B parameters" and "600B parameters running per request" are very different claims. When a vendor leads with parameter count, they're usually avoiding a benchmark conversation.
+
+## Training vs inference — the two economies
+
+This is the single most useful distinction for a leader, because they have completely different cost structures, and confusing them is where budgets die.
+
+<TrainingInferenceDiagram />
+
+**Training is capex.** It's a one-time industrial process — thousands of GPUs, weeks of compute, and a bill in the tens-to-hundreds of millions for a frontier model. Only a handful of labs do it. It has two phases worth naming:
+
+- **Pre-training** — the model reads a huge chunk of the internet and learns to predict the next token. This is where raw capability comes from.
+- **Post-training** — techniques like RLHF (Reinforcement Learning from Human Feedback) shape the raw predictor into something helpful, honest, and safe to deploy. This is where "personality" and refusal behaviour come from.
+
+**Inference is opex.** It's what happens every single time anyone sends a prompt. And here's the crucial mechanical detail: the model generates one token at a time, feeding its own output back in as input for the next step. That's why responses stream in word by word — you're literally watching a loop run. It's also why output tokens cost more than input tokens: input is processed in one parallel pass, but every output token requires its own sequential trip through the whole model.
+
+The consequence most leaders miss: **the weights are frozen at inference.** The model does not learn from your conversation. It does not remember you tomorrow. Anything that looks like memory — a chatbot recalling your last order, an assistant knowing your company's policies — is engineering built around the model (retrieval, databases, context injection), not the model learning. Any vendor who implies otherwise either doesn't understand their own product or is hoping you don't.
+
+## Knowledge cutoff and context window
+
+Two more terms you'll hear constantly:
+
+**Knowledge cutoff** — the date the training data stops. The model's built-in world knowledge is a snapshot. Ask it about last week's regulatory change and it either doesn't know or invents something plausible.
+
+**Context window** — how many tokens the model can hold in working memory during a single request, now typically 200,000 to over a million. This is the fix for the cutoff problem: you paste the current document in, and the model reasons over it. A 200K window is roughly a 500-page document.
+
+The useful mental model: training data is long-term memory (fixed, unreliable for specifics); the context window is short-term memory (fresh, precise, and the thing you actually engineer). This distinction is the foundation for RAG on Day 9 — so it's worth sitting with.
+
+## Four lines that will make you sound credible in any AI meeting
+
+1. *"Is that in the training data or the context window?"* — separates real grounding from hallucination risk.
+2. *"What's the cost per thousand tokens at our expected volume?"* — moves the conversation from demo to unit economics.
+3. *"The weights are frozen — so where does the up-to-date data actually come from?"* — exposes vapourware immediately.
+4. *"Parameter count isn't the metric. What does it score on evals for our task?"* — sets up Day 15.
+
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A vendor tells you their model has 600 billion parameters. What's the sharpest follow-up question?",
+    options: [
+      "How many of those parameters are active per token, given Mixture-of-Experts?",
+      "How long did training take?",
+      "Is 600 billion a lot?",
+      "What language is the model trained in?"
+    ],
+    correct: 0,
+    explain: "Parameter count alone is a vanity metric under MoE architectures — a 600B model might only activate ~35B parameters per request. The real capability and cost question is what's actually running, not the headline number."
+  },
+  {
+    q: "Your chatbot correctly recalls a customer's order from last week. What does that tell you?",
+    options: [
+      "The model learned it during that conversation",
+      "The weights were updated with that customer's data",
+      "It's almost certainly retrieval/engineering around a frozen model, not the model learning",
+      "The model re-trained overnight"
+    ],
+    correct: 2,
+    explain: "Weights are frozen at inference. Any apparent memory is architecture — a database, retrieval system, or context injection — feeding facts back into a model that itself never changes."
+  },
+  {
+    q: "Why do output tokens typically cost more than input tokens?",
+    options: [
+      "Output tokens are billed at a premium for no technical reason",
+      "Input is one parallel pass; each output token requires its own sequential pass through the model",
+      "Output tokens are larger than input tokens",
+      "It's a pricing gimmick unrelated to compute"
+    ],
+    correct: 1,
+    explain: "Input processing happens once, in parallel. Generation is sequential — each output token requires a full forward pass, feeding the prior output back in as input. That mechanical difference is the actual cost driver."
+  }
+]} />

@@ -1,0 +1,357 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import DayToc from '../components/DayToc.astro';
+import ModelLandscape from '../components/ModelLandscape.astro';
+import { days, weekTitle } from '../data/course';
+
+interface Props {
+  day: number;
+  week: number;
+  title: string;
+  duration: string;
+  handsOn: boolean;
+  published: boolean;
+}
+
+const { day, week, title, duration, handsOn, published } = Astro.props;
+
+const prev = days.find((d) => d.day === day - 1);
+const next = days.find((d) => d.day === day + 1);
+const total = days.length;
+const progressPct = Math.round((day / total) * 100);
+---
+
+<BaseLayout title={`Day ${day} — ${title} | AI Fluency for Leaders`}>
+  <div class="reading-progress" id="reading-progress" aria-hidden="true">
+    <div class="reading-progress__bar" id="reading-progress-bar"></div>
+  </div>
+
+  <main class="container day-page">
+    <nav class="day-crumb">
+      <a href="/">Roadmap</a>
+      <span>/</span>
+      <a href={`/#week-${week}`}>Week {week}</a>
+      <span>/</span>
+      <span>Day {day}</span>
+    </nav>
+
+    <div class="day-progress" role="progressbar" aria-valuenow={day} aria-valuemin="1" aria-valuemax={total} aria-label={`Course progress: day ${day} of ${total}`}>
+      <div class="day-progress__bar" style={`width:${progressPct}%`}></div>
+    </div>
+
+    <header class="day-header">
+      <div class="day-header__meta">
+        <span class={`badge badge--week-${week}`}>Week {week} · {weekTitle(week)}</span>
+        {handsOn && <span class="badge badge--hands-on">Hands-on</span>}
+        {published
+          ? <span class="badge badge--done">Ready</span>
+          : <span class="badge badge--soon">Coming soon</span>}
+      </div>
+      <h1 class="day-header__title">
+        <span class="day-header__num">Day {day}</span>
+        {title}
+      </h1>
+      <p class="day-header__duration">⏱ {duration}</p>
+    </header>
+
+    <div class="day-body">
+      <aside class="day-sidebar">
+        <ModelLandscape />
+        {published && <DayToc />}
+      </aside>
+
+      <article class="day-content card">
+        {published ? (
+          <slot />
+        ) : (
+          <div class="day-placeholder">
+            <p><strong>This day's lesson hasn't been written yet.</strong></p>
+            <p>Content for Day {day} will appear here once it's added to <code>src/content/days/day-{String(day).padStart(2, '0')}.mdx</code>.</p>
+          </div>
+        )}
+      </article>
+    </div>
+
+    <nav class="day-pager">
+      {prev ? (
+        <a class="day-pager__link day-pager__link--prev" href={`/day/${prev.day}`}>
+          <span class="day-pager__label">← Day {prev.day}</span>
+          <span class="day-pager__title">{prev.title}</span>
+        </a>
+      ) : <span />}
+      {next ? (
+        <a class="day-pager__link day-pager__link--next" href={`/day/${next.day}`}>
+          <span class="day-pager__label">Day {next.day} →</span>
+          <span class="day-pager__title">{next.title}</span>
+        </a>
+      ) : <span />}
+    </nav>
+  </main>
+</BaseLayout>
+
+<script>
+  // Reading-progress bar: fills as the user scrolls through the article specifically
+  // (not the whole page), so it reflects lesson progress rather than page length.
+  function initReadingProgress() {
+    const bar = document.getElementById('reading-progress-bar');
+    const article = document.querySelector<HTMLElement>('.day-content');
+    if (!bar || !article) return;
+
+    function update() {
+      const rect = article!.getBoundingClientRect();
+      const articleTop = rect.top + window.scrollY;
+      const articleHeight = article!.offsetHeight;
+      const viewportH = window.innerHeight;
+      const scrolled = window.scrollY - articleTop + viewportH * 0.5;
+      const pct = Math.min(100, Math.max(0, (scrolled / articleHeight) * 100));
+      bar!.style.width = `${pct}%`;
+    }
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+
+  initReadingProgress();
+  document.addEventListener('astro:page-load', initReadingProgress);
+</script>
+
+<style>
+  .reading-progress {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 19;
+    background: transparent;
+  }
+
+  .reading-progress__bar {
+    height: 100%;
+    width: 0%;
+    background: var(--color-accent);
+    transition: width 0.08s linear;
+  }
+
+  .day-page {
+    padding: 32px 24px 96px;
+  }
+
+  .day-body {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 40px;
+    align-items: start;
+  }
+
+  .day-sidebar {
+    position: sticky;
+    top: 84px;
+    max-height: calc(100vh - 110px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 960px) {
+    .day-body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .day-sidebar {
+      position: static;
+      max-height: none;
+    }
+  }
+
+  .day-crumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.86rem;
+    color: var(--color-text-faint);
+    margin-bottom: 20px;
+  }
+
+  .day-crumb a {
+    color: var(--color-text-muted);
+  }
+
+  .day-crumb a:hover {
+    color: var(--color-accent);
+  }
+
+  .day-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-border);
+    overflow: hidden;
+    margin-bottom: 28px;
+  }
+
+  .day-progress__bar {
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: 999px;
+  }
+
+  .day-header {
+    margin-bottom: 28px;
+  }
+
+  .day-header__meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .day-header__title {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .day-header__num {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .day-header__duration {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    margin: 0;
+  }
+
+  .day-content {
+    padding: 32px clamp(20px, 4vw, 48px);
+    margin-bottom: 36px;
+    font-family: var(--font-serif);
+    font-size: 1.06rem;
+    line-height: 1.75;
+  }
+
+  .day-content :global(h2) {
+    font-family: var(--font-sans);
+    font-size: 1.35rem;
+    margin-top: 1.6em;
+  }
+
+  .day-content :global(h3) {
+    font-family: var(--font-sans);
+    font-size: 1.12rem;
+    margin-top: 1.4em;
+  }
+
+  .day-content :global(ul),
+  .day-content :global(ol) {
+    padding-left: 1.3em;
+  }
+
+  .day-content :global(li) {
+    margin-bottom: 0.4em;
+  }
+
+  .day-content :global(blockquote) {
+    margin: 1.4em 0;
+    padding: 4px 20px;
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-accent-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-style: italic;
+  }
+
+  .day-content :global(code) {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    background: var(--color-accent-soft);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .day-content :global(pre) {
+    overflow-x: auto;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+  }
+
+  .day-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+  }
+
+  .day-content :global(th),
+  .day-content :global(td) {
+    border: 1px solid var(--color-border);
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  .day-placeholder {
+    font-family: var(--font-sans);
+    color: var(--color-text-muted);
+  }
+
+  .day-placeholder code {
+    background: var(--color-accent-soft);
+    padding: 0.15em 0.45em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .day-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .day-pager__link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px 18px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .day-pager__link:hover {
+    border-color: var(--color-accent);
+  }
+
+  .day-pager__link--next {
+    text-align: right;
+    grid-column: 2;
+  }
+
+  .day-pager__label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .day-pager__title {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 640px) {
+    .day-pager {
+      grid-template-columns: 1fr;
+    }
+    .day-pager__link--next {
+      grid-column: 1;
+      text-align: left;
+    }
+  }
+</style>

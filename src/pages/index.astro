@@ -1,0 +1,156 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { weeks, days as courseDays } from '../data/course';
+
+const entries = await getCollection('days');
+const publishedByDay = new Map(entries.map((e) => [e.data.day, e.data.published]));
+const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
+---
+
+<BaseLayout title="30-Day AI Fluency Course for Business Leaders">
+  <main class="container home">
+    <section class="hero">
+      <span class="badge badge--week-1">30 Days · One Topic a Day</span>
+      <h1>AI Fluency for Business Leaders</h1>
+      <p class="hero__lede">
+        A daily, no-fluff path to speaking AI credibly — from how LLMs work to writing your
+        own AI strategy. ~45–60 minutes a day, headings-driven, built one day at a time.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="/day/1">Start Day 1</a>
+        <a class="btn btn--ghost" href="#roadmap">View full roadmap</a>
+      </div>
+      <p class="hero__progress">{publishedCount} / {courseDays.length} days published</p>
+    </section>
+
+    <section id="roadmap" class="roadmap">
+      {weeks.map((w) => (
+        <div class="week-block" id={`week-${w.week}`}>
+          <div class="week-block__header">
+            <span class={`badge badge--week-${w.week}`}>Week {w.week}</span>
+            <h2>{w.title}</h2>
+          </div>
+          <div class="day-grid">
+            {courseDays
+              .filter((d) => d.week === w.week)
+              .map((d) => {
+                const isPublished = publishedByDay.get(d.day) ?? false;
+                return (
+                  <a class="day-card card" href={`/day/${d.day}`}>
+                    <div class="day-card__top">
+                      <span class="day-card__num">Day {d.day}</span>
+                      {d.handsOn && <span class="badge badge--hands-on">Hands-on</span>}
+                    </div>
+                    <p class="day-card__title">{d.title}</p>
+                    <span class={`badge ${isPublished ? 'badge--done' : 'badge--soon'}`}>
+                      {isPublished ? 'Ready' : 'Coming soon'}
+                    </span>
+                  </a>
+                );
+              })}
+          </div>
+        </div>
+      ))}
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .home {
+    padding: 48px 24px 96px;
+  }
+
+  .hero {
+    max-width: 760px;
+    margin: 0 auto 72px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin: 18px 0 14px;
+  }
+
+  .hero__lede {
+    color: var(--color-text-muted);
+    font-size: 1.12rem;
+    max-width: 620px;
+    margin: 0 auto 28px;
+  }
+
+  .hero__actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  .hero__progress {
+    color: var(--color-text-faint);
+    font-size: 0.88rem;
+    margin: 0;
+  }
+
+  .week-block {
+    margin-bottom: 56px;
+    scroll-margin-top: 84px;
+  }
+
+  .week-block__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .week-block__header h2 {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+
+  .day-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .day-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 18px 20px;
+    color: var(--color-text);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+  }
+
+  .day-card:hover {
+    color: var(--color-text);
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .day-card__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .day-card__num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .day-card__title {
+    font-size: 0.96rem;
+    line-height: 1.45;
+    margin: 0;
+    flex: 1;
+  }
+</style>

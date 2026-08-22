@@ -1,0 +1,147 @@
+---
+// Themed (light/dark aware) recreation of the training-vs-inference diagram,
+// as inline SVG so it matches the site's design system instead of a raster image.
+---
+
+<div class="tid">
+  <div class="tid__col tid__col--training">
+    <p class="tid__col-title">Training</p>
+    <p class="tid__col-sub">Happens once, up front</p>
+    <div class="tid__step">
+      <strong>Text and code data</strong>
+      <span>Trillions of tokens</span>
+    </div>
+    <div class="tid__arrow" aria-hidden="true">↓</div>
+    <div class="tid__step">
+      <strong>GPU training run</strong>
+      <span>Weeks, huge capex</span>
+    </div>
+    <div class="tid__arrow" aria-hidden="true">↓</div>
+    <div class="tid__step">
+      <strong>Frozen weights</strong>
+      <span>The finished model</span>
+    </div>
+  </div>
+
+  <div class="tid__link" aria-hidden="true">
+    <span>weights</span>
+    <span class="tid__link-arrow">→</span>
+  </div>
+
+  <div class="tid__col tid__col--inference">
+    <p class="tid__col-title">Inference</p>
+    <p class="tid__col-sub">Happens every request</p>
+    <div class="tid__step">
+      <strong>Your prompt</strong>
+      <span>Split into tokens</span>
+    </div>
+    <div class="tid__arrow" aria-hidden="true">↓</div>
+    <div class="tid__step">
+      <strong>Forward pass</strong>
+      <span>One token at a time</span>
+    </div>
+    <div class="tid__arrow" aria-hidden="true">↓</div>
+    <div class="tid__step">
+      <strong>Response</strong>
+      <span>Billed per token</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .tid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .tid__col {
+    background: #14161c;
+    border-radius: var(--radius-lg);
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  :root[data-theme='light'] .tid__col {
+    background: #14161c;
+  }
+
+  .tid__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .tid__col-sub {
+    color: #9aa1ad;
+    font-size: 0.82rem;
+    margin: 0 0 16px;
+  }
+
+  .tid__step {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border: 1px solid;
+  }
+
+  .tid__col--training .tid__step {
+    background: rgba(124, 58, 237, 0.16);
+    border-color: rgba(124, 58, 237, 0.4);
+  }
+
+  .tid__col--inference .tid__step {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .tid__step strong {
+    color: #ffffff;
+    font-size: 0.92rem;
+  }
+
+  .tid__col--training .tid__step span {
+    color: #c9b8fb;
+    font-size: 0.8rem;
+  }
+
+  .tid__col--inference .tid__step span {
+    color: #a7ecd3;
+    font-size: 0.8rem;
+  }
+
+  .tid__arrow {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+
+  .tid__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-text-faint);
+    font-size: 0.78rem;
+  }
+
+  .tid__link-arrow {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 640px) {
+    .tid {
+      grid-template-columns: 1fr;
+    }
+    .tid__link {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>

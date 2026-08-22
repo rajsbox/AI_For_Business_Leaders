@@ -1,0 +1,155 @@
+---
+import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/models';
+---
+
+<details class="model-landscape">
+  <summary class="model-landscape__summary">
+    <span>📡 Model Landscape</span>
+    <span class="model-landscape__chevron" aria-hidden="true">▸</span>
+  </summary>
+
+  <div class="model-landscape__body">
+    <p class="model-landscape__updated">Last verified {modelsLastUpdated}</p>
+
+    <p class="model-landscape__group-label">Frontier (closed-weight)</p>
+    {frontierModels.map((m) => (
+      <div class="model-landscape__row">
+        <p class="model-landscape__name">{m.model}</p>
+        <p class="model-landscape__vendor">{m.vendor}</p>
+        <dl class="model-landscape__specs">
+          <div><dt>Params</dt><dd>{m.parameters}</dd></div>
+          <div><dt>Context</dt><dd>{m.contextWindow}</dd></div>
+          <div><dt>Offered via</dt><dd>{m.offeredVia}</dd></div>
+        </dl>
+      </div>
+    ))}
+
+    <p class="model-landscape__group-label">Open-weight</p>
+    {openWeightModels.map((m) => (
+      <div class="model-landscape__row">
+        <p class="model-landscape__name">{m.model}</p>
+        <p class="model-landscape__vendor">{m.vendor}</p>
+        <dl class="model-landscape__specs">
+          <div><dt>Params</dt><dd>{m.parameters}</dd></div>
+          <div><dt>Context</dt><dd>{m.contextWindow}</dd></div>
+          <div><dt>Offered via</dt><dd>{m.offeredVia}</dd></div>
+        </dl>
+      </div>
+    ))}
+
+    <p class="model-landscape__footnote">
+      Parameter counts for closed-weight models are undisclosed by their vendors —
+      shown here as "Undisclosed" rather than estimated. See Day 4 for how to compare
+      models without relying on parameter count.
+    </p>
+  </div>
+</details>
+
+<style>
+  .model-landscape {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    font-family: var(--font-sans);
+    margin-bottom: 20px;
+  }
+
+  .model-landscape__summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    cursor: pointer;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--color-text);
+    list-style: none;
+  }
+
+  .model-landscape__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .model-landscape__chevron {
+    color: var(--color-text-faint);
+    transition: transform 0.15s ease;
+    font-size: 0.75rem;
+  }
+
+  .model-landscape[open] .model-landscape__chevron {
+    transform: rotate(90deg);
+  }
+
+  .model-landscape__body {
+    padding: 0 14px 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .model-landscape__updated {
+    font-size: 0.72rem;
+    color: var(--color-text-faint);
+    margin: 10px 0 14px;
+  }
+
+  .model-landscape__group-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-faint);
+    margin: 14px 0 8px;
+  }
+
+  .model-landscape__row {
+    padding: 10px 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .model-landscape__row:first-of-type {
+    border-top: none;
+  }
+
+  .model-landscape__name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .model-landscape__vendor {
+    font-size: 0.74rem;
+    color: var(--color-text-faint);
+    margin: 0 0 6px;
+  }
+
+  .model-landscape__specs {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .model-landscape__specs > div {
+    display: flex;
+    gap: 6px;
+    font-size: 0.76rem;
+  }
+
+  .model-landscape__specs dt {
+    color: var(--color-text-faint);
+    min-width: 62px;
+    flex-shrink: 0;
+  }
+
+  .model-landscape__specs dd {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  .model-landscape__footnote {
+    font-size: 0.72rem;
+    color: var(--color-text-faint);
+    margin: 14px 0 0;
+    line-height: 1.5;
+  }
+</style>

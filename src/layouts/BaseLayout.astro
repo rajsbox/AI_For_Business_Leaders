@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title,
+  description = '30-Day AI Fluency Course for Business Leaders — a daily, no-fluff path to speaking AI credibly and making better AI decisions.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <script is:inline>
+      // Apply saved theme before paint to avoid flash-of-wrong-theme.
+      (function () {
+        try {
+          const saved = localStorage.getItem('theme');
+          if (saved === 'light' || saved === 'dark') {
+            document.documentElement.setAttribute('data-theme', saved);
+          }
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="/">
+          <span class="brand__mark">AI</span>
+          <span>Fluency for Leaders</span>
+        </a>
+        <nav class="site-nav">
+          <a href="/#roadmap"><span class="site-nav__label">Roadmap</span></a>
+          <a href="/#week-1">Weeks</a>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+            <span id="theme-toggle-icon">🌙</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <slot />
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <span>30-Day AI Fluency Course for Business Leaders</span>
+        <span>Built one day at a time.</span>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (function () {
+        const btn = document.getElementById('theme-toggle');
+        const icon = document.getElementById('theme-toggle-icon');
+        function current() {
+          return document.documentElement.getAttribute('data-theme') ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        }
+        function paintIcon() {
+          if (icon) icon.textContent = current() === 'dark' ? '☀️' : '🌙';
+        }
+        paintIcon();
+        btn?.addEventListener('click', function () {
+          const next = current() === 'dark' ? 'light' : 'dark';
+          document.documentElement.setAttribute('data-theme', next);
+          try {
+            localStorage.setItem('theme', next);
+          } catch (e) {}
+          paintIcon();
+        });
+      })();
+    </script>
+  </body>
+</html>
