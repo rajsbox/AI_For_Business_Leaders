@@ -2,10 +2,234 @@
 day: 29
 week: 4
 title: "Writing an AI Strategy — Vision, Use-Case Portfolio, Operating Model, Risk Posture"
-summary: ""
-published: false
+summary: "How the pieces from this entire course assemble into one real AI strategy document — vision, use-case portfolio, operating model, and risk posture — as direct prep for tomorrow's capstone."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "40–50 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import StrategyBlocksDiagram from '../../components/StrategyBlocksDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Today isn't a new topic. It's assembly. Almost every day of this course has handed you one
+piece of a real AI strategy, one at a time, in isolation. Today, those pieces get put
+together into one thing: a document a real leader could actually write, hand to their team,
+and use to make decisions. Tomorrow's capstone asks you to draft a one-page version of it for
+your own business. Today is about knowing exactly what goes into each of the four sections
+first, and where each piece already came from.
+
+## Why most companies never write this down
+
+Most companies aren't short on AI activity. There's a team quietly using chatbots day to day
+(Day 7), a few individual pilots someone started on their own initiative (Day 21), maybe one
+official project in flight. What's usually missing isn't effort — it's a written statement of
+why any of it is happening, which of it deserves more investment, who's actually in charge of
+it, and how much risk the company is willing to carry while doing it.
+
+Without that, AI activity stays scattered: busy, sometimes even useful, but not compounding
+into anything bigger than the sum of its parts. Writing down even a rough version of a real
+strategy — imperfect, one page, done today rather than never — turns "we're doing AI stuff"
+into an actual plan someone can execute, evaluate, and improve.
+
+A real AI strategy has four components. Each one draws directly on days you've already
+covered.
+
+<StrategyBlocksDiagram />
+
+## Vision: why you're doing this at all
+
+A vision is a short, specific statement of why your business is investing in AI, and what
+it's meant to achieve. The failure mode here isn't having no vision — it's having a vague
+one. "We're embracing AI" or "we want to be AI-forward" commits to nothing and rules out
+nothing. It won't help anyone decide which project to fund next month.
+
+A real vision picks a lane. Is AI mainly about cutting cost in existing work? Improving the
+customer experience? Offering a new capability you genuinely couldn't offer before? Keeping
+pace with competitors who are already moving? These aren't mutually exclusive over the long
+run, but a strategy has to lead with one of them, not list all four and call it a vision.
+
+The test of a good vision isn't whether it inspires people. It's whether it helps you say no.
+A specific vision lets you turn down a flashy but off-target project without a fight, the same
+way Day 22 taught you to turn down an exciting-sounding use case that fails the volume and
+clarity test. A vague vision can't do that — everything sounds like it fits, so nothing gets
+filtered out, and you end up with a scattered pile of unrelated pilots instead of a coherent
+push in one direction.
+
+> **Why this matters to you:** saying no to the wrong project is just as valuable as saying
+> yes to the right one. A vision that can't reject anything isn't a vision — it's a slogan.
+
+## Use-case portfolio: where Days 22 and 23 stop being theory
+
+A strategy doesn't fund one AI project. It funds a small, deliberately chosen set of them —
+a portfolio. This is the section where two entire earlier lessons stop being abstract
+frameworks and become an actual list with names on it.
+
+Day 22 gave you the filter for picking candidates in the first place: high-volume, so the
+payoff is real and there's enough usage data to measure it, and well-defined, so the task can
+actually be built and evaluated. Every item in your portfolio should be able to pass that
+test, or you're already repeating the mistake Day 22 warned about.
+
+Day 23 gave you the second decision for each candidate: how to actually get it — buy a
+general platform, buy a vertical vendor, partner, or build custom. A portfolio isn't complete
+until each use case has both a "what" and a "how sourced" next to it.
+
+A good portfolio usually mixes two kinds of bets. Something safe and quick, to prove real
+value early and build confidence before asking for a bigger budget. And something more
+ambitious, that actually matches the vision you just wrote rather than just being the easiest
+thing available. A portfolio that's all safe bets never earns the vision. A portfolio that's
+all ambitious bets rarely survives long enough to prove itself.
+
+## Operating model: who does what, and how decisions get made
+
+The operating model is the "who does what" layer underneath the portfolio — how AI work
+actually gets decided, built, and maintained inside the organization on an ongoing basis, not
+just at launch. Without this layer, even genuinely good individual projects from Days 22 and
+23 stay one-off efforts. They don't compound into real organizational capability, because
+nobody owns making the next one easier than the last.
+
+A real operating model answers a short list of concrete questions:
+
+- **Who approves a new AI project?** Someone has to own saying yes or no, using the vision as
+  the filter — not whoever asks loudest.
+- **Who's responsible for the data readiness behind each use case?** Day 24 covered why data
+  quality sets the ceiling on what any AI system can achieve. That ceiling needs a named
+  owner, not a hope that the data stays clean on its own.
+- **Who owns observability and cost once something is live?** Days 18 and 19 covered what
+  happens after a system ships — someone watching whether it's still working, and someone
+  accountable for what it's actually costing to run.
+- **Who handles the people side of the change?** New AI tools change how people actually do
+  their jobs. Someone has to own reskilling, communication, and the workforce and
+  change-management work this week's earlier lessons covered.
+
+None of these need an elaborate org chart. They need a name next to each question. A strategy
+that skips this section usually looks fine on the page and falls apart within a few months of
+real use.
+
+## Risk posture: one coherent stance, not three separate topics
+
+A risk posture is a deliberate, stated position on how much AI risk your organization is
+willing to accept, and under what conditions. Without one, risk decisions get made ad hoc,
+project by project, usually by whoever is in the room that week — which means similar risks
+get treated inconsistently across the business.
+
+This section pulls together three topics this course covered separately, as if they were
+unrelated technical concerns, into one coherent leadership position:
+
+**Reliability.** Day 16 covered why models sometimes state confident, plausible-sounding
+answers that are simply wrong — [hallucinations](https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)) —
+and how grounding reduces that risk. A risk posture states plainly how much of that residual
+risk is acceptable for a given use case, and what stakes level requires a human checking the
+output before it goes anywhere near a customer or a decision.
+
+**Security.** Day 17 covered how AI systems create new attack surfaces — prompt injection,
+data leakage through a connected tool — beyond traditional software risk. A risk posture
+states what access an AI system is allowed to have, and what has to be reviewed before it's
+granted.
+
+**Governance.** Day 25 covered human-in-the-loop design and the broader governance question of
+who's watching what an AI system does. A risk posture states, in plain terms, which categories
+of decision always require a human in the loop, what the minimum bar is before something ships
+to production — the evals from Day 15 and the pilot-to-production gap from Day 20 both feed
+directly into that bar — and who has to sign off before a higher-risk AI use case goes live.
+
+A risk posture doesn't need to be conservative or aggressive in the abstract. It needs to be
+*stated*, so that a project's actual risk gets checked against something real instead of
+against whoever happens to be reviewing it that day.
+
+## Today was the map. Tomorrow you write the territory.
+
+Everything above is what each of the four pieces means and where it comes from — vision from
+your own judgment about why AI matters to your business, use-case portfolio from Days 22 and
+23, operating model from Days 18, 19, 24, and this week's earlier lessons, and risk posture
+from Days 15 through 17, 20, and 25. Tomorrow's capstone is the other half: actually drafting
+a real, one-page version of all four for your own business, and pressure-testing it with an AI
+assistant before you call it done. Today gave you the four boxes and what belongs in each one.
+Tomorrow, you fill them in for real.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. Your team is reviewing a stack of individual AI pilots that grew organically over the past
+   year, and someone calls it "our AI strategy." Ask yourself: *"If I wrote down our vision in
+   one sentence, would it actually explain why we built each of these — or would half of them
+   not fit it at all?"* — the honest answer tells you whether you have a strategy or just a
+   collection of activity.
+2. You're about to add a new project to next quarter's roadmap because a competitor just
+   announced something similar. Ask yourself: *"Does this pass the Day 22 test — high-volume
+   and well-defined — and have I actually decided how we'd source it, or am I skipping
+   straight to 'yes' because it sounds urgent?"* — catches a portfolio decision being made on
+   competitive anxiety instead of the framework you already have.
+3. A new AI tool is being proposed, and everyone in the room is focused on whether it will
+   work. Ask yourself: *"If this launches successfully, who is actually responsible for its
+   data staying current, its cost staying sane, and its output being monitored six months from
+   now?"* — surfaces whether there's a real operating model behind the project, or just
+   enthusiasm for getting it live.
+4. You're reviewing a higher-stakes AI use case — one that touches customers directly or
+   feeds into a real decision. Ask yourself: *"Does this require human review by default under
+   our risk posture, and has anyone actually said so out loud, or are we assuming someone
+   would catch a problem if one came up?"* — turns an assumed safety net into a real, stated
+   rule before something goes wrong.
+
+<DayGlossary terms={[
+  {
+    term: "AI vision",
+    definition: "A specific statement of why an organization is investing in AI and what outcome it's meant to achieve — such as cost efficiency, customer experience, new capability, or competitive necessity. Its purpose is to make it possible to reject projects that don't fit, not just to inspire."
+  },
+  {
+    term: "Use-case portfolio",
+    definition: "The deliberately chosen small set of AI projects an organization is actually pursuing, typically mixing a fast, low-risk project to prove value early with a more ambitious one that matches the stated vision."
+  },
+  {
+    term: "Operating model",
+    definition: "The ongoing structure of who approves, builds, funds, and maintains AI projects inside an organization — covering data ownership, observability and cost after launch, and workforce change — as distinct from the one-time decision to build any single project."
+  },
+  {
+    term: "Risk posture",
+    definition: "An organization's deliberate, stated position on how much AI risk it will accept and under what conditions, combining its stance on reliability, security, and governance into one coherent policy rather than three separate technical decisions."
+  },
+  {
+    term: "Hallucination",
+    definition: "A confident, plausible-sounding answer from an AI model that is factually wrong. A risk posture states how much of this residual risk is acceptable for a given use case, and when a human must check the output first."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "What makes an AI vision statement actually useful, according to today's lesson?",
+    options: [
+      "It's inspiring enough to motivate the team",
+      "It's specific enough to help you say no to projects that don't fit it",
+      "It mentions every possible benefit of AI so nothing is left out",
+      "It matches what competitors are saying in public"
+    ],
+    correct: 1,
+    explain: "A vague vision like \"we're embracing AI\" can't reject anything, so everything seems to fit and the result is a scattered set of projects. A specific vision's real value is filtering out projects that don't match it."
+  },
+  {
+    q: "In the use-case portfolio section of an AI strategy, what do Days 22 and 23 each contribute?",
+    options: [
+      "Day 22 covers pricing, Day 23 covers model selection",
+      "Day 22 covers which candidates are worth pursuing (high-volume, well-defined), Day 23 covers how to actually source each one (buy, vertical vendor, partner, or build)",
+      "Both days cover the same framework, applied twice for redundancy",
+      "Day 22 covers risk, Day 23 covers governance"
+    ],
+    correct: 1,
+    explain: "Day 22's high-volume/well-defined filter picks the right candidates. Day 23's build-vs-buy-vs-partner framework decides how to get each one. A complete portfolio entry needs both."
+  },
+  {
+    q: "Why does a risk posture need to combine reliability, security, and governance into one stated position, rather than leaving each as a separate technical topic?",
+    options: [
+      "Because they are actually the same technical issue with different names",
+      "So that similar risks get treated consistently across projects, instead of being decided ad hoc by whoever happens to be reviewing a project that week",
+      "Because combining them reduces the total amount of documentation needed",
+      "Because only one of the three actually matters in practice"
+    ],
+    correct: 1,
+    explain: "Without a single stated risk posture, decisions about reliability, security, and governance get made inconsistently, project by project. Stating them together as one coherent position means every project gets checked against the same real standard."
+  }
+]} />
+</DayApply>

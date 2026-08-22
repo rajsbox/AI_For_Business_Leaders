@@ -2,10 +2,176 @@
 day: 30
 week: 4
 title: "Capstone — Draft a 1-Page AI Adoption Plan and Pressure-Test It with an AI Assistant"
-summary: ""
-published: false
+summary: "No new reading today. Write a real, one-page AI adoption plan for your own business domain, then ask an AI assistant to try to take it apart."
+published: true
 handsOn: true
-duration: "45–60 min"
+duration: "1.5–2.5 hours (active, hands-on)"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+import OnePagePlanDiagram from '../../components/OnePagePlanDiagram.astro';
+
+This is the last day. Thirty days ago you started not knowing what a token was. Today
+you're going to write a real strategy document about AI for your own part of the business,
+and then hand it to an AI assistant and ask it to try to break it. Nothing overwrought about
+that — it's just the honest measure of how far the last month has actually taken you. Skim
+the recap below, then close this tab and go write.
+
+## The whole course in two paragraphs
+
+Week 1 was about understanding what this technology actually is, underneath the hype: how a
+model turns text into tokens and predicts the next one (Day 1), the real differences between
+AI, machine learning, and agentic AI (Day 2), what a context window is and isn't (Day 3), the
+model landscape and how to compare it (Day 4), what "multimodal" genuinely means versus
+demo-ware (Day 5), and how reasoning models trade time for accuracy (Day 6). Week 2 moved from
+understanding to building: how an API call, a system prompt, and temperature turn a chatbot
+into a product (Day 8), how RAG and embeddings ground a model in your own data (Days 9–10),
+when to reach for prompting versus RAG versus fine-tuning (Day 11), and how tool use, MCP, and
+agents let a model actually take actions in the world (Days 12–14).
+
+Week 3 was about what it takes to make any of that survive contact with production: measuring
+whether a system actually works with evals (Day 15), managing hallucinations with grounding
+and guardrails (Day 16), securing it against prompt injection and data leakage (Day 17),
+understanding what it actually costs (Day 18), watching it once it's live (Day 19), and why
+most pilots never make it that far (Day 20). Week 4 turned outward, toward strategy: picking
+the right use cases instead of every use case (Day 22), deciding whether to build, buy, or
+partner (Day 23), why your data determines your ceiling (Day 24), governance and
+human-in-the-loop (Day 25), the infrastructure trends shaping where this all runs (Day 26),
+how to measure ROI honestly (Day 27), and the people side of change (Day 28). Today, all of
+it goes into one page.
+
+## The exercise: a real one-page AI adoption plan
+
+You're going to write a genuine one-page AI adoption plan for your own business domain — your
+team, your function, your company, whatever scope is real for you. Not a hypothetical
+company, not a template answer copied from a slide deck. Yours.
+
+The plan has four parts. Keep the whole thing to one page — that constraint is deliberate.
+A plan that needs five pages to say what it means hasn't actually decided anything yet; one
+page forces you to prioritize and cut, which is the same discipline Day 22 asked of picking
+use cases, now applied to the whole document.
+
+<OnePagePlanDiagram />
+
+### 1. Vision (2–3 sentences)
+
+Why is AI actually worth pursuing here — for your specific team or business, not "AI" in the
+abstract? Is the case cost, customer experience, a new capability you couldn't offer before,
+or a competitive necessity you can't ignore? Pick the real reason, not the impressive-sounding
+one. A vision specific enough to matter is also specific enough to rule some things out —
+if your vision could paste unchanged into any other company's plan, it's too generic to guide
+a real decision.
+
+### 2. Use-Case Portfolio (a short list)
+
+List 2–4 real candidate use cases from your actual work. For each one, apply Day 22's test:
+is it genuinely **high-volume** and **well-defined**, or does it just sound exciting? Then add
+a rough **build vs. buy vs. partner** instinct for each (Day 23) — you don't need a final
+answer, just your honest first read. A portfolio that's all ambition and no filtering isn't a
+portfolio; it's a wish list.
+
+### 3. Operating Model (a few lines)
+
+Who would actually own this, in your real organization? Even a rough first-draft answer is
+worth writing down:
+
+- Who approves what gets built or bought?
+- Who owns getting the data ready (Day 24)?
+- Who owns watching the cost and the system once it's live (Days 18–19)?
+
+If your honest answer to any of these is "no one, currently," write that down too. That gap
+is exactly the kind of thing this exercise is supposed to surface.
+
+### 4. Risk Posture (a few lines)
+
+What's your stance on reliability and guardrails (Day 16), security (Day 17), and governance
+and human-in-the-loop review (Day 25) — for the specific use cases you just listed, not AI in
+general? A customer-facing use case with real financial stakes needs a very different posture
+than an internal drafting tool nobody ships without review. Match the caution to the actual
+stakes; don't default to either extreme.
+
+Write the whole thing now, in your own words, about your own domain. Real effort, one page.
+
+## Pressure-test it with an AI assistant
+
+Now do something a little different: use AI to find the holes in your AI plan. Paste your
+one-page draft into an AI assistant — the same kind of tool you tested back on Day 7 — and
+ask it explicitly to challenge you, not to compliment you. A prompt like "read this plan and
+try to find the weakest part of it — don't just tell me it looks good" works better than
+asking "what do you think?", which tends to produce polite agreement.
+
+Push on the same questions the AI should be pushing on:
+
+- **Is the vision actually specific enough to say no to something?** Or does it read like it
+  could apply to any team in any company?
+- **Are the use cases really high-volume and well-defined**, or did something exciting-sounding
+  but genuinely risky sneak into the list — the exact trap Day 22 warned about?
+- **Does the risk posture actually match the stakes of what you proposed**, or is it a
+  paragraph tacked on at the end that doesn't connect to the specific use cases above it?
+- **Is the operating model naming real people and real ownership**, or vague roles that don't
+  map to anyone who'd actually pick up the work?
+
+Apply the same discipline from Day 16 here: don't just trust a fluent, confident response —
+including the AI's critique itself. If it pushes back on something, check whether the pushback
+is actually right before you rewrite around it. Then revise your plan based on what genuinely
+holds up. That loop — draft, pressure-test, revise — is worth repeating a second time if the
+first pass surfaced real problems.
+
+## What you should walk away with
+
+Not a finished, final strategy document — one page written in an hour or two isn't that, and
+doesn't need to be. What you should walk away with is a real first draft, built on thirty days
+of actually understanding the pieces underneath it, plus a habit worth keeping long after
+today: matching the tool to the task, demanding a real eval instead of a confident-sounding
+answer, testing before trusting, and planning for the people and the operating model, not just
+the technology. Take this plan into an actual conversation at work. Revise it as you learn
+more. Day 30 isn't the end of learning about this — it's the start of using it.
+
+<DayGlossary terms={[
+  {
+    term: "AI adoption plan",
+    definition: "A short, concrete statement of why an organization or team is pursuing AI, which specific use cases it's prioritizing, who owns running it, and what risk stance applies — as opposed to a general aspiration to 'use more AI.'"
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "You're drafting the Vision section of your one-page plan and it currently reads: 'AI will help us work smarter and stay competitive.' What's the problem with this, per today's exercise?",
+    options: [
+      "Nothing — a broad vision is safer and easier to get approved",
+      "It's too generic to rule anything out — a specific vision should be precise enough that it could plausibly say no to some ideas",
+      "It's too short and needs to be at least a full paragraph",
+      "It should be replaced with a list of every possible AI use case instead"
+    ],
+    correct: 1,
+    explain: "A vision that could paste unchanged into any other company's plan isn't doing any real work. A useful vision is specific enough to guide an actual decision — including which ideas to turn down."
+  },
+  {
+    q: "While pressure-testing your plan, the AI assistant responds that your plan looks solid overall with no major issues. What's the right move?",
+    options: [
+      "Accept it — if the AI didn't flag anything, the plan is ready",
+      "Treat the response with the same skepticism from Day 16, and explicitly re-prompt it to find weaknesses rather than accept a fluent, agreeable answer at face value",
+      "Ignore the AI's feedback entirely since it can't be trusted for this",
+      "Assume the plan must be too short if the AI had nothing to critique"
+    ],
+    correct: 1,
+    explain: "A fluent, confident response isn't automatically a correct one — that's true of the AI's critique too. Asking it to specifically hunt for weaknesses, rather than accepting general praise, is what actually pressure-tests the plan."
+  },
+  {
+    q: "Looking back at your Use-Case Portfolio, one candidate is exciting and high-visibility but turns out to be low-volume and loosely defined. What does today's exercise say to do with it?",
+    options: [
+      "Prioritize it first, since visibility matters more than volume or clarity",
+      "Apply Day 22's test honestly — recognize it doesn't meet the high-volume, well-defined bar, and weight it accordingly rather than letting excitement substitute for fit",
+      "Remove it from the plan entirely without noting why",
+      "Include it but skip evaluating it, since it's clearly a good idea"
+    ],
+    correct: 1,
+    explain: "Day 22's core lesson was picking the right use case, not every appealing one. An exciting-sounding candidate that fails the high-volume, well-defined test should be named as a weaker bet, not smuggled in on enthusiasm alone."
+  }
+]} />
+</DayApply>

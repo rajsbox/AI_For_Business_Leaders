@@ -1,0 +1,114 @@
+---
+// Themed (light/dark aware) visual of the four-component one-page AI adoption
+// plan structure used on Day 30 (the capstone exercise): Vision, Use-Case
+// Portfolio, Operating Model, Risk Posture — laid out like a single page.
+---
+
+<div class="opp">
+  <p class="opp__title">Your one-page plan</p>
+  <div class="opp__grid">
+    <div class="opp__block opp__block--vision">
+      <span class="opp__num">1</span>
+      <strong>Vision</strong>
+      <span class="opp__hint">2–3 sentences: why AI, for this domain, now</span>
+    </div>
+    <div class="opp__block opp__block--usecases">
+      <span class="opp__num">2</span>
+      <strong>Use-Case Portfolio</strong>
+      <span class="opp__hint">2–4 real candidates, evaluated and prioritised</span>
+    </div>
+    <div class="opp__block opp__block--operating">
+      <span class="opp__num">3</span>
+      <strong>Operating Model</strong>
+      <span class="opp__hint">Who owns approval, data, cost, and watching it</span>
+    </div>
+    <div class="opp__block opp__block--risk">
+      <span class="opp__num">4</span>
+      <strong>Risk Posture</strong>
+      <span class="opp__hint">Reliability, security, governance — matched to stakes</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .opp {
+    margin: 1.6em 0;
+    border: 2px solid var(--rule);
+    padding: 20px;
+    font-family: var(--font-sans);
+  }
+
+  .opp__title {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--mute);
+    margin: 0 0 14px;
+    text-align: center;
+  }
+
+  .opp__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .opp__block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid;
+    position: relative;
+  }
+
+  .opp__block strong {
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+
+  .opp__hint {
+    color: var(--sub);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .opp__num {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--mute);
+  }
+
+  .opp__block--vision {
+    background: rgba(124, 58, 237, 0.1);
+    border-color: rgba(124, 58, 237, 0.35);
+  }
+
+  .opp__block--usecases {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.35);
+  }
+
+  .opp__block--operating {
+    background: rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.35);
+  }
+
+  .opp__block--risk {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.35);
+  }
+
+  @media (max-width: 560px) {
+    .opp__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

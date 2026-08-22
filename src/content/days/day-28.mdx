@@ -2,10 +2,180 @@
 day: 28
 week: 4
 title: "Change Management & Workforce — Reskilling, AI-Augmented Roles, and Org Design"
-summary: ""
-published: false
+summary: "Why an AI rollout succeeds or fails on the people side, not the technology — reskilling, roles that change shape instead of disappearing, and how to talk about it honestly."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import RoleAugmentationDiagram from '../../components/RoleAugmentationDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+The last 27 days were mostly about the technology and the project mechanics: how models
+work, how to build and govern and measure AI systems. Today is different. Today is about
+the people who have to actually use the thing, or whose jobs it touches — and it's often
+the most underestimated part of an AI rollout. A technically excellent project can still
+fail completely if the humans around it aren't brought along.
+
+## Reskilling: deliberate, not accidental
+
+**Reskilling** means helping the people you already employ build the skills to work
+effectively alongside AI tools. The mistake most leaders make is assuming this happens on
+its own — that people will either resist the new tool or quietly figure it out by
+themselves. Neither usually happens well without help.
+
+This course is itself a small example of what reskilling actually looks like: a leader
+setting aside real time, day after day, to build AI fluency on purpose, instead of hoping
+it happens by osmosis. The same approach scales up to a whole team or company. It takes
+dedicated time, real training, and explicit permission to be a beginner at something new —
+not just a company-wide email announcing "we're using AI now" and leaving people to sort it
+out.
+
+> **Why this matters to you:** an email is not a training program. If the only investment a
+> company makes in AI adoption is announcing the tool exists, most people will either avoid
+> it or use it badly, and the leader will conclude "AI didn't work here" when the real
+> problem was never technical.
+
+## AI-augmented roles: the job changes shape, it doesn't vanish
+
+Many jobs don't disappear because of AI. They change shape — AI takes on part of the work,
+and the person focuses on the parts that still need judgment, a relationship, or oversight.
+This connects directly to the **human-in-the-loop** idea from Day 25: an AI-augmented role
+is often, quite literally, the human standing in that loop.
+
+<RoleAugmentationDiagram />
+
+Two generic, plausible examples of what this looks like in practice:
+
+- A **customer support role**, where AI drafts a first response to a routine question, and
+  the person reviews it, personalizes it, and takes over entirely when something escalates.
+- An **analyst role**, where AI pulls together an initial summary of the data, and the
+  person interprets what it actually means and makes the recommendation that gets acted on.
+
+**The trap to avoid:** describing this honestly is a leadership responsibility, not a
+communications problem to be smoothed over. That means not pretending nothing will change
+for the people in these roles — it will — and also not overselling automation that isn't
+actually happening, just to sound impressive in a town hall. Both distortions get found out
+quickly by the people doing the actual work, and both cost trust.
+
+## Why change management matters more here than for ordinary software
+
+Rolling out a new AI tool is not like rolling out a new CRM or a new expense system. AI can
+trigger real, reasonable anxiety about job security in a way an ordinary software update
+almost never does — and that anxiety is not just an emotional side effect, it's a practical
+threat to the rollout itself.
+
+Think of it like introducing a new kitchen appliance to a restaurant staff. If the cooks
+believe the appliance is there to replace them, they won't learn to use it well, they'll
+find ways to work around it, or they'll quietly sabotage it — none of which shows up as a
+clean, visible technical failure. It just shows up later as "the AI project didn't deliver
+the results we expected," and nobody can point to exactly why.
+
+Ignoring this human reaction doesn't make it go away. It just makes it invisible until
+adoption quietly fails — which is a much harder problem to diagnose and fix than an obvious
+bug.
+
+## Org design for AI-native companies: a genuinely open question
+
+Looking further ahead, some companies are starting to rethink not just individual roles but
+how entire teams and reporting lines are organized around AI-augmented work. Two directions
+worth watching, without assuming either is inevitable for your company:
+
+- Smaller teams doing more, because AI absorbs certain kinds of routine work that used to
+  require a larger headcount.
+- New roles emerging specifically to manage and improve AI systems day to day — partly the
+  same territory as the **observability and LLMOps** work covered on Day 19, now becoming
+  someone's actual job title rather than a side task.
+
+This is genuinely exploratory territory, not a settled playbook. Nobody has a proven
+blueprint yet for "the AI-native org chart." A leader's job right now is to watch this
+thoughtfully and stay curious about it — not to assume their company must radically
+restructure immediately just because the idea is circulating.
+
+## Bringing it together
+
+Treat the people side of an AI rollout with the same deliberate planning that Weeks 2 and 3
+applied to the technical side — architecture, governance, evaluation, cost. In practice,
+that means three things: communicate honestly about what will and won't change, invest real
+time in reskilling rather than a one-off announcement, and design roles that pair what AI is
+actually good at with what people are still genuinely needed for. Skip any one of these, and
+the human reaction — not the technology — becomes the reason the project underperforms.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. Leadership is about to send a company-wide announcement that "we're rolling out AI
+   starting Monday." Ask: *"What's the actual training plan behind this — dedicated time,
+   real sessions — or is the announcement the whole plan?"* — exposes whether reskilling is
+   a genuine investment or just a memo.
+2. A team lead proudly reports that a role has been "fully automated" by AI. Ask: *"Which
+   specific parts moved to AI, and which parts is a person still doing — and have we told
+   that person clearly?"* — tests whether the change is being described honestly instead of
+   oversold.
+3. In a rollout planning meeting, someone assumes the team will "just pick it up" once the
+   tool goes live. Ask: *"What are we doing to address the reasonable anxiety people will
+   have about what this means for their job?"* — surfaces the human-reaction risk before it
+   quietly sabotages adoption.
+4. A consultant's deck proposes restructuring the team around a new "AI-native org model."
+   Ask: *"Is this based on a proven pattern, or are we the experiment here?"* — keeps a
+   genuinely unsettled idea from being adopted as if it were a safe, standard best practice.
+
+<DayGlossary terms={[
+  {
+    term: "Reskilling",
+    definition: "Deliberately helping existing employees build the skills to work effectively alongside AI tools, through dedicated time and real training, rather than assuming adoption will happen on its own."
+  },
+  {
+    term: "AI-augmented role",
+    definition: "A job in which AI handles part of the work — typically a first draft or an initial pass — while the person retains the parts that require judgment, relationship, or oversight, rather than the job disappearing entirely."
+  },
+  {
+    term: "Human-in-the-loop",
+    definition: "A design where a person reviews, approves, or can override an AI system's output before it takes effect. An AI-augmented role is often the human occupying that position."
+  },
+  {
+    term: "Change management",
+    definition: "The deliberate process of preparing, supporting, and communicating with people through an organizational change, so that the human reaction to the change doesn't undermine its success."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A company announces AI adoption with a single email and no further support. What's the most likely outcome?",
+    options: [
+      "Employees will naturally figure it out and adoption will succeed",
+      "Most people will avoid the tool or use it badly, since an announcement isn't a training program",
+      "This is sufficient because AI tools are intuitive by design",
+      "It doesn't matter, since reskilling isn't necessary for AI adoption"
+    ],
+    correct: 1,
+    explain: "Reskilling requires deliberate investment — dedicated time and real training. An announcement alone leaves people to sort it out on their own, and most won't do that well."
+  },
+  {
+    q: "What does it mean for a role to become 'AI-augmented,' as opposed to eliminated?",
+    options: [
+      "AI takes over the entire job and the person is reassigned elsewhere",
+      "AI handles part of the work, while the person keeps the parts requiring judgment, relationship, or oversight",
+      "The role stays exactly the same, since AI has no real effect on daily work",
+      "The person now only manages the AI system and does none of the original work"
+    ],
+    correct: 1,
+    explain: "Many roles change shape rather than vanish — AI absorbs part of the workload, such as a first draft, while the person focuses on reviewing, personalizing, interpreting, or handling exceptions."
+  },
+  {
+    q: "Why does change management matter more for an AI rollout than for a typical software update?",
+    options: [
+      "AI tools are always harder to use technically than other software",
+      "AI can trigger reasonable anxiety about job security, and that anxiety can quietly sabotage adoption in ways that don't look like a clean technical failure",
+      "AI rollouts always cost more money, so more planning is required",
+      "It doesn't — the two situations require identical change management"
+    ],
+    correct: 1,
+    explain: "Unlike an ordinary software update, AI can raise genuine concerns about job security. People who feel threatened are more likely to resist, work around, or under-use the tool — a human reaction that undermines results without ever showing up as an obvious bug."
+  }
+]} />
+</DayApply>

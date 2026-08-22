@@ -1,0 +1,107 @@
+---
+// Themed (light/dark aware) 2x2 block diagram for Day 29 — the four components of
+// an AI strategy, each labeled with the earlier days that feed into it. Follows the
+// plain HTML/CSS pattern in TrainingInferenceDiagram.astro — no external image files.
+---
+
+<div class="sbd">
+  <div class="sbd__cell sbd__cell--vision">
+    <p class="sbd__tag">Vision</p>
+    <p class="sbd__desc">Why you're investing in AI at all, and what it's for — cost, experience, new capability, or competitive necessity.</p>
+    <p class="sbd__src">Draws on the whole course</p>
+  </div>
+  <div class="sbd__cell sbd__cell--portfolio">
+    <p class="sbd__tag">Use-Case Portfolio</p>
+    <p class="sbd__desc">The specific, deliberately chosen set of AI projects — not one project, a mix.</p>
+    <p class="sbd__src">Days 22 &amp; 23</p>
+  </div>
+  <div class="sbd__cell sbd__cell--operating">
+    <p class="sbd__tag">Operating Model</p>
+    <p class="sbd__desc">Who approves, builds, and maintains AI work on an ongoing basis.</p>
+    <p class="sbd__src">Days 18, 19, 24, 28</p>
+  </div>
+  <div class="sbd__cell sbd__cell--risk">
+    <p class="sbd__tag">Risk Posture</p>
+    <p class="sbd__desc">How much AI risk you'll accept, and under what conditions.</p>
+    <p class="sbd__src">Days 15–17, 20, 25</p>
+  </div>
+</div>
+
+<style>
+  .sbd {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 10px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .sbd__cell {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  :root[data-theme='light'] .sbd__cell {
+    background: #14161c;
+  }
+
+  .sbd__tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  .sbd__desc {
+    color: #c7cad1;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1;
+  }
+
+  .sbd__src {
+    color: var(--color-text-faint, #9aa1ad);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  .sbd__cell--vision {
+    border-color: rgba(124, 58, 237, 0.5);
+    background: rgba(124, 58, 237, 0.14);
+  }
+  .sbd__cell--vision .sbd__tag { color: #c9b8fb; }
+
+  .sbd__cell--portfolio {
+    border-color: rgba(16, 185, 129, 0.5);
+    background: rgba(16, 185, 129, 0.14);
+  }
+  .sbd__cell--portfolio .sbd__tag { color: #4fd39a; }
+
+  .sbd__cell--operating {
+    border-color: rgba(142, 203, 251, 0.4);
+    background: rgba(142, 203, 251, 0.1);
+  }
+  .sbd__cell--operating .sbd__tag { color: #8ecbfb; }
+
+  .sbd__cell--risk {
+    border-color: rgba(239, 100, 100, 0.4);
+    background: rgba(239, 100, 100, 0.12);
+  }
+  .sbd__cell--risk .sbd__tag { color: #ef8080; }
+
+  @media (max-width: 640px) {
+    .sbd {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

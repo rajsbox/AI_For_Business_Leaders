@@ -1,11 +1,174 @@
 ---
 day: 27
 week: 4
-title: "Measuring ROI — From Productivity Claims to Real P&L Impact"
-summary: ""
-published: false
+title: "Measuring ROI — From Productivity Claims to Real P&L Impact (and the 49% Average ROI Debate)"
+summary: "Why headline AI ROI numbers vary so wildly, and a practical framework for measuring whether an AI project actually shows up on the P&L."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import RoiChainDiagram from '../../components/RoiChainDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+You'll see AI **[ROI](https://en.wikipedia.org/wiki/Return_on_investment)** (return on
+investment) numbers thrown around confidently — a vendor pitch citing an average return, a
+survey claiming companies get back a certain percentage for every dollar spent, a headline
+figure like "49% average ROI" that gets repeated in one report after another. These numbers
+vary enormously depending on who's asking and how "ROI" is even being measured, and it's easy
+to walk away either impressed or dismissive without actually understanding why. Today isn't
+about picking a side in that numbers debate. It's about understanding why the numbers scatter
+so widely, so you can build a real ROI picture for your own AI projects instead of borrowing
+someone else's average.
+
+## Why the headline numbers vary so much
+
+Different surveys and vendors calculate "AI ROI" in different ways, over different time
+periods, on different types of projects, and using different definitions of what counts as a
+"return" in the first place. That's before anyone even gets to whether the underlying
+projects were measured rigorously or just estimated by the people who built them. A number
+like "49% average ROI" might be a real, honestly-calculated statistic in the report it came
+from — but it's an average across a huge range of projects measured in inconsistent ways, and
+treating it as a precise, universal fact about what your AI project will return is a mistake.
+The useful skill isn't memorizing or debating that number. It's knowing what a rigorous ROI
+calculation actually requires, so you can tell the difference between a number worth trusting
+and one worth ignoring — including the ones your own team hands you.
+
+## The gap between a productivity claim and real P&L impact
+
+This is the central distinction of the day, and it's the one most AI ROI claims skip past.
+
+A **productivity claim** is something like "this tool saves employees two hours a week." It's
+a real, measurable time saving at the task level, and it's usually the easiest thing to
+measure — which is exactly why it's the number most often quoted.
+
+**Real [P&L](https://en.wikipedia.org/wiki/Income_statement) (profit and loss) impact** is
+whether that time saving actually shows up as a business result: a lower cost, more output
+without adding headcount, faster revenue, or freed-up capacity that gets redeployed to
+something valuable. The gap between these two is large, and easy to miss. If an employee
+saves two hours a week but simply works a little less intensely with that time, or the saved
+time never turns into any measurable business outcome, the productivity claim is completely
+real — and the P&L impact is zero. Both things can be true at once, and a leader who doesn't
+separate them will keep funding projects that "work" but never actually pay for themselves.
+
+## Why the gap happens — two common failure patterns
+
+**Time saved on a task nobody was bottlenecked on doesn't create real value.** If a task only
+ran once a week and was never the thing slowing anyone down, saving two hours on it doesn't
+unlock anything else. This connects back to Day 22's framing: a high-volume, well-defined
+task gives you a much cleaner ROI picture than a rare one, precisely because there's enough
+happening for a real saving to add up to something.
+
+**"Time saved" doesn't automatically become "cost saved."** Saved time only becomes money on
+the P&L if something concrete actually changes: headcount goes down, the hours saved get
+genuinely redeployed to other valuable work, or throughput goes up in a way that translates
+to revenue. Absent one of those, the time saving is a nice-to-have that never appears on any
+financial statement — real for the employee, invisible to the business.
+
+## A practical framework for measuring AI ROI properly
+
+1. **Measure the real baseline before the AI tool existed.** How long did the task actually
+   take, how often did it happen, what did it cost. Without a real baseline, any
+   "improvement" number afterward is unverifiable — you're comparing to a guess, not a fact.
+2. **Measure the actual outcome after, using the same units.** This is the same discipline as
+   the evals covered on Day 15 — a systematic before/after comparison, not an anecdote from
+   one person who liked the tool.
+3. **Trace the improvement all the way to an actual P&L line.** Did it reduce a real cost,
+   increase real output, or free up capacity that got redeployed to something with real
+   value? If you can't trace it that far, what you have is a productivity claim, not a
+   demonstrated ROI.
+4. **Subtract the real running cost of the AI system.** Day 18 covered this on the cost side —
+   the ongoing cost of running the system (not just a license fee, but the actual per-use
+   cost per Day 18's tokenomics) has to come out of the value created. It isn't free just
+   because the time saving feels free.
+
+<RoiChainDiagram />
+
+## The one question that cuts through most of the noise
+
+When someone presents an AI ROI number — a vendor's case study, a survey statistic, an
+internal team's report — the sharpest question isn't "is that number right." It's "how was
+that number actually calculated, and does it trace all the way to something real on our P&L,
+or does it stop at a productivity claim?" That single question filters out most of the noise
+in the ROI debate, because it forces the four steps above into the open instead of letting a
+headline number stand in for them.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor's slide cites an average ROI figure from an industry survey to justify their
+   price. Ask: *"How was that average actually calculated, and what counts as a 'return' in
+   that number?"* — moves past a borrowed statistic to whether it applies to your situation
+   at all.
+2. A team reports their new AI tool "saves two hours a week per person" and wants budget to
+   expand it. Ask: *"Where does that saved time actually show up — lower cost, more output,
+   or freed capacity doing something else valuable?"* — tests whether this is a real ROI
+   number or a productivity claim that stops short of the P&L.
+3. In a quarterly review, someone presents a before/after comparison for an AI project with
+   no mention of what the baseline actually was. Ask: *"What was the real baseline before we
+   had this tool — how long did the task take, and how often did it happen?"* — exposes an
+   unverifiable improvement claim before it gets treated as fact.
+4. A rollout planning meeting is estimating the value of expanding an AI tool company-wide,
+   based on time saved per user. Ask: *"Once we subtract what this actually costs to run at
+   that scale, does the number still hold up?"* — brings Day 18's real running cost into a
+   conversation that's often only counting the upside.
+
+<DayGlossary terms={[
+  {
+    term: "ROI (Return on Investment)",
+    definition: "A measure of the value gained from an investment relative to its cost. For an AI project, a rigorous ROI figure requires a real baseline, a comparable after-measurement, a traceable link to an actual cost or revenue outcome, and the system's ongoing running cost subtracted from the value created."
+  },
+  {
+    term: "Productivity claim",
+    definition: "A measured time or effort saving at the individual task level (e.g. \"saves two hours a week\"). It is real and measurable, but does not by itself prove that any business result — lower cost, more output, or faster revenue — actually followed from it."
+  },
+  {
+    term: "P&L (Profit and Loss) impact",
+    definition: "A change that actually appears on a business's profit-and-loss statement — a reduced cost, increased output without added headcount, or faster revenue. A productivity claim only becomes a P&L impact once the saved time or effort is traced to one of these outcomes."
+  },
+  {
+    term: "Baseline",
+    definition: "A measurement of how a task worked before a change was introduced — how long it took, how often it happened, what it cost. Required to make any later \"improvement\" claim verifiable rather than anecdotal."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A team says their AI tool 'saves two hours a week per employee.' What's missing before this counts as demonstrated ROI?",
+    options: [
+      "Nothing — a time saving is the same thing as an ROI figure",
+      "Evidence the saved time actually turned into a real cost reduction, more output, or freed-up capacity redeployed to something valuable",
+      "A bigger AI model",
+      "A vendor case study confirming the same number"
+    ],
+    correct: 1,
+    explain: "A time saving is a productivity claim. It only becomes real ROI once it's traced to an actual P&L outcome — lower cost, more output, faster revenue, or capacity genuinely redeployed elsewhere."
+  },
+  {
+    q: "Why might a headline statistic like 'AI projects deliver 49% average ROI' be misleading even if it's an honestly reported number?",
+    options: [
+      "Because AI can never deliver real ROI",
+      "Because it averages across projects measured in inconsistent ways, using different definitions of 'ROI' and different time periods — it doesn't describe your specific project",
+      "Because all industry surveys are fabricated",
+      "Because ROI cannot be measured for any software project"
+    ],
+    correct: 1,
+    explain: "Headline ROI figures vary widely because of how differently they're calculated and defined. The number itself isn't necessarily fake — but treating an average from mixed methodologies as a precise prediction for your own project is the mistake."
+  },
+  {
+    q: "According to the ROI framework in this lesson, what has to happen before you can trust an 'improvement' number for an AI project?",
+    options: [
+      "The AI vendor has to publish a case study",
+      "You need a real baseline measured before the AI tool existed, so the after-measurement has something verifiable to compare against",
+      "The project needs to run for at least one year",
+      "The improvement needs to be reported by a third party"
+    ],
+    correct: 1,
+    explain: "Without a real baseline — how the task worked before, in the same units used afterward — any claimed improvement is unverifiable. It's the first step in the framework because everything else depends on it."
+  }
+]} />
+</DayApply>

@@ -1,0 +1,144 @@
+---
+// Themed (light/dark aware) before/after diagram showing a role split into
+// AI-handled parts and human-led parts, as inline HTML/CSS to match the
+// site's design system. Used on Day 28 (Change Management & Workforce).
+---
+
+<div class="rad">
+  <div class="rad__col rad__col--before">
+    <p class="rad__col-title">Before</p>
+    <p class="rad__col-sub">One person does all of it</p>
+    <div class="rad__step rad__step--human">
+      <strong>Draft the first response</strong>
+      <span>Human, from scratch</span>
+    </div>
+    <div class="rad__step rad__step--human">
+      <strong>Personalize &amp; check tone</strong>
+      <span>Human</span>
+    </div>
+    <div class="rad__step rad__step--human">
+      <strong>Handle escalations</strong>
+      <span>Human</span>
+    </div>
+  </div>
+
+  <div class="rad__link" aria-hidden="true">
+    <span>role changes shape</span>
+    <span class="rad__link-arrow">→</span>
+  </div>
+
+  <div class="rad__col rad__col--after">
+    <p class="rad__col-title">After</p>
+    <p class="rad__col-sub">AI-augmented role</p>
+    <div class="rad__step rad__step--ai">
+      <strong>Draft the first response</strong>
+      <span>AI-handled</span>
+    </div>
+    <div class="rad__step rad__step--human">
+      <strong>Review &amp; personalize</strong>
+      <span>Human-led</span>
+    </div>
+    <div class="rad__step rad__step--human">
+      <strong>Handle escalations</strong>
+      <span>Human-led</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .rad {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .rad__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  :root[data-theme='light'] .rad__col {
+    background: #14161c;
+  }
+
+  .rad__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .rad__col-sub {
+    color: #9aa1ad;
+    font-size: 0.82rem;
+    margin: 0 0 16px;
+  }
+
+  .rad__step {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border: 1px solid;
+    margin-bottom: 10px;
+  }
+
+  .rad__step:last-child {
+    margin-bottom: 0;
+  }
+
+  .rad__step--human {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .rad__step--ai {
+    background: rgba(124, 58, 237, 0.16);
+    border-color: rgba(124, 58, 237, 0.4);
+  }
+
+  .rad__step strong {
+    color: #ffffff;
+    font-size: 0.92rem;
+  }
+
+  .rad__step--human span {
+    color: #a7ecd3;
+    font-size: 0.8rem;
+  }
+
+  .rad__step--ai span {
+    color: #c9b8fb;
+    font-size: 0.8rem;
+  }
+
+  .rad__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-text-faint);
+    font-size: 0.78rem;
+    text-align: center;
+  }
+
+  .rad__link-arrow {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 640px) {
+    .rad {
+      grid-template-columns: 1fr;
+    }
+    .rad__link {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>
