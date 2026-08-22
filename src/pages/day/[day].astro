@@ -4,17 +4,18 @@ import DayLayout from '../../layouts/DayLayout.astro';
 
 export async function getStaticPaths() {
   const entries = await getCollection('days');
+  const publishedByDay = new Map(entries.map((e) => [e.data.day, e.data.published]));
   return entries.map((entry) => ({
     params: { day: String(entry.data.day) },
-    props: { entry },
+    props: { entry, nextPublished: publishedByDay.get(entry.data.day + 1) ?? false },
   }));
 }
 
-const { entry } = Astro.props;
+const { entry, nextPublished } = Astro.props;
 const { Content } = await render(entry);
 const { day, week, title, duration, handsOn, published } = entry.data;
 ---
 
-<DayLayout day={day} week={week} title={title} duration={duration} handsOn={handsOn} published={published}>
+<DayLayout day={day} week={week} title={title} duration={duration} handsOn={handsOn} published={published} nextPublished={nextPublished}>
   <Content />
 </DayLayout>

@@ -14,6 +14,12 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 
 <BaseLayout title="30-Day AI Fluency Course for Business Leaders">
   <main class="home">
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track">
+        <span>TOKENS</span><span class="ticker__dot">◆</span><span>CONTEXT ENGINEERING</span><span class="ticker__dot">◆</span><span>AGENTIC AI</span><span class="ticker__dot">◆</span><span>TEST-TIME COMPUTE</span><span class="ticker__dot">◆</span><span>OPEN-WEIGHT MODELS</span><span class="ticker__dot">◆</span><span>MULTIMODAL</span><span class="ticker__dot">◆</span><span>AI STRATEGY</span><span class="ticker__dot">◆</span>
+        <span>TOKENS</span><span class="ticker__dot">◆</span><span>CONTEXT ENGINEERING</span><span class="ticker__dot">◆</span><span>AGENTIC AI</span><span class="ticker__dot">◆</span><span>TEST-TIME COMPUTE</span><span class="ticker__dot">◆</span><span>OPEN-WEIGHT MODELS</span><span class="ticker__dot">◆</span><span>MULTIMODAL</span><span class="ticker__dot">◆</span><span>AI STRATEGY</span><span class="ticker__dot">◆</span>
+      </div>
+    </div>
     <section class="hero">
       <div class="container hero__inner">
         <div class="hero__lead">
@@ -121,13 +127,16 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       if (counterLabel) counterLabel.textContent = 'COMPLETED';
     }
 
-    const resumeLink = document.querySelector<HTMLAnchorElement>('[data-resume-link]');
-    if (resumeLink && done.length > 0) {
+    const resumeLinks = document.querySelectorAll<HTMLAnchorElement>('[data-resume-link]');
+    if (resumeLinks.length > 0 && done.length > 0) {
       const clientBase = import.meta.env.BASE_URL.endsWith('/')
         ? import.meta.env.BASE_URL
         : `${import.meta.env.BASE_URL}/`;
-      resumeLink.href = `${clientBase}day/${upNext}`;
-      resumeLink.textContent = doneSet.has(upNext) ? 'REVIEW THE COURSE' : `RESUME DAY ${String(upNext).padStart(2, '0')}`;
+      const label = doneSet.has(upNext) ? 'REVIEW THE COURSE' : `RESUME DAY ${String(upNext).padStart(2, '0')}`;
+      resumeLinks.forEach((link) => {
+        link.href = `${clientBase}day/${upNext}`;
+        link.textContent = label;
+      });
     }
 
     const yourProgress = document.querySelector<HTMLElement>('[data-your-progress]');
@@ -153,6 +162,11 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   .hero {
     border-bottom: 2px solid var(--rule);
     padding: 56px 0 44px;
+    background-image:
+      linear-gradient(var(--faint) 1px, transparent 1px),
+      linear-gradient(90deg, var(--faint) 1px, transparent 1px);
+    background-size: 52px 52px;
+    background-position: center;
   }
 
   .hero__inner {

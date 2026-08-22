@@ -12,14 +12,14 @@ interface Props {
   duration: string;
   handsOn: boolean;
   published: boolean;
+  nextPublished?: boolean;
 }
 
-const { day, week, title, duration, handsOn, published } = Astro.props;
+const { day, week, title, duration, handsOn, published, nextPublished = false } = Astro.props;
 
 const prev = days.find((d) => d.day === day - 1);
 const next = days.find((d) => d.day === day + 1);
 const total = days.length;
-const progressPct = Math.round((day / total) * 100);
 // See BaseLayout.astro for why this normalizes to a guaranteed trailing slash.
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
@@ -27,31 +27,39 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 ---
 
 <BaseLayout title={`Day ${day} — ${title} | AI Fluency for Leaders`}>
-  <div class="reading-progress" id="reading-progress" aria-hidden="true">
-    <div class="reading-progress__bar" id="reading-progress-bar"></div>
-  </div>
+  <nav class="day-breadcrumb" id="day-breadcrumb">
+    <div class="container day-breadcrumb__row">
+      <div class="day-breadcrumb__path">
+        <a href={base}>ROADMAP</a>
+        <span class="day-breadcrumb__sep">/</span>
+        <a href={`${base}#week-${week}`}>WEEK {week}</a>
+        <span class="day-breadcrumb__sep">/</span>
+        <span class="day-breadcrumb__current">DAY {day}</span>
+      </div>
+      <div class="day-breadcrumb__pct" id="reading-progress-label" aria-hidden="true">0% READ</div>
+    </div>
+    <div class="day-breadcrumb__track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Reading progress" id="reading-progress">
+      <div class="day-breadcrumb__bar" id="reading-progress-bar"></div>
+    </div>
+  </nav>
 
   <main class="container day-page">
-    <nav class="day-crumb">
-      <a href={base}>← THE TRACK</a>
-      <span class="day-crumb__meta">DAY {String(day).padStart(2, '0')} / {total}</span>
-    </nav>
-
-    <div class="day-progress" role="progressbar" aria-valuenow={day} aria-valuemin="1" aria-valuemax={total} aria-label={`Course progress: day ${day} of ${total}`}>
-      <div class="day-progress__bar" style={`width:${progressPct}%`}></div>
-    </div>
-
     <header class="day-header">
-      <div class="day-header__num">{String(day).padStart(2, '0')}</div>
-      <div class="day-header__body">
-        <div class="day-header__meta">
-          <span>WEEK {String(week).padStart(2, '0')} · DAY {String(day).padStart(2, '0')} · {duration.toUpperCase()}</span>
-          {handsOn && <span class="badge badge--hands-on">Hands-on</span>}
-          {published
-            ? <span class="badge badge--done">Ready</span>
-            : <span class="badge badge--soon">Coming soon</span>}
+      <div class="day-header__badges">
+        <span class="badge badge--week-tag">WEEK {String(week).padStart(2, '0')} · {weekTitle(week).toUpperCase()}</span>
+        <span class="badge badge--state" id="day-state-badge" data-published={String(published)} data-day={day}>
+          {published ? 'READY' : 'LOCKED'}
+        </span>
+      </div>
+      <div class="day-header__main">
+        <div class="day-header__num">{String(day).padStart(2, '0')}</div>
+        <div class="day-header__body">
+          <div class="day-header__meta">
+            <span>DAY {day} · {duration.toUpperCase()} · <span id="day-section-count">{'—'}</span> SECTIONS</span>
+            {handsOn && <span class="badge badge--hands-on">Hands-on</span>}
+          </div>
+          <h1 class="day-header__title">{title}</h1>
         </div>
-        <h1 class="day-header__title">{title}</h1>
       </div>
     </header>
 
@@ -83,39 +91,55 @@ const base = import.meta.env.BASE_URL.endsWith('/')
       </aside>
     </div>
 
-    <nav class="day-pager">
-      {prev ? (
-        <a class="day-pager__link day-pager__link--prev" href={`${base}day/${prev.day}`}>
-          <span class="day-pager__label">← Day {prev.day}</span>
-          <span class="day-pager__title">{prev.title}</span>
-        </a>
-      ) : <span />}
-      {next ? (
-        <a class="day-pager__link day-pager__link--next" href={`${base}day/${next.day}`}>
-          <span class="day-pager__label">Day {next.day} →</span>
-          <span class="day-pager__title">{next.title}</span>
-        </a>
-      ) : <span />}
-    </nav>
+    {published && (
+      <div class="day-action-row">
+        <div class="day-action-row__pct" id="day-action-pct">0% OF DAY {day} READ</div>
+        <div class="day-action-row__buttons">
+          {prev && (
+            <a class="day-action-row__prev" href={`${base}day/${prev.day}`}>← Day {prev.day}</a>
+          )}
+          {next ? (
+            nextPublished ? (
+              <a class="day-action-row__next" href={`${base}day/${next.day}`}>
+                {`DAY ${String(next.day).padStart(2, '0')} · ${next.title.length > 36 ? next.title.slice(0, 36) + '…' : next.title}`}
+              </a>
+            ) : (
+              <span class="day-action-row__next day-action-row__next--soon">{`DAY ${String(next.day).padStart(2, '0')} · SOON`}</span>
+            )
+          ) : (
+            <span class="day-action-row__next day-action-row__next--end">COURSE COMPLETE</span>
+          )}
+          <button type="button" class="btn btn--primary day-action-row__complete" id="day-complete-btn" data-day={day}>
+            Mark Day {day} complete
+          </button>
+        </div>
+      </div>
+    )}
   </main>
 </BaseLayout>
 
 <script>
-  // Reading-progress bar: fills as the user scrolls through the article specifically
-  // (not the whole page), so it reflects lesson progress rather than page length.
+  import { isDayDone, setDayDone } from '../lib/progress';
+
+  // Whole-page scroll-percentage reading progress, tracked while on a day page.
   function initReadingProgress() {
     const bar = document.getElementById('reading-progress-bar');
-    const article = document.querySelector<HTMLElement>('.day-content');
-    if (!bar || !article) return;
+    const track = document.getElementById('reading-progress');
+    const label = document.getElementById('reading-progress-label');
+    const actionPct = document.getElementById('day-action-pct');
+    if (!bar) return;
+
+    const dayAttr = document.getElementById('day-complete-btn')?.dataset.day;
+    const day = dayAttr ? Number(dayAttr) : NaN;
 
     function update() {
-      const rect = article!.getBoundingClientRect();
-      const articleTop = rect.top + window.scrollY;
-      const articleHeight = article!.offsetHeight;
-      const viewportH = window.innerHeight;
-      const scrolled = window.scrollY - articleTop + viewportH * 0.5;
-      const pct = Math.min(100, Math.max(0, (scrolled / articleHeight) * 100));
+      const doc = document.documentElement;
+      const max = doc.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? Math.min(100, Math.max(0, Math.round((window.scrollY / max) * 100))) : 0;
       bar!.style.width = `${pct}%`;
+      track?.setAttribute('aria-valuenow', String(pct));
+      if (label) label.textContent = `${pct}% READ`;
+      if (actionPct && !Number.isNaN(day)) actionPct.textContent = `${pct}% OF DAY ${day} READ`;
     }
 
     update();
@@ -123,25 +147,119 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     window.addEventListener('resize', update);
   }
 
-  initReadingProgress();
-  document.addEventListener('astro:page-load', initReadingProgress);
+  // Section count in the day header meta line, derived from rendered h2 headings.
+  function initSectionCount() {
+    const el = document.getElementById('day-section-count');
+    const article = document.querySelector<HTMLElement>('.day-content');
+    if (!el || !article) return;
+    const count = article.querySelectorAll('h2').length;
+    el.textContent = String(count);
+  }
+
+  // State badge (READY / LOCKED / COMPLETE) reflects real visitor progress.
+  function initStateBadge() {
+    const badge = document.getElementById('day-state-badge');
+    if (!badge) return;
+    const day = Number(badge.dataset.day);
+    const published = badge.dataset.published === 'true';
+    if (!published || Number.isNaN(day)) return;
+    badge.textContent = isDayDone(day) ? 'COMPLETE' : 'READY';
+  }
+
+  // Mark-complete button in the combined action row.
+  function initCompleteButton() {
+    const btn = document.getElementById('day-complete-btn');
+    if (!(btn instanceof HTMLButtonElement)) return;
+    const day = Number(btn.dataset.day);
+    if (Number.isNaN(day)) return;
+
+    function paint() {
+      const done = isDayDone(day);
+      btn!.textContent = done ? `Day ${day} complete ✓` : `Mark Day ${day} complete`;
+      btn!.classList.toggle('is-done', done);
+      const badge = document.getElementById('day-state-badge');
+      if (badge) badge.textContent = done ? 'COMPLETE' : 'READY';
+    }
+
+    paint();
+    btn.addEventListener('click', () => {
+      setDayDone(day, !isDayDone(day));
+      paint();
+    });
+  }
+
+  function init() {
+    initReadingProgress();
+    initSectionCount();
+    initStateBadge();
+    initCompleteButton();
+  }
+
+  init();
+  document.addEventListener('astro:page-load', init);
 </script>
 
 <style>
-  .reading-progress {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    z-index: 19;
-    background: transparent;
+  .day-breadcrumb {
+    position: sticky;
+    top: 60px;
+    z-index: 15;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
   }
 
-  .reading-progress__bar {
+  .day-breadcrumb__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 28px 9px;
+  }
+
+  .day-breadcrumb__path {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+  }
+
+  .day-breadcrumb__path a {
+    color: var(--blue);
+  }
+
+  .day-breadcrumb__path a:hover {
+    color: var(--ink);
+  }
+
+  .day-breadcrumb__sep {
+    color: var(--faint);
+  }
+
+  .day-breadcrumb__current {
+    color: var(--mute);
+  }
+
+  .day-breadcrumb__pct {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--mute);
+  }
+
+  .day-breadcrumb__track {
+    height: 5px;
+    background: var(--faint);
+  }
+
+  .day-breadcrumb__bar {
     height: 100%;
     width: 0%;
-    background: var(--color-accent);
+    background: var(--blue);
     transition: width 0.08s linear;
   }
 
@@ -193,66 +311,52 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     }
   }
 
-  .day-crumb {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    margin-bottom: 20px;
-  }
-
-  .day-crumb a {
-    color: var(--sub);
-  }
-
-  .day-crumb a:hover {
-    color: var(--blue);
-  }
-
-  .day-crumb__meta {
-    color: var(--mute);
-    font-weight: 500;
-  }
-
-  .day-progress {
-    height: 6px;
-    border: 1px solid var(--rule);
-    overflow: hidden;
-    margin-bottom: 28px;
-  }
-
-  .day-progress__bar {
-    height: 100%;
-    background: var(--blue);
-  }
-
   .day-header {
+    padding: 38px 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .day-header__badges {
     display: flex;
     flex-wrap: wrap;
-    gap: 22px;
+    gap: 10px;
+  }
+
+  .badge--week-tag {
+    background: var(--rule);
+    color: var(--paper);
+  }
+
+  .badge--state {
+    border: 2px solid var(--blue);
+    color: var(--blue);
+    background: transparent;
+  }
+
+  .day-header__main {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 26px;
     align-items: flex-start;
-    padding-bottom: 26px;
-    margin-bottom: 28px;
+    padding-bottom: 24px;
     border-bottom: 2px solid var(--rule);
   }
 
   .day-header__num {
     font-weight: 900;
-    font-size: clamp(56px, 9vw, 96px);
-    line-height: 0.8;
+    font-size: clamp(62px, 9vw, 104px);
+    line-height: 0.78;
     letter-spacing: -0.07em;
     color: var(--blue);
   }
 
   .day-header__body {
-    flex: 1 1 320px;
+    flex: 1 1 420px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
   }
 
   .day-header__meta {
@@ -263,16 +367,16 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     font-family: var(--font-mono);
     font-size: 0.66rem;
     font-weight: 500;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
     color: var(--mute);
   }
 
   .day-header__title {
     margin: 0;
     font-weight: 900;
-    font-size: clamp(22px, 3.2vw, 34px);
-    line-height: 1.08;
-    letter-spacing: -0.03em;
+    font-size: clamp(26px, 3.6vw, 40px);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
   }
 
   /*
@@ -300,51 +404,85 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     font-size: 0.9em;
   }
 
-  .day-pager {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 40px;
-  }
-
-  .day-pager__link {
+  .day-action-row {
+    margin-top: 28px;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 16px 18px;
-    border: 2px solid var(--faint);
-    background: var(--card);
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid var(--rule);
+    padding-top: 22px;
   }
 
-  .day-pager__link:hover {
+  .day-action-row__pct {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--mute);
+  }
+
+  .day-action-row__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .day-action-row__prev {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.76rem;
+    letter-spacing: 0.02em;
+    color: var(--mute);
+    padding: 14px 8px;
+  }
+
+  .day-action-row__prev:hover {
+    color: var(--blue);
+  }
+
+  .day-action-row__next,
+  .day-action-row__next--soon {
+    padding: 14px 22px;
+    border: 2px solid var(--faint);
+    color: var(--mute);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  a.day-action-row__next:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+
+  .day-action-row__next--end {
+    color: var(--blue);
     border-color: var(--blue);
   }
 
-  .day-pager__link--next {
-    text-align: right;
-    grid-column: 2;
+  .day-action-row__complete {
+    padding: 14px 24px;
   }
 
-  .day-pager__label {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--blue);
-    letter-spacing: 0.08em;
-  }
-
-  .day-pager__title {
-    color: var(--sub);
-    font-size: 0.86rem;
+  .day-action-row__complete.is-done {
+    background: var(--color-success);
+    border-color: var(--color-success);
+    box-shadow: none;
   }
 
   @media (max-width: 640px) {
-    .day-pager {
-      grid-template-columns: 1fr;
+    .day-action-row {
+      flex-direction: column;
+      align-items: stretch;
     }
-    .day-pager__link--next {
-      grid-column: 1;
-      text-align: left;
+    .day-action-row__buttons {
+      flex-direction: column;
+      align-items: stretch;
     }
   }
 </style>

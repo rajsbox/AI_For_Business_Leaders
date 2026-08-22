@@ -20,7 +20,7 @@ const { day } = Astro.props;
   <div class="day-tabs__bar" role="tablist" aria-label="Lesson sections">
     <button type="button" class="day-tabs__tab is-active" role="tab" aria-selected="true" data-tab-target="read">Read</button>
     <button type="button" class="day-tabs__tab" role="tab" aria-selected="false" data-tab-target="apply">Apply</button>
-    <button type="button" class="day-tabs__tab" role="tab" aria-selected="false" data-tab-target="discuss">Discuss</button>
+    <button type="button" class="day-tabs__tab" role="tab" aria-selected="false" data-tab-target="discuss">Discuss · 12</button>
   </div>
 
   <div class="day-tabs__body">
@@ -28,14 +28,42 @@ const { day } = Astro.props;
       <slot />
     </div>
 
-    <div class="day-tabs__panel card" data-tab-panel="apply" hidden>
-      <div data-apply-target></div>
-      <p class="day-tabs__empty" data-apply-empty>No hands-on exercise for this day yet.</p>
-      <button type="button" class="btn btn--primary day-tabs__mark-done" data-mark-done>Mark Day {day} done</button>
+    <div class="day-tabs__panel day-tabs__panel--apply" data-tab-panel="apply" hidden>
+      <div class="day-tabs__apply-head">
+        <div class="day-tabs__apply-title">Apply it today</div>
+        <div class="day-tabs__apply-meta">5 min · Saved on this device</div>
+      </div>
+      <div class="day-tabs__apply-body">
+        <div data-apply-target></div>
+        <p class="day-tabs__empty" data-apply-empty>No hands-on exercise for this day yet.</p>
+        <div class="day-tabs__apply-actions">
+          <button type="button" class="btn btn--ghost day-tabs__back-to-read" data-back-to-read>← Back to read</button>
+          <button type="button" class="btn btn--primary day-tabs__mark-done" data-mark-done>Mark Day {day} done</button>
+        </div>
+      </div>
     </div>
 
     <div class="day-tabs__panel card" data-tab-panel="discuss" hidden>
-      <p class="day-tabs__empty">Discussion is coming soon.</p>
+      <div class="day-tabs__discuss-head">Discuss · 12 replies</div>
+      <div class="day-tabs__discuss-body">
+        <div class="day-tabs__comment">
+          <div class="day-tabs__avatar"></div>
+          <div class="day-tabs__comment-body">
+            <div class="day-tabs__comment-name">CFO, mid-market SaaS</div>
+            <div class="day-tabs__skeleton-line"></div>
+            <div class="day-tabs__skeleton-line day-tabs__skeleton-line--short"></div>
+          </div>
+        </div>
+        <div class="day-tabs__comment">
+          <div class="day-tabs__avatar"></div>
+          <div class="day-tabs__comment-body">
+            <div class="day-tabs__comment-name">Head of Ops, logistics</div>
+            <div class="day-tabs__skeleton-line"></div>
+            <div class="day-tabs__skeleton-line day-tabs__skeleton-line--shorter"></div>
+          </div>
+        </div>
+        <p class="day-tabs__discuss-note">Thread placeholder · not wired up</p>
+      </div>
     </div>
   </div>
 </div>
@@ -96,6 +124,7 @@ const { day } = Astro.props;
     letter-spacing: -0.02em;
     color: var(--ink);
     margin-top: 1.6em;
+    scroll-margin-top: 150px;
   }
 
   .day-content :global(h3) {
@@ -162,10 +191,6 @@ const { day } = Astro.props;
     font-size: 0.94rem;
   }
 
-  .day-tabs__mark-done {
-    margin-top: 8px;
-  }
-
   .day-tabs__mark-done.is-done {
     background: var(--color-success);
     border-color: var(--color-success);
@@ -173,9 +198,125 @@ const { day } = Astro.props;
     box-shadow: none;
   }
 
-  [data-tab-panel='apply'],
   [data-tab-panel='discuss'] {
-    padding: 28px clamp(20px, 4vw, 40px);
+    padding: 0;
+  }
+
+  /* ---------------- Apply panel ---------------- */
+
+  .day-tabs__panel--apply {
+    border: 2px solid var(--rule);
+    background: var(--card);
+    box-shadow: 7px 7px 0 var(--blue);
+  }
+
+  .day-tabs__apply-head {
+    padding: 16px 20px;
+    border-bottom: 2px solid var(--rule);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .day-tabs__apply-title {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .day-tabs__apply-meta {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  .day-tabs__apply-body {
+    padding: 22px clamp(20px, 4vw, 40px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .day-tabs__apply-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+  }
+
+  /* ---------------- Discuss panel ---------------- */
+
+  .day-tabs__discuss-head {
+    padding: 16px 20px;
+    border-bottom: 2px solid var(--rule);
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .day-tabs__discuss-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .day-tabs__comment {
+    display: flex;
+    gap: 14px;
+  }
+
+  .day-tabs__avatar {
+    width: 34px;
+    height: 34px;
+    background: var(--faint);
+    flex: none;
+  }
+
+  .day-tabs__comment-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .day-tabs__comment-name {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 0.78rem;
+  }
+
+  .day-tabs__skeleton-line {
+    height: 8px;
+    background: var(--faint);
+    opacity: 0.5;
+  }
+
+  .day-tabs__skeleton-line--short {
+    width: 72%;
+  }
+
+  .day-tabs__skeleton-line--shorter {
+    width: 58%;
+  }
+
+  .day-tabs__discuss-note {
+    margin: 0;
+    border-top: 1px solid var(--faint);
+    padding-top: 18px;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mute);
   }
 
 </style>
@@ -227,6 +368,22 @@ const { day } = Astro.props;
         t.addEventListener('click', () => activate(t.dataset.tabTarget as string));
       });
 
+      const backToReadBtn = root.querySelector<HTMLButtonElement>('[data-back-to-read]');
+      backToReadBtn?.addEventListener('click', () => activate('read'));
+
+      // Also reflect state on the shared action-row controls in DayLayout,
+      // which track the same localStorage-backed progress.
+      function syncExternalState() {
+        const done = isDayDone(day);
+        const badge = document.getElementById('day-state-badge');
+        if (badge) badge.textContent = done ? 'COMPLETE' : 'READY';
+        const rowBtn = document.getElementById('day-complete-btn');
+        if (rowBtn instanceof HTMLButtonElement) {
+          rowBtn.textContent = done ? `Day ${day} complete ✓` : `Mark Day ${day} complete`;
+          rowBtn.classList.toggle('is-done', done);
+        }
+      }
+
       const markBtn = root.querySelector<HTMLButtonElement>('[data-mark-done]');
       function paintMarkBtn() {
         if (!markBtn || Number.isNaN(day)) return;
@@ -238,6 +395,14 @@ const { day } = Astro.props;
       markBtn?.addEventListener('click', () => {
         if (Number.isNaN(day)) return;
         setDayDone(day, !isDayDone(day));
+        paintMarkBtn();
+        syncExternalState();
+      });
+
+      // The action-row's own "mark complete" button (in DayLayout) also
+      // writes to the same store; keep this panel's button in sync with it.
+      const rowBtn = document.getElementById('day-complete-btn');
+      rowBtn?.addEventListener('click', () => {
         paintMarkBtn();
       });
     });

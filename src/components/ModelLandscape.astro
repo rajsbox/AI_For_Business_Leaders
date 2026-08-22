@@ -4,8 +4,8 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
 
 <details class="model-landscape">
   <summary class="model-landscape__summary">
-    <span>📡 Model Landscape</span>
-    <span class="model-landscape__chevron" aria-hidden="true">▸</span>
+    <span>Model Landscape</span>
+    <span class="model-landscape__chevron" aria-hidden="true">+</span>
   </summary>
 
   <div class="model-landscape__body">
@@ -45,6 +45,22 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
   </div>
 </details>
 
+<script>
+  function initModelLandscapeToggle() {
+    document.querySelectorAll<HTMLDetailsElement>('.model-landscape').forEach((el) => {
+      const glyph = el.querySelector<HTMLElement>('.model-landscape__chevron');
+      if (!glyph) return;
+      const paint = () => {
+        glyph.textContent = el.open ? '−' : '+';
+      };
+      paint();
+      el.addEventListener('toggle', paint);
+    });
+  }
+  initModelLandscapeToggle();
+  document.addEventListener('astro:page-load', initModelLandscapeToggle);
+</script>
+
 <style>
   .model-landscape {
     border: 2px solid var(--rule);
@@ -70,13 +86,10 @@ import { frontierModels, openWeightModels, modelsLastUpdated } from '../data/mod
   }
 
   .model-landscape__chevron {
-    color: var(--mute);
-    transition: transform 0.15s ease;
-    font-size: 0.75rem;
-  }
-
-  .model-landscape[open] .model-landscape__chevron {
-    transform: rotate(90deg);
+    color: var(--blue);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.8rem;
   }
 
   .model-landscape__body {
