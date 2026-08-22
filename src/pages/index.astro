@@ -10,428 +10,709 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
 const base = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
+
+const totalDays = courseDays.length;
+const weekMeta = weeks.map((w) => {
+  const weekDays = courseDays.filter((d) => d.week === w.week);
+  const first = weekDays[0]?.day ?? 0;
+  const last = weekDays[weekDays.length - 1]?.day ?? 0;
+  return { ...w, first, last, count: weekDays.length };
+});
 ---
 
 <BaseLayout title="30-Day AI Fluency Course for Business Leaders">
-  <main class="home">
-    <div class="ticker" aria-hidden="true">
-      <div class="ticker__track">
-        <span>TOKENS</span><span class="ticker__dot">◆</span><span>CONTEXT ENGINEERING</span><span class="ticker__dot">◆</span><span>AGENTIC AI</span><span class="ticker__dot">◆</span><span>TEST-TIME COMPUTE</span><span class="ticker__dot">◆</span><span>OPEN-WEIGHT MODELS</span><span class="ticker__dot">◆</span><span>MULTIMODAL</span><span class="ticker__dot">◆</span><span>AI STRATEGY</span><span class="ticker__dot">◆</span>
-        <span>TOKENS</span><span class="ticker__dot">◆</span><span>CONTEXT ENGINEERING</span><span class="ticker__dot">◆</span><span>AGENTIC AI</span><span class="ticker__dot">◆</span><span>TEST-TIME COMPUTE</span><span class="ticker__dot">◆</span><span>OPEN-WEIGHT MODELS</span><span class="ticker__dot">◆</span><span>MULTIMODAL</span><span class="ticker__dot">◆</span><span>AI STRATEGY</span><span class="ticker__dot">◆</span>
-      </div>
-    </div>
-    <section class="hero">
-      <div class="container hero__inner">
-        <div class="hero__lead">
-          <div class="hero__kicker"><span class="hero__kicker-bar"></span>30 DAYS · ONE TOPIC A DAY</div>
-          <h1 class="hero__title">AI Fluency<br>for Business<br><span class="hero__title-accent">Leaders</span></h1>
-          <p class="hero__lede">
-            A daily, no-fluff path to speaking AI credibly — from how LLMs work to writing your
-            own AI strategy. ~45–60 minutes a day, headings-driven, built one day at a time.
+  <main class="tv-home">
+    <section class="tv-hero">
+      <div class="container tv-hero__inner">
+        <div class="tv-hero__lead">
+          <div class="tv-hero__kicker"><span class="tv-hero__kicker-bar"></span>30 DAYS · ONE TOPIC A DAY</div>
+          <h1 class="tv-hero__title">AI fluency for<br>business leaders</h1>
+          <p class="tv-hero__lede">
+            A daily, no-fluff path to speaking AI credibly — from how LLMs work to writing your own
+            AI strategy. About 45 minutes a day, built one day at a time.
           </p>
-          <div class="hero__actions">
-            <a class="btn btn--primary" href={`${base}day/1`} data-resume-link>Start Day 1</a>
-            <a class="btn btn--ghost" href="#roadmap">View the track</a>
+          <div class="tv-hero__actions">
+            <a class="tv-btn tv-btn--primary" href={`${base}day/1`} data-resume-link>Start Day 1 <span class="tv-arrow">→</span></a>
+            <a class="tv-btn tv-btn--ghost" href="#roadmap">See the 30 days</a>
           </div>
         </div>
-        <div class="hero__counter">
-          <div class="hero__counter-top">
-            <div class="hero__counter-label" data-counter-label>PUBLISHED</div>
-            <div class="hero__counter-big" data-counter-big>{String(publishedCount).padStart(2, '0')}</div>
-            <div class="hero__counter-sub">of {courseDays.length} days</div>
+
+        <div class="tv-progress">
+          <div class="tv-progress__top">
+            <span class="tv-progress__label">Your progress</span>
+            <span class="tv-progress__saved">saved on this device</span>
           </div>
-          <div class="hero__grid">
+          <div class="tv-progress__count">
+            <span class="tv-progress__big" data-progress-count>0</span>
+            <span class="tv-progress__of">of {totalDays} days read</span>
+          </div>
+          <div class="tv-progress__bar">
+            <div class="tv-progress__bar-fill" data-progress-bar style="width: 0%;"></div>
+          </div>
+          <div class="tv-progress__grid" data-progress-grid>
             {courseDays.map((d) => {
               const isPublished = publishedByDay.get(d.day) ?? false;
-              return (
+              return isPublished ? (
                 <a
                   href={`${base}day/${d.day}`}
-                  class={`hero__cell ${isPublished ? 'hero__cell--filled' : ''}`}
+                  class="tv-progress__cell"
+                  data-day={d.day}
                   title={`Day ${d.day}`}
-                  aria-label={`Day ${d.day}${isPublished ? '' : ' — not published yet'}`}
-                ></a>
+                  aria-label={`Day ${d.day}`}
+                >{String(d.day).padStart(2, '0')}</a>
+              ) : (
+                <span
+                  class="tv-progress__cell tv-progress__cell--stub"
+                  data-day={d.day}
+                  title={`Day ${d.day} — not published yet`}
+                  aria-label={`Day ${d.day} — not published yet`}
+                >{String(d.day).padStart(2, '0')}</span>
               );
             })}
           </div>
+          <p class="tv-progress__next" data-progress-next>Pick up at Day 1. Mark a day done at the end of its page.</p>
         </div>
       </div>
-      <p class="hero__your-progress container" data-your-progress hidden></p>
     </section>
 
-    <section id="roadmap" class="roadmap container">
-      {weeks.map((w) => (
-        <div class="week-block" id={`week-${w.week}`}>
-          <div class="week-block__header">
-            <span class="week-block__tag">WEEK {String(w.week).padStart(2, '0')}</span>
-            <h2>{w.title}</h2>
+    <div class="tv-ticker" aria-hidden="true">
+      <div class="tv-ticker__track">
+        <span>TOKENS &nbsp;·&nbsp; CONTEXT ENGINEERING &nbsp;·&nbsp; AGENTIC AI &nbsp;·&nbsp; TEST-TIME COMPUTE &nbsp;·&nbsp; OPEN-WEIGHT MODELS &nbsp;·&nbsp; MULTIMODAL &nbsp;·&nbsp; RAG &nbsp;·&nbsp; EVALS &nbsp;·&nbsp; TOKENOMICS &nbsp;·&nbsp; AI STRATEGY &nbsp;·&nbsp; </span><span>TOKENS &nbsp;·&nbsp; CONTEXT ENGINEERING &nbsp;·&nbsp; AGENTIC AI &nbsp;·&nbsp; TEST-TIME COMPUTE &nbsp;·&nbsp; OPEN-WEIGHT MODELS &nbsp;·&nbsp; MULTIMODAL &nbsp;·&nbsp; RAG &nbsp;·&nbsp; EVALS &nbsp;·&nbsp; TOKENOMICS &nbsp;·&nbsp; AI STRATEGY &nbsp;·&nbsp; </span>
+      </div>
+    </div>
+
+    <section id="roadmap" class="tv-track container">
+      <div class="tv-track__header">
+        <h2>The track</h2>
+        <span class="tv-track__meta">4 weeks · 30 topics · {publishedCount} of {totalDays} published</span>
+      </div>
+
+      {weekMeta.map((w) => (
+        <div class="tv-week" id={`week-${w.week}`}>
+          <div class="tv-week__side">
+            <div class="tv-week__num">WEEK {String(w.week).padStart(2, '0')}</div>
+            <h3 class="tv-week__title">{w.title}</h3>
+            <div class="tv-week__meta">Days {w.first}–{w.last} · {w.count} topics</div>
           </div>
-          <ol class="track" data-track>
+          <div class="tv-week__days">
             {courseDays
               .filter((d) => d.week === w.week)
               .map((d) => {
                 const isPublished = publishedByDay.get(d.day) ?? false;
                 return (
-                  <li class="track__row" data-day={d.day} data-published={String(isPublished)}>
-                    <a class={`track__link ${isPublished ? 'track__link--open' : 'track__link--locked'}`} href={`${base}day/${d.day}`}>
-                      <span class="track__num">{String(d.day).padStart(2, '0')}</span>
-                      <span class="track__title">{d.title}</span>
-                      {d.handsOn && <span class="badge badge--hands-on">Hands-on</span>}
-                      <span class="track__status" data-track-status>
-                        {isPublished ? 'OPEN' : 'SOON'}
-                      </span>
-                    </a>
-                  </li>
+                  <a
+                    class="tv-day-row"
+                    data-day={d.day}
+                    data-published={String(isPublished)}
+                    href={isPublished ? `${base}day/${d.day}` : undefined}
+                    aria-disabled={isPublished ? undefined : 'true'}
+                  >
+                    <span class="tv-day-row__num">{String(d.day).padStart(2, '0')}</span>
+                    <span class="tv-day-row__title">{d.title}</span>
+                    {d.handsOn && <span class="tv-pill">Hands-on</span>}
+                    {isPublished ? (
+                      <span class="tv-day-row__arrow" data-track-status>→</span>
+                    ) : (
+                      <span class="tv-day-row__soon">SOON</span>
+                    )}
+                  </a>
                 );
               })}
-          </ol>
+          </div>
         </div>
       ))}
+    </section>
+
+    <section class="tv-cta">
+      <div class="container tv-cta__inner">
+        <div class="tv-cta__copy">
+          <h2>One topic a day.</h2>
+          <p>Thirty days from now you'll run the AI meeting instead of nodding through it.</p>
+        </div>
+        <a class="tv-btn tv-btn--inverse" href={`${base}day/1`} data-resume-link>Start Day 1 <span class="tv-arrow">→</span></a>
+      </div>
     </section>
   </main>
 </BaseLayout>
 
 <script>
-  import { loadProgress, nextDay, currentStreak } from '../lib/progress';
+  import { loadProgress, nextDay } from '../lib/progress';
 
-  function initTrack() {
-    const total = document.querySelectorAll('[data-track] .track__row').length;
+  function initProgress() {
+    const grid = document.querySelector('[data-progress-grid]');
+    if (!grid) return;
+
+    const total = grid.querySelectorAll('[data-day]').length;
     if (total === 0) return;
 
     const { done } = loadProgress();
     const doneSet = new Set(done);
+    const doneCount = done.length;
     const upNext = nextDay(total);
-    const streak = currentStreak();
 
-    document.querySelectorAll<HTMLElement>('[data-track] .track__row').forEach((row) => {
+    grid.querySelectorAll<HTMLElement>('[data-day]').forEach((cell) => {
+      const day = Number(cell.dataset.day);
+      if (doneSet.has(day)) cell.classList.add('tv-progress__cell--filled');
+    });
+
+    const countEl = document.querySelector<HTMLElement>('[data-progress-count]');
+    if (countEl) countEl.textContent = String(doneCount);
+
+    const barEl = document.querySelector<HTMLElement>('[data-progress-bar]');
+    if (barEl) barEl.style.width = `${Math.round((doneCount / total) * 100)}%`;
+
+    const nextEl = document.querySelector<HTMLElement>('[data-progress-next]');
+    if (nextEl) {
+      nextEl.textContent = doneCount >= total
+        ? 'All 30 days read. The capstone plan is yours to pressure-test.'
+        : `Pick up at Day ${upNext}. Mark a day done at the end of its page.`;
+    }
+
+    document.querySelectorAll<HTMLElement>('[data-track] , .tv-day-row').forEach(() => {});
+
+    document.querySelectorAll<HTMLAnchorElement>('.tv-day-row').forEach((row) => {
       const day = Number(row.dataset.day);
       const isDone = doneSet.has(day);
       const isCurrent = !isDone && day === upNext;
       row.classList.toggle('is-done', isDone);
       row.classList.toggle('is-current', isCurrent);
-
       const status = row.querySelector<HTMLElement>('[data-track-status]');
-      if (status && (isDone || isCurrent)) {
-        status.textContent = isDone ? 'DONE' : 'CONTINUE →';
-      }
+      if (status && isDone) status.textContent = '✓';
     });
-
-    document.querySelectorAll<HTMLAnchorElement>('.hero__cell').forEach((cell, i) => {
-      const day = i + 1;
-      if (doneSet.has(day)) cell.classList.add('hero__cell--filled');
-    });
-
-    const counterBig = document.querySelector<HTMLElement>('[data-counter-big]');
-    const counterLabel = document.querySelector<HTMLElement>('[data-counter-label]');
-    if (done.length > 0) {
-      if (counterBig) counterBig.textContent = String(done.length).padStart(2, '0');
-      if (counterLabel) counterLabel.textContent = 'COMPLETED';
-    }
 
     const resumeLinks = document.querySelectorAll<HTMLAnchorElement>('[data-resume-link]');
-    if (resumeLinks.length > 0 && done.length > 0) {
+    if (resumeLinks.length > 0 && doneCount > 0) {
       const clientBase = import.meta.env.BASE_URL.endsWith('/')
         ? import.meta.env.BASE_URL
         : `${import.meta.env.BASE_URL}/`;
-      const label = doneSet.has(upNext) ? 'REVIEW THE COURSE' : `RESUME DAY ${String(upNext).padStart(2, '0')}`;
+      const label = doneSet.has(upNext) ? 'Review the course →' : `Resume Day ${upNext} →`;
       resumeLinks.forEach((link) => {
         link.href = `${clientBase}day/${upNext}`;
         link.textContent = label;
       });
     }
-
-    const yourProgress = document.querySelector<HTMLElement>('[data-your-progress]');
-    if (yourProgress && done.length > 0) {
-      yourProgress.hidden = false;
-      yourProgress.textContent = streak > 0
-        ? `You've completed ${done.length} of ${total} days · ${streak} day streak`
-        : `You've completed ${done.length} of ${total} days`;
-    }
   }
 
-  initTrack();
-  document.addEventListener('astro:page-load', initTrack);
+  initProgress();
+  document.addEventListener('astro:page-load', initProgress);
 </script>
 
 <style>
-  .home {
-    padding: 0 0 60px;
+  /* ------------------------------------------------------------------
+     Homepage-only "editorial" design — scoped entirely to this page.
+     Deliberately independent of the sitewide Signal Grid tokens in
+     global.css (different fonts, palette, and visual treatment).
+  ------------------------------------------------------------------ */
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+
+  .tv-home {
+    --tv-paper: #fbfaf8;
+    --tv-ink: #14140f;
+    --tv-sub: #46453e;
+    --tv-mute: #6b6a63;
+    --tv-mute-2: #8a887f;
+    --tv-border: #e4e1da;
+    --tv-border-2: #edeae3;
+    --tv-faint: #a8a69d;
+    --tv-faint-2: #c4c1b8;
+    --tv-faint-3: #d8d4cb;
+    --tv-faint-4: #ddd9d0;
+    --tv-faint-5: #9a9890;
+    --tv-accent: #1f3bff;
+    --tv-accent-soft-bg: #f2f4ff;
+    --tv-accent-soft-border: #c9cfff;
+    --tv-card: #ffffff;
+
+    background: var(--tv-paper);
+    color: var(--tv-ink);
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    padding: 0 0 0;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .tv-home:not([data-theme='light']) {
+      --tv-paper: #14140f;
+      --tv-ink: #fbfaf8;
+      --tv-sub: #d8d5cc;
+      --tv-mute: #a8a69d;
+      --tv-mute-2: #9a9890;
+      --tv-border: #2b2a24;
+      --tv-border-2: #232219;
+      --tv-faint: #55534a;
+      --tv-faint-2: #45443c;
+      --tv-faint-3: #3a3931;
+      --tv-faint-4: #2f2e27;
+      --tv-faint-5: #6b6a63;
+      --tv-accent: #5470ff;
+      --tv-accent-soft-bg: #1a1e33;
+      --tv-accent-soft-border: #33396b;
+      --tv-card: #1c1b16;
+    }
+  }
+
+  :global(:root[data-theme='dark']) .tv-home {
+    --tv-paper: #14140f;
+    --tv-ink: #fbfaf8;
+    --tv-sub: #d8d5cc;
+    --tv-mute: #a8a69d;
+    --tv-mute-2: #9a9890;
+    --tv-border: #2b2a24;
+    --tv-border-2: #232219;
+    --tv-faint: #55534a;
+    --tv-faint-2: #45443c;
+    --tv-faint-3: #3a3931;
+    --tv-faint-4: #2f2e27;
+    --tv-faint-5: #6b6a63;
+    --tv-accent: #5470ff;
+    --tv-accent-soft-bg: #1a1e33;
+    --tv-accent-soft-border: #33396b;
+    --tv-card: #1c1b16;
+  }
+
+  :global(:root[data-theme='light']) .tv-home {
+    --tv-card: #ffffff;
+  }
+
+  .tv-home .container {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 40px);
+  }
+
+  .tv-home a {
+    color: inherit;
+    text-decoration: none;
   }
 
   /* ---------------- Hero ---------------- */
 
-  .hero {
-    border-bottom: 2px solid var(--rule);
-    padding: 56px 0 44px;
-    background-image:
-      linear-gradient(var(--faint) 1px, transparent 1px),
-      linear-gradient(90deg, var(--faint) 1px, transparent 1px);
-    background-size: 52px 52px;
-    background-position: center;
+  .tv-hero {
+    padding: clamp(56px, 7vw, 96px) 0 0;
   }
 
-  .hero__inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 34px;
-    align-items: stretch;
+  .tv-hero__inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: clamp(40px, 6vw, 88px);
+    align-items: end;
   }
 
-  .hero__lead {
-    flex: 1 1 480px;
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .hero__kicker {
+  .tv-hero__kicker {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    color: var(--blue);
-  }
-
-  .hero__kicker-bar {
-    width: 22px;
-    height: 2px;
-    background: var(--blue);
-  }
-
-  .hero__title {
-    margin: 0;
-    font-weight: 900;
-    font-size: clamp(38px, 5.4vw, 64px);
-    line-height: 0.92;
-    letter-spacing: -0.045em;
+    gap: 12px;
+    margin-bottom: 28px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
+    color: var(--tv-accent);
   }
 
-  .hero__title-accent {
-    color: var(--blue);
+  .tv-hero__kicker-bar {
+    width: 26px;
+    height: 1px;
+    background: var(--tv-accent);
   }
 
-  .hero__lede {
+  .tv-hero__title {
     margin: 0;
-    max-width: 480px;
-    font-size: 0.94rem;
-    font-weight: 500;
-    line-height: 1.6;
-    color: var(--sub);
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 84px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
   }
 
-  .hero__actions {
+  .tv-hero__lede {
+    margin: 30px 0 0;
+    max-width: 30em;
+    font-size: 18.5px;
+    line-height: 1.55;
+    color: var(--tv-sub);
+    text-wrap: pretty;
+  }
+
+  .tv-hero__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 40px;
+  }
+
+  .tv-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 26px;
+    border-radius: 2px;
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: background 120ms, border-color 120ms, color 120ms;
+  }
+
+  .tv-arrow {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  .tv-home a.tv-btn--primary {
+    background: var(--tv-ink);
+    color: var(--tv-paper);
+  }
+
+  .tv-home a.tv-btn--primary:hover {
+    background: var(--tv-accent);
+    color: #ffffff;
+  }
+
+  .tv-btn--ghost {
+    padding: 15px 24px;
+    border: 1px solid var(--tv-faint-3);
+  }
+
+  .tv-home a.tv-btn--ghost {
+    color: var(--tv-ink);
+  }
+
+  .tv-btn--ghost:hover {
+    border-color: var(--tv-ink);
+  }
+
+  .tv-home a.tv-btn--inverse {
+    background: var(--tv-paper);
+    color: var(--tv-ink);
+  }
+
+  .tv-home a.tv-btn--inverse:hover {
+    background: var(--tv-accent);
+    color: #ffffff;
+  }
+
+  /* ---------------- Progress card ---------------- */
+
+  .tv-progress {
+    border: 1px solid var(--tv-border);
+    background: var(--tv-card);
+    padding: 30px clamp(20px, 3vw, 30px) 26px;
+    min-width: 0;
+  }
+
+  .tv-progress__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .tv-progress__label {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tv-mute);
+  }
+
+  .tv-progress__saved {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
+    color: var(--tv-faint-5);
+  }
+
+  .tv-progress__count {
+    display: flex;
+    align-items: baseline;
+    gap: 9px;
+    margin: 16px 0 20px;
+  }
+
+  .tv-progress__big {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 62px;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+  }
+
+  .tv-progress__of {
+    font-size: 14.5px;
+    color: var(--tv-mute);
+  }
+
+  .tv-progress__bar {
+    height: 3px;
+    background: var(--tv-border-2);
+    margin-bottom: 22px;
+  }
+
+  .tv-progress__bar-fill {
+    height: 3px;
+    background: var(--tv-accent);
+    transition: width 200ms ease;
+  }
+
+  .tv-progress__grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+  }
+
+  .tv-progress__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    border: 1px solid var(--tv-faint-4);
+    background: transparent;
+    color: var(--tv-faint);
+  }
+
+  a.tv-progress__cell:hover {
+    border-color: var(--tv-ink);
+  }
+
+  .tv-progress__cell--stub {
+    color: var(--tv-faint-2);
+    cursor: default;
+  }
+
+  .tv-progress__cell--filled {
+    border-color: var(--tv-accent);
+    background: var(--tv-accent);
+    color: #ffffff;
+  }
+
+  .tv-progress__next {
+    margin: 20px 0 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--tv-mute-2);
+  }
+
+  /* ---------------- Ticker ---------------- */
+
+  .tv-ticker {
+    margin: 84px 0 0;
+    padding: 13px 0;
+    border-top: 1px solid var(--tv-border);
+    border-bottom: 1px solid var(--tv-border);
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .tv-ticker__track {
+    display: inline-block;
+    animation: tv-tick 46s linear infinite;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--tv-faint);
+  }
+
+  @keyframes tv-tick {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tv-ticker__track {
+      animation: none;
+    }
+  }
+
+  /* ---------------- Track / roadmap ---------------- */
+
+  .tv-track {
+    padding: clamp(52px, 6vw, 84px) 0 40px;
+  }
+
+  .tv-track__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--tv-ink);
+  }
+
+  .tv-track__header h2 {
+    margin: 0;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    font-size: 40px;
+    letter-spacing: -0.02em;
+  }
+
+  .tv-track__meta {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tv-mute);
+    white-space: nowrap;
+  }
+
+  .tv-week {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 6px;
-  }
-
-  .hero__counter {
-    flex: 0 1 230px;
-    border-left: 2px solid var(--rule);
-    padding-left: 22px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 22px;
-  }
-
-  .hero__counter-top {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .hero__counter-label {
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.14em;
-    color: var(--mute);
-  }
-
-  .hero__counter-big {
-    font-weight: 900;
-    font-size: 4.4rem;
-    line-height: 0.85;
-    letter-spacing: -0.06em;
-  }
-
-  .hero__counter-sub {
-    font-weight: 700;
-    font-size: 0.8rem;
-    color: var(--mute);
-  }
-
-  .hero__grid {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 4px;
-  }
-
-  .hero__cell {
-    aspect-ratio: 1;
-    border: 1px solid var(--faint);
-    display: block;
-  }
-
-  .hero__cell:hover {
-    border-color: var(--blue);
-  }
-
-  .hero__cell--filled {
-    background: var(--blue);
-    border-color: var(--blue);
-  }
-
-  .hero__your-progress {
-    margin: 20px auto 0;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    color: var(--mute);
-    text-transform: uppercase;
-  }
-
-  /* ---------------- Roadmap / weeks ---------------- */
-
-  .roadmap {
-    padding-top: 36px;
-  }
-
-  .week-block {
-    margin-bottom: 40px;
+    gap: clamp(20px, 4vw, 56px);
+    padding: clamp(32px, 4vw, 46px) 0;
+    border-bottom: 1px solid var(--tv-border);
     scroll-margin-top: 84px;
   }
 
-  .week-block__header {
+  .tv-week__side {
+    flex: 1 1 200px;
+    min-width: 0;
+  }
+
+  .tv-week__num {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    color: var(--tv-faint);
+  }
+
+  .tv-week__title {
+    margin: 12px 0 0;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    font-size: 27px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    text-wrap: pretty;
+  }
+
+  .tv-week__meta {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--tv-mute-2);
+  }
+
+  .tv-week__days {
+    flex: 4 1 320px;
+    min-width: 0;
     display: flex;
-    align-items: baseline;
-    gap: 14px;
-    margin-bottom: 22px;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
 
-  .week-block__tag {
-    background: var(--rule);
-    color: var(--paper);
-    padding: 6px 11px;
-    font-family: var(--font-mono);
-    font-weight: 700;
-    font-size: 0.62rem;
-    letter-spacing: 0.14em;
-  }
-
-  .week-block__header h2 {
-    font-size: clamp(17px, 2.2vw, 23px);
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    text-transform: uppercase;
-    margin: 0;
-  }
-
-  /* ---------------- Track (day rows) ---------------- */
-
-  .track {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .track__row {
-    border-top: 1px solid var(--faint);
-  }
-
-  .track__row:first-child {
-    border-top: none;
-  }
-
-  .track__link {
+  .tv-day-row {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 12px;
-    padding: 15px 0;
-    color: var(--ink);
+    gap: 16px;
+    padding: 16px 14px;
+    border-bottom: 1px solid var(--tv-border-2);
+    transition: background 120ms;
   }
 
-  .track__link:hover {
-    color: var(--ink);
-    background: var(--card);
+  a.tv-day-row:hover {
+    background: color-mix(in srgb, var(--tv-ink) 5%, transparent);
   }
 
-  .track__num {
-    width: 56px;
-    flex-shrink: 0;
-    font-weight: 900;
-    font-size: 1.3rem;
-    letter-spacing: -0.05em;
-    color: var(--faint);
-    text-align: center;
+  .tv-day-row[aria-disabled='true'] {
+    cursor: default;
+    opacity: 0.6;
   }
 
-  .track__title {
-    flex: 1 1 280px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    line-height: 1.35;
-    color: var(--sub);
+  .tv-day-row__num {
+    flex: none;
+    width: 26px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--tv-faint);
   }
 
-  .track__status {
-    flex-shrink: 0;
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    font-weight: 700;
+  .tv-day-row__title {
+    flex: 1;
+    font-size: 15.5px;
+    line-height: 1.4;
+    color: var(--tv-ink);
+    text-wrap: pretty;
+  }
+
+  .tv-pill {
+    flex: none;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--tv-accent);
+    border: 1px solid var(--tv-accent-soft-border);
+    background: var(--tv-accent-soft-bg);
+    padding: 4px 7px;
+  }
+
+  .tv-day-row__arrow {
+    flex: none;
+    width: 18px;
+    text-align: right;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--tv-faint-2);
+  }
+
+  .tv-day-row__soon {
+    flex: none;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
     letter-spacing: 0.1em;
-    color: var(--mute);
+    color: var(--tv-faint-2);
   }
 
-  /* Open (published) days: bolder number */
-  .track__link--open .track__num {
-    color: var(--mute);
+  .tv-day-row.is-done .tv-day-row__num {
+    color: var(--tv-accent);
   }
 
-  /* Done */
-  .track__row.is-done .track__num {
-    color: var(--blue);
+  .tv-day-row.is-current .tv-day-row__title {
+    font-weight: 600;
   }
 
-  .track__row.is-done .track__title {
-    color: var(--mute);
+  .tv-day-row.is-current .tv-day-row__num {
+    color: var(--tv-accent);
   }
 
-  .track__row.is-done .track__status {
-    color: var(--blue);
+  /* ---------------- Closing CTA ---------------- */
+
+  .tv-cta {
+    padding: clamp(52px, 6vw, 76px) 0 clamp(64px, 7vw, 96px);
   }
 
-  /* Current / up-next */
-  .track__row.is-current .track__num {
-    color: var(--blue);
+  .tv-cta__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(28px, 4vw, 40px);
+    flex-wrap: wrap;
+    background: var(--tv-ink);
+    color: var(--tv-paper);
+    padding: clamp(36px, 5vw, 54px) clamp(24px, 5vw, 56px);
   }
 
-  .track__row.is-current .track__title {
-    font-weight: 800;
-    color: var(--ink);
+  .tv-cta__copy {
+    min-width: 0;
   }
 
-  .track__row.is-current .track__status {
-    color: var(--blue);
+  .tv-cta__copy h2 {
+    margin: 0;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    font-size: 46px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .tv-cta__copy p {
+    margin: 14px 0 0;
+    font-size: 16px;
+    color: var(--tv-faint);
   }
 
   @media (max-width: 640px) {
-    .track__link {
-      align-items: flex-start;
-    }
-    .hero__counter {
-      border-left: none;
-      border-top: 2px solid var(--rule);
-      padding-left: 0;
-      padding-top: 22px;
-      flex-basis: 100%;
+    .tv-progress__grid {
+      grid-template-columns: repeat(6, 1fr);
     }
   }
 </style>
