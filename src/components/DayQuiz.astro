@@ -118,6 +118,13 @@ const uid = `quiz-${Math.random().toString(36).slice(2, 9)}`;
   .day-quiz__reset {
     margin-top: 20px;
   }
+
+  /* .btn sets display:inline-flex at equal specificity to [hidden]'s UA
+     display:none, and author styles beat the UA sheet — so without this,
+     the reset button stays visible even while [hidden]. */
+  .day-quiz__reset[hidden] {
+    display: none;
+  }
 </style>
 
 <script>

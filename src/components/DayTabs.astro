@@ -1,0 +1,341 @@
+---
+// Read / Apply / Discuss tabs for a day page, plus a private per-day note.
+//
+// - Read: the full rendered lesson (the default `<slot />` content).
+// - Apply: anything a day's .mdx wrapped in <DayApply>…</DayApply> (see that
+//   component) is lifted out of Read and shown here, alongside a "mark done"
+//   button. Days with no <DayApply> block show an empty state — nothing
+//   breaks for the 29 days that don't have one yet.
+// - Discuss: placeholder for now — no comment backend exists yet.
+//
+// Note: the Read panel keeps the `day-content` class so DayToc's heading
+// scan and DayLayout's reading-progress bar keep working unchanged.
+interface Props {
+  day: number;
+}
+const { day } = Astro.props;
+---
+
+<div class="day-tabs" data-day={day}>
+  <div class="day-tabs__bar" role="tablist" aria-label="Lesson sections">
+    <button type="button" class="day-tabs__tab is-active" role="tab" aria-selected="true" data-tab-target="read">Read</button>
+    <button type="button" class="day-tabs__tab" role="tab" aria-selected="false" data-tab-target="apply">Apply</button>
+    <button type="button" class="day-tabs__tab" role="tab" aria-selected="false" data-tab-target="discuss">Discuss</button>
+  </div>
+
+  <div class="day-tabs__body">
+    <div class="day-tabs__main">
+      <div class="day-tabs__panel day-content card" data-tab-panel="read">
+        <slot />
+      </div>
+
+      <div class="day-tabs__panel card" data-tab-panel="apply" hidden>
+        <div data-apply-target></div>
+        <p class="day-tabs__empty" data-apply-empty>No hands-on exercise for this day yet.</p>
+        <button type="button" class="btn btn--primary day-tabs__mark-done" data-mark-done>Mark Day {day} done</button>
+      </div>
+
+      <div class="day-tabs__panel card" data-tab-panel="discuss" hidden>
+        <p class="day-tabs__empty">Discussion is coming soon. For now, jot private thoughts in the note alongside this lesson — only you can see it.</p>
+      </div>
+    </div>
+
+    <aside class="day-tabs__note">
+      <p class="day-tabs__note-label">Your note</p>
+      <textarea class="day-tabs__note-input" data-note-input rows="7" placeholder="Private — saved on this device only"></textarea>
+      <p class="day-tabs__note-status" data-note-status aria-live="polite">&nbsp;</p>
+    </aside>
+  </div>
+</div>
+
+<style>
+  .day-tabs__bar {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 20px;
+  }
+
+  .day-tabs__tab {
+    appearance: none;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 4px;
+    margin-right: 22px;
+    font-family: var(--font-sans);
+    font-size: 0.86rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-faint);
+    cursor: pointer;
+  }
+
+  .day-tabs__tab:hover {
+    color: var(--color-text);
+  }
+
+  .day-tabs__tab.is-active {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+  }
+
+  .day-tabs__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .day-tabs__main {
+    min-width: 0;
+  }
+
+  .day-tabs__panel[hidden] {
+    display: none;
+  }
+
+  /* Lesson typography — applies to the rendered MDX inside the Read panel. */
+  .day-content {
+    padding: 28px clamp(20px, 4vw, 44px);
+    font-family: var(--font-serif);
+    font-size: 1.06rem;
+    line-height: 1.75;
+  }
+
+  .day-content :global(h2) {
+    font-family: var(--font-sans);
+    font-size: 1.35rem;
+    margin-top: 1.6em;
+  }
+
+  .day-content :global(h3) {
+    font-family: var(--font-sans);
+    font-size: 1.12rem;
+    margin-top: 1.4em;
+  }
+
+  .day-content :global(ul),
+  .day-content :global(ol) {
+    padding-left: 1.3em;
+  }
+
+  .day-content :global(li) {
+    margin-bottom: 0.4em;
+  }
+
+  .day-content :global(blockquote) {
+    margin: 1.4em 0;
+    padding: 4px 20px;
+    border-left: 3px solid var(--color-accent);
+    background: var(--color-accent-soft);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-style: italic;
+  }
+
+  .day-content :global(code) {
+    font-family: 'SFMono-Regular', Consolas, monospace;
+    background: var(--color-accent-soft);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .day-content :global(pre) {
+    overflow-x: auto;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+  }
+
+  .day-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+  }
+
+  .day-content :global(th),
+  .day-content :global(td) {
+    border: 1px solid var(--color-border);
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  /* <DayApply> sections are moved out of Read into the Apply panel by the
+     script below; hide the (now-empty) wrapper's box model in Read if
+     something goes wrong before JS runs — negligible either way since the
+     wrapper itself has no styling of its own. */
+
+  .day-tabs__empty {
+    font-family: var(--font-sans);
+    color: var(--color-text-muted);
+    font-size: 0.94rem;
+  }
+
+  .day-tabs__mark-done {
+    margin-top: 8px;
+  }
+
+  .day-tabs__mark-done.is-done {
+    background: var(--color-success);
+    color: var(--color-accent-contrast);
+  }
+
+  [data-tab-panel='apply'],
+  [data-tab-panel='discuss'] {
+    padding: 28px clamp(20px, 4vw, 40px);
+  }
+
+  .day-tabs__note {
+    position: sticky;
+    top: 84px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+
+  .day-tabs__note-label {
+    margin: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-faint);
+  }
+
+  .day-tabs__note-input {
+    resize: vertical;
+    min-height: 120px;
+    padding: 10px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .day-tabs__note-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .day-tabs__note-status {
+    margin: 0;
+    min-height: 1em;
+    font-size: 0.72rem;
+    color: var(--color-text-faint);
+  }
+
+  @media (max-width: 720px) {
+    .day-tabs__body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .day-tabs__note {
+      position: static;
+    }
+  }
+</style>
+
+<script>
+  import { isDayDone, setDayDone } from '../lib/progress';
+
+  function initDayTabs() {
+    document.querySelectorAll<HTMLElement>('.day-tabs').forEach((root) => {
+      if (root.dataset.tabsInit === 'true') return;
+      root.dataset.tabsInit = 'true';
+
+      const day = Number(root.dataset.day);
+      const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tab-target]'));
+      const panels = new Map(
+        Array.from(root.querySelectorAll<HTMLElement>('[data-tab-panel]')).map((p) => [p.dataset.tabPanel as string, p])
+      );
+      const progressBar = document.getElementById('reading-progress');
+
+      // Lift any <DayApply> sections out of Read and into the Apply panel.
+      const readPanel = panels.get('read');
+      const applyPanel = panels.get('apply');
+      const applyTarget = applyPanel?.querySelector<HTMLElement>('[data-apply-target]');
+      const applyEmpty = applyPanel?.querySelector<HTMLElement>('[data-apply-empty]');
+      const applySections = readPanel
+        ? Array.from(readPanel.querySelectorAll<HTMLElement>('[data-tab-section="apply"]'))
+        : [];
+      if (applyTarget && applySections.length > 0) {
+        applySections.forEach((el) => applyTarget.appendChild(el));
+        if (applyEmpty) applyEmpty.hidden = true;
+      }
+
+      function activate(name: string) {
+        tabs.forEach((t) => {
+          const active = t.dataset.tabTarget === name;
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', String(active));
+        });
+        panels.forEach((panel, key) => {
+          panel.hidden = key !== name;
+        });
+        // The reading-progress rail only makes sense while actually reading.
+        if (progressBar instanceof HTMLElement) {
+          progressBar.style.display = name === 'read' ? '' : 'none';
+        }
+      }
+
+      tabs.forEach((t) => {
+        t.addEventListener('click', () => activate(t.dataset.tabTarget as string));
+      });
+
+      const markBtn = root.querySelector<HTMLButtonElement>('[data-mark-done]');
+      function paintMarkBtn() {
+        if (!markBtn || Number.isNaN(day)) return;
+        const done = isDayDone(day);
+        markBtn.textContent = done ? `Day ${day} done ✓` : `Mark Day ${day} done`;
+        markBtn.classList.toggle('is-done', done);
+      }
+      paintMarkBtn();
+      markBtn?.addEventListener('click', () => {
+        if (Number.isNaN(day)) return;
+        setDayDone(day, !isDayDone(day));
+        paintMarkBtn();
+      });
+
+      const noteInput = root.querySelector<HTMLTextAreaElement>('[data-note-input]');
+      const noteStatus = root.querySelector<HTMLElement>('[data-note-status]');
+      const noteKey = `aifluency.note.${day}`;
+      if (noteInput) {
+        try {
+          noteInput.value = localStorage.getItem(noteKey) || '';
+        } catch {
+          // ignore
+        }
+        let saveTimer: ReturnType<typeof setTimeout>;
+        noteInput.addEventListener('input', () => {
+          if (noteStatus) noteStatus.textContent = 'Saving…';
+          clearTimeout(saveTimer);
+          saveTimer = setTimeout(() => {
+            try {
+              if (noteInput.value.trim()) {
+                localStorage.setItem(noteKey, noteInput.value);
+              } else {
+                localStorage.removeItem(noteKey);
+              }
+            } catch {
+              // ignore
+            }
+            if (noteStatus) noteStatus.textContent = 'Saved on this device';
+          }, 400);
+        });
+      }
+    });
+  }
+
+  initDayTabs();
+  document.addEventListener('astro:page-load', initDayTabs);
+</script>

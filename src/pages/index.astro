@@ -18,10 +18,11 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
         own AI strategy. ~45–60 minutes a day, headings-driven, built one day at a time.
       </p>
       <div class="hero__actions">
-        <a class="btn btn--primary" href="/day/1">Start Day 1</a>
-        <a class="btn btn--ghost" href="#roadmap">View full roadmap</a>
+        <a class="btn btn--primary" href="/day/1" data-resume-link>Start Day 1</a>
+        <a class="btn btn--ghost" href="#roadmap">View the track</a>
       </div>
       <p class="hero__progress">{publishedCount} / {courseDays.length} days published</p>
+      <p class="hero__your-progress" data-your-progress hidden></p>
     </section>
 
     <section id="roadmap" class="roadmap">
@@ -31,30 +32,81 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
             <span class={`badge badge--week-${w.week}`}>Week {w.week}</span>
             <h2>{w.title}</h2>
           </div>
-          <div class="day-grid">
+          <ol class="track" data-track>
             {courseDays
               .filter((d) => d.week === w.week)
               .map((d) => {
                 const isPublished = publishedByDay.get(d.day) ?? false;
                 return (
-                  <a class="day-card card" href={`/day/${d.day}`}>
-                    <div class="day-card__top">
-                      <span class="day-card__num">Day {d.day}</span>
-                      {d.handsOn && <span class="badge badge--hands-on">Hands-on</span>}
+                  <li class="track__row" data-day={d.day} data-published={String(isPublished)}>
+                    <div class="track__rail" aria-hidden="true">
+                      <span class="track__dot" data-track-dot></span>
+                      <span class="track__line"></span>
                     </div>
-                    <p class="day-card__title">{d.title}</p>
-                    <span class={`badge ${isPublished ? 'badge--done' : 'badge--soon'}`}>
-                      {isPublished ? 'Ready' : 'Coming soon'}
-                    </span>
-                  </a>
+                    <a class="track__link" href={`/day/${d.day}`}>
+                      <div class="track__main">
+                        <span class="track__num">Day {d.day}</span>
+                        <span class="track__title">{d.title}</span>
+                        {d.handsOn && <span class="badge badge--hands-on">Hands-on</span>}
+                      </div>
+                      <span class={`track__status ${isPublished ? '' : 'track__status--muted'}`} data-track-status>
+                        {isPublished ? 'Ready' : 'Coming soon'}
+                      </span>
+                    </a>
+                  </li>
                 );
               })}
-          </div>
+          </ol>
         </div>
       ))}
     </section>
   </main>
 </BaseLayout>
+
+<script>
+  import { loadProgress, nextDay, currentStreak } from '../lib/progress';
+
+  function initTrack() {
+    const total = document.querySelectorAll('[data-track] .track__row').length;
+    if (total === 0) return;
+
+    const { done } = loadProgress();
+    const doneSet = new Set(done);
+    const upNext = nextDay(total);
+    const streak = currentStreak();
+
+    document.querySelectorAll<HTMLElement>('[data-track] .track__row').forEach((row) => {
+      const day = Number(row.dataset.day);
+      const isDone = doneSet.has(day);
+      const isCurrent = !isDone && day === upNext;
+      row.classList.toggle('is-done', isDone);
+      row.classList.toggle('is-current', isCurrent);
+
+      const status = row.querySelector<HTMLElement>('[data-track-status]');
+      if (status && (isDone || isCurrent)) {
+        status.textContent = isDone ? 'Done' : 'Continue →';
+        status.classList.remove('track__status--muted');
+      }
+    });
+
+    const resumeLink = document.querySelector<HTMLAnchorElement>('[data-resume-link]');
+    if (resumeLink && done.length > 0) {
+      resumeLink.href = `/day/${upNext}`;
+      resumeLink.textContent = doneSet.has(upNext) ? 'Review the course' : `Resume Day ${upNext}`;
+    }
+
+    const yourProgress = document.querySelector<HTMLElement>('[data-your-progress]');
+    if (yourProgress && done.length > 0) {
+      yourProgress.hidden = false;
+      yourProgress.textContent = streak > 0
+        ? `You've completed ${done.length} of ${total} days · ${streak} day streak`
+        : `You've completed ${done.length} of ${total} days`;
+    }
+  }
+
+  initTrack();
+  document.addEventListener('astro:page-load', initTrack);
+</script>
 
 <style>
   .home {
@@ -111,46 +163,154 @@ const publishedCount = [...publishedByDay.values()].filter(Boolean).length;
     margin: 0;
   }
 
-  .day-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
+  /* ---------------- Track (vertical spine) ---------------- */
+
+  .track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
-  .day-card {
+  .track__row {
+    display: flex;
+    gap: 14px;
+  }
+
+  .track__rail {
+    width: 20px;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 18px 20px;
-    color: var(--color-text);
-    transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    align-items: center;
   }
 
-  .day-card:hover {
-    color: var(--color-text);
-    border-color: var(--color-accent);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
+  .track__dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    border: 2px solid var(--color-border-strong);
+    background: var(--color-surface);
+    margin-top: 18px;
+    flex-shrink: 0;
   }
 
-  .day-card__top {
+  .track__line {
+    width: 1px;
+    flex: 1;
+    background: var(--color-border);
+    margin: 4px 0;
+  }
+
+  .track__row:last-child .track__line {
+    display: none;
+  }
+
+  .track__link {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 16px;
+    padding: 14px 16px;
+    margin-bottom: 6px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-text);
+    transition: border-color 0.12s ease, background 0.12s ease;
   }
 
-  .day-card__num {
-    font-size: 0.8rem;
+  .track__link:hover {
+    color: var(--color-text);
+    border-color: var(--color-border);
+    background: var(--color-surface);
+  }
+
+  .track__main {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .track__num {
+    font-size: 0.78rem;
     font-weight: 700;
-    color: var(--color-accent);
+    color: var(--color-text-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    flex-shrink: 0;
+  }
+
+  .track__title {
+    font-size: 0.96rem;
+    line-height: 1.4;
+  }
+
+  .track__status {
+    flex-shrink: 0;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--color-text-faint);
     text-transform: uppercase;
     letter-spacing: 0.04em;
   }
 
-  .day-card__title {
-    font-size: 0.96rem;
-    line-height: 1.45;
-    margin: 0;
-    flex: 1;
+  .track__status--muted {
+    color: var(--color-text-faint);
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  /* Done: filled dot with a check, muted row */
+  .track__row.is-done .track__dot {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .track__row.is-done .track__status {
+    color: var(--color-success);
+  }
+
+  .track__row.is-done .track__title {
+    color: var(--color-text-muted);
+  }
+
+  /* Current/up-next: emphasized row, ring dot */
+  .track__row.is-current .track__dot {
+    width: 15px;
+    height: 15px;
+    margin-top: 16px;
+    border-color: var(--color-accent);
+    background: var(--color-surface);
+  }
+
+  .track__row.is-current .track__link {
+    border-color: var(--color-accent);
+    background: var(--color-accent-soft);
+  }
+
+  .track__row.is-current .track__title {
+    font-weight: 700;
+  }
+
+  .track__row.is-current .track__status {
+    color: var(--color-accent);
+  }
+
+  .hero__your-progress {
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin: 10px 0 0;
+  }
+
+  @media (max-width: 640px) {
+    .track__link {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
   }
 </style>

@@ -1,0 +1,23 @@
+---
+// Marks the hands-on portion of a day's lesson (an exercise, a prompt to try,
+// the "check yourself" quiz) so DayTabs can lift it into the Apply tab.
+//
+// Usage in a day's .mdx file:
+//
+//   import DayApply from '../../components/DayApply.astro';
+//   import DayQuiz from '../../components/DayQuiz.astro';
+//
+//   ## Try this today
+//   Ordinary markdown read as part of the lesson...
+//
+//   <DayApply>
+//   ## Check yourself
+//   <DayQuiz questions={[...]} />
+//   </DayApply>
+//
+// Everything inside <DayApply> is moved client-side into the Apply tab;
+// everything outside it stays in Read. A day with no <DayApply> block just
+// shows an empty-state message under Apply — nothing breaks.
+---
+
+<div data-tab-section="apply"><slot /></div>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import DayToc from '../components/DayToc.astro';
+import DayTabs from '../components/DayTabs.astro';
 import ModelLandscape from '../components/ModelLandscape.astro';
 import { days, weekTitle } from '../data/course';
 
@@ -55,21 +56,31 @@ const progressPct = Math.round((day / total) * 100);
     </header>
 
     <div class="day-body">
+      {/*
+        DayTabs (when published) is placed before the sidebar in source order
+        so its inline script — which lifts <DayApply> sections out of Read
+        before DayToc scans headings — runs first. Visual position is set
+        explicitly via grid-column below, independent of source order.
+      */}
+      <div class="day-main">
+        {published ? (
+          <DayTabs day={day}>
+            <slot />
+          </DayTabs>
+        ) : (
+          <article class="day-placeholder-wrap day-content card">
+            <div class="day-placeholder">
+              <p><strong>This day's lesson hasn't been written yet.</strong></p>
+              <p>Content for Day {day} will appear here once it's added to <code>src/content/days/day-{String(day).padStart(2, '0')}.mdx</code>.</p>
+            </div>
+          </article>
+        )}
+      </div>
+
       <aside class="day-sidebar">
         <ModelLandscape />
         {published && <DayToc />}
       </aside>
-
-      <article class="day-content card">
-        {published ? (
-          <slot />
-        ) : (
-          <div class="day-placeholder">
-            <p><strong>This day's lesson hasn't been written yet.</strong></p>
-            <p>Content for Day {day} will appear here once it's added to <code>src/content/days/day-{String(day).padStart(2, '0')}.mdx</code>.</p>
-          </div>
-        )}
-      </article>
     </div>
 
     <nav class="day-pager">
@@ -145,7 +156,20 @@ const progressPct = Math.round((day / total) * 100);
     align-items: start;
   }
 
+  /*
+    Explicit placement: .day-main is second in source order (see comment in
+    the template above) but belongs in the wide column visually, and
+    .day-sidebar is the opposite. Grid-column placement is independent of
+    source order, so this doesn't fight the script-ordering requirement.
+  */
+  .day-main {
+    grid-column: 2;
+    min-width: 0;
+  }
+
   .day-sidebar {
+    grid-column: 1;
+    grid-row: 1;
     position: sticky;
     top: 84px;
     max-height: calc(100vh - 110px);
@@ -158,7 +182,11 @@ const progressPct = Math.round((day / total) * 100);
     .day-body {
       grid-template-columns: minmax(0, 1fr);
     }
+    .day-main {
+      grid-column: 1;
+    }
     .day-sidebar {
+      grid-column: 1;
       position: static;
       max-height: none;
     }
@@ -227,72 +255,17 @@ const progressPct = Math.round((day / total) * 100);
     margin: 0;
   }
 
-  .day-content {
+  /*
+    Markdown/lesson typography for .day-content lives in DayTabs.astro now
+    (that's where the element is actually rendered when a day is published).
+    .day-placeholder below is the unpublished-day fallback, still rendered
+    directly by this layout, so its .day-content wrapper only needs padding —
+    kept minimal here rather than duplicating the typography rules.
+  */
+  .day-placeholder-wrap.day-content {
     padding: 32px clamp(20px, 4vw, 48px);
     margin-bottom: 36px;
-    font-family: var(--font-serif);
-    font-size: 1.06rem;
-    line-height: 1.75;
-  }
-
-  .day-content :global(h2) {
     font-family: var(--font-sans);
-    font-size: 1.35rem;
-    margin-top: 1.6em;
-  }
-
-  .day-content :global(h3) {
-    font-family: var(--font-sans);
-    font-size: 1.12rem;
-    margin-top: 1.4em;
-  }
-
-  .day-content :global(ul),
-  .day-content :global(ol) {
-    padding-left: 1.3em;
-  }
-
-  .day-content :global(li) {
-    margin-bottom: 0.4em;
-  }
-
-  .day-content :global(blockquote) {
-    margin: 1.4em 0;
-    padding: 4px 20px;
-    border-left: 3px solid var(--color-accent);
-    background: var(--color-accent-soft);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    font-style: italic;
-  }
-
-  .day-content :global(code) {
-    font-family: 'SFMono-Regular', Consolas, monospace;
-    background: var(--color-accent-soft);
-    padding: 0.1em 0.4em;
-    border-radius: 4px;
-    font-size: 0.9em;
-  }
-
-  .day-content :global(pre) {
-    overflow-x: auto;
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    padding: 16px;
-  }
-
-  .day-content :global(table) {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: var(--font-sans);
-    font-size: 0.95rem;
-  }
-
-  .day-content :global(th),
-  .day-content :global(td) {
-    border: 1px solid var(--color-border);
-    padding: 8px 12px;
-    text-align: left;
   }
 
   .day-placeholder {

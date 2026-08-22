@@ -10,6 +10,7 @@ duration: "45–60 min"
 
 import TrainingInferenceDiagram from '../../components/TrainingInferenceDiagram.astro';
 import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
 
 The goal today isn't to make you a machine learning engineer. It's so that when a vendor says "we fine-tuned a 70B parameter model with a 200K context window," you know exactly which parts of that sentence matter and which are noise.
 
@@ -69,6 +70,7 @@ The useful mental model: training data is long-term memory (fixed, unreliable fo
 3. *"The weights are frozen — so where does the up-to-date data actually come from?"* — exposes vapourware immediately.
 4. *"Parameter count isn't the metric. What does it score on evals for our task?"* — sets up Day 15.
 
+<DayApply>
 ## Check yourself
 
 <DayQuiz questions={[
@@ -106,3 +108,4 @@ The useful mental model: training data is long-term memory (fixed, unreliable fo
     explain: "Input processing happens once, in parallel. Generation is sequential — each output token requires a full forward pass, feeding the prior output back in as input. That mechanical difference is the actual cost driver."
   }
 ]} />
+</DayApply>
