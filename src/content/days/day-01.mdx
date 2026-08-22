@@ -11,6 +11,7 @@ duration: "35–45 min"
 import TrainingInferenceDiagram from '../../components/TrainingInferenceDiagram.astro';
 import DayQuiz from '../../components/DayQuiz.astro';
 import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
 
 You don't need to become an engineer today. You just need enough to follow a sentence like
 "we fine-tuned a 70-billion-parameter model with a 200K context window" — and know which
@@ -125,6 +126,25 @@ on this notepad idea when we cover a technique called RAG on Day 9.
    from?"* — quickly exposes vague or overstated claims.
 4. *"Parameter count isn't the real measure — how does it score on tests relevant to our
    use case?"* — sets up Day 15, where we cover how to actually measure AI quality.
+
+<DayGlossary terms={[
+  {
+    term: "Token",
+    definition: "The small chunk of text an AI model actually reads and writes — usually about one word, sometimes a fragment of one. All AI pricing, limits, and errors are measured in tokens, not words or characters."
+  },
+  {
+    term: "Parameter",
+    definition: "One of the many internal numerical settings inside a model, adjusted automatically during training. A model's \"parameter count\" is the total number of these settings — a rough indicator of size, not a reliable indicator of quality."
+  },
+  {
+    term: "Inference",
+    definition: "The process of a trained model actually answering a question or completing a task. This is what happens every time someone sends the model a message, as opposed to training, which happens once, beforehand, to build the model."
+  },
+  {
+    term: "Mixture-of-Experts (MoE)",
+    definition: "A model design where only a portion of the model's total parameters are used to answer any single question, rather than all of them every time. It lets a model have a very large total size while staying cheaper and faster to run."
+  }
+]} />
 
 <DayApply>
 ## Check yourself

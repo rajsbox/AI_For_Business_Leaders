@@ -1,0 +1,89 @@
+---
+// Textbook-style glossary block for the end of a day's lesson — short,
+// precise definitions of that day's jargon terms (not a full site-wide
+// glossary; see the day-content skill for what belongs here).
+//
+// Usage in a day's .mdx file, at the end of the Read content:
+//
+//   import DayGlossary from '../../components/DayGlossary.astro';
+//
+//   <DayGlossary terms={[
+//     { term: "Token", definition: "..." },
+//     { term: "Parameter", definition: "..." },
+//   ]} />
+
+interface GlossaryTerm {
+  term: string;
+  definition: string;
+}
+
+interface Props {
+  terms: GlossaryTerm[];
+}
+
+const { terms } = Astro.props;
+---
+
+<section class="day-glossary" aria-label="Glossary">
+  <p class="day-glossary__label">Glossary</p>
+  <dl class="day-glossary__list">
+    {terms.map((t) => (
+      <div class="day-glossary__row">
+        <dt class="day-glossary__term">{t.term}</dt>
+        <dd class="day-glossary__def">{t.definition}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+
+<style>
+  .day-glossary {
+    margin-top: 2.4em;
+    padding-top: 1.6em;
+    border-top: 2px solid var(--rule);
+  }
+
+  .day-glossary__label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--mute);
+    margin: 0 0 16px;
+  }
+
+  .day-glossary__list {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .day-glossary__row {
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--faint);
+  }
+
+  .day-glossary__row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .day-glossary__term {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 0.98rem;
+    color: var(--ink);
+    margin: 0 0 4px;
+  }
+
+  .day-glossary__def {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 0.94rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--sub);
+  }
+</style>

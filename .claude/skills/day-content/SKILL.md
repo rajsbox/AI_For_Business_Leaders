@@ -1,6 +1,6 @@
 ---
 name: day-content
-description: Use whenever drafting, writing, or revising a day's lesson content for the 30-Day AI Fluency Course (src/content/days/day-NN.mdx) — e.g. "write Day 5", "draft today's content", "update Day 12's lesson". Encodes the course's house style: plain English, generic relatable examples, a diagram where it earns its place, and external hyperlinks on jargon. Not for site layout/component/design work — see the repo's other conventions for that.
+description: Use whenever drafting, writing, or revising a day's lesson content for the 30-Day AI Fluency Course (src/content/days/day-NN.mdx) — e.g. "write Day 5", "draft today's content", "update Day 12's lesson". Encodes the course's house style: plain English, generic relatable examples, a diagram where it earns its place, external hyperlinks on jargon, and a textbook-style glossary of that day's terms at the end. Not for site layout/component/design work — see the repo's other conventions for that.
 ---
 
 # Day content — house style
@@ -9,7 +9,7 @@ The audience is a business leader with basic AI knowledge, not an engineer. Ever
 lesson must be readable by someone who has never trained a model and never will. When in
 doubt, cut the jargon rather than explain it more cleverly.
 
-## The four rules
+## The five rules
 
 ### 1. Plain, simple English
 
@@ -59,6 +59,25 @@ doubt, cut the jargon rather than explain it more cleverly.
 - Don't over-link. A handful of links per day is right; linking every noun defeats the
   purpose.
 
+### 5. A textbook-style glossary at the end
+
+- Every day ends with a short "Glossary" block covering that day's important jargon terms
+  only (not a running site-wide glossary — each day is self-contained).
+- Use the `DayGlossary` component: `src/components/DayGlossary.astro`. Pass a `terms` array
+  of `{ term, definition }` pairs.
+  ```
+  <DayGlossary terms={[
+    { term: "Token", definition: "..." },
+    { term: "Parameter", definition: "..." },
+  ]} />
+  ```
+- Definitions are short, precise, and textbook-plain — one or two sentences, no analogies
+  (the analogies already happened earlier in the lesson; this is the clean reference
+  version a reader skims back to later).
+- Include every term from that day's content that a reader would genuinely need spelled
+  out — typically 3–6 terms. Don't pad it with terms already obvious from context.
+- Place it after the lesson's main content and before `<DayApply>` (see day-01.mdx).
+
 ## Structure to follow (matches day-01.mdx)
 
 ```
@@ -74,6 +93,7 @@ duration: "45–60 min"
 
 import DayQuiz from '../../components/DayQuiz.astro';
 import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
 [+ any diagram component for this day]
 
 One short paragraph: what today is actually for, in plain terms.
@@ -85,6 +105,11 @@ One short paragraph: what today is actually for, in plain terms.
 
 ## [Next section]
 ...
+
+<DayGlossary terms={[
+  { term: "...", definition: "..." },
+  ...
+]} />
 
 <DayApply>
 ## Check yourself
@@ -108,10 +133,11 @@ One short paragraph: what today is actually for, in plain terms.
 
 1. Read the day's topic from `30-Day-AI-Fluency-Course.md` and `src/data/course.ts` for
    exact title/week/handsOn.
-2. Draft the lesson content following the four rules above.
+2. Draft the lesson content following the five rules above.
 3. Decide if a diagram earns its place; build one only if so.
-4. Write the day's `src/content/days/day-NN.mdx`, set `published: true`.
-5. Run `npm run build` to confirm it compiles before considering the day done.
+4. Collect that day's jargon terms into a `DayGlossary` block at the end.
+5. Write the day's `src/content/days/day-NN.mdx`, set `published: true`.
+6. Run `npm run build` to confirm it compiles before considering the day done.
 
 ## What NOT to do
 
