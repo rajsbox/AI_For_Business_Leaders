@@ -1,6 +1,6 @@
 ---
 name: day-content
-description: Use whenever drafting, writing, or revising a day's lesson content for the 30-Day AI Fluency Course (src/content/days/day-NN.mdx) — e.g. "write Day 5", "draft today's content", "update Day 12's lesson". Encodes the course's house style: plain English, generic relatable examples, a diagram where it earns its place, external hyperlinks on jargon, and a textbook-style glossary of that day's terms at the end. Not for site layout/component/design work — see the repo's other conventions for that.
+description: Use whenever drafting, writing, or revising a day's lesson content for the 30-Day AI Fluency Course (src/content/days/day-NN.mdx) — e.g. "write Day 5", "draft today's content", "update Day 12's lesson". Encodes the course's house style: plain English, generic relatable examples, a diagram where it earns its place, external hyperlinks on jargon, a "credible questions" section, and a textbook-style glossary of that day's terms at the end. Not for site layout/component/design work — see the repo's other conventions for that.
 ---
 
 # Day content — house style
@@ -9,7 +9,7 @@ The audience is a business leader with basic AI knowledge, not an engineer. Ever
 lesson must be readable by someone who has never trained a model and never will. When in
 doubt, cut the jargon rather than explain it more cleverly.
 
-## The five rules
+## The six rules
 
 ### 1. Plain, simple English
 
@@ -59,7 +59,24 @@ doubt, cut the jargon rather than explain it more cleverly.
 - Don't over-link. A handful of links per day is right; linking every noun defeats the
   purpose.
 
-### 5. A textbook-style glossary at the end
+### 5. Four questions that instantly sound credible in an AI meeting
+
+- Every day includes a short numbered list of exactly four questions a leader could ask
+  out loud in a meeting to sound sharp and informed about that day's specific topic — this
+  is the day's practical payoff, distinct from the glossary (definitions) and the quiz
+  (self-testing).
+- Each question is followed by an em dash and one short clause explaining what asking it
+  actually accomplishes or exposes (see day-01.mdx's "Four questions" section for the exact
+  pattern).
+- Questions must be genuinely usable as spoken lines in a real meeting — natural phrasing a
+  person would actually say, not a disguised trivia question.
+- Ground each question in that day's specific content; don't recycle Day 1's four
+  questions or write generic AI-skepticism one-liners that could apply to any day.
+- Give this section its own `##` heading, phrased like Day 1's: "Four questions that
+  instantly sound credible in an AI meeting."
+- Place it after the day's main content, before the glossary and `<DayApply>`.
+
+### 6. A textbook-style glossary at the end
 
 - Every day ends with a short "Glossary" block covering that day's important jargon terms
   only (not a running site-wide glossary — each day is self-contained).
@@ -106,6 +123,13 @@ One short paragraph: what today is actually for, in plain terms.
 ## [Next section]
 ...
 
+## Four questions that instantly sound credible in an AI meeting
+
+1. *"..."* — what asking this accomplishes.
+2. *"..."* — ...
+3. *"..."* — ...
+4. *"..."* — ...
+
 <DayGlossary terms={[
   { term: "...", definition: "..." },
   ...
@@ -133,11 +157,13 @@ One short paragraph: what today is actually for, in plain terms.
 
 1. Read the day's topic from `30-Day-AI-Fluency-Course.md` and `src/data/course.ts` for
    exact title/week/handsOn.
-2. Draft the lesson content following the five rules above.
+2. Draft the lesson content following the six rules above.
 3. Decide if a diagram earns its place; build one only if so.
-4. Collect that day's jargon terms into a `DayGlossary` block at the end.
-5. Write the day's `src/content/days/day-NN.mdx`, set `published: true`.
-6. Run `npm run build` to confirm it compiles before considering the day done.
+4. Write the "Four questions that instantly sound credible in an AI meeting" section,
+   grounded in that day's specific content.
+5. Collect that day's jargon terms into a `DayGlossary` block at the end.
+6. Write the day's `src/content/days/day-NN.mdx`, set `published: true`.
+7. Run `npm run build` to confirm it compiles before considering the day done.
 
 ## What NOT to do
 
