@@ -1,0 +1,145 @@
+---
+// Themed (light/dark aware) diagram contrasting a single-agent loop with a
+// multi-agent system, following the pattern in TrainingInferenceDiagram.astro.
+---
+
+<div class="aod">
+  <div class="aod__col aod__col--single">
+    <p class="aod__col-title">Single agent</p>
+    <p class="aod__col-sub">One agent, start to finish</p>
+    <div class="aod__loop">
+      <div class="aod__step">Goal</div>
+      <div class="aod__arrow" aria-hidden="true">↓</div>
+      <div class="aod__step">Plan</div>
+      <div class="aod__arrow" aria-hidden="true">↓</div>
+      <div class="aod__step">Act<span>(uses tools)</span></div>
+      <div class="aod__arrow" aria-hidden="true">↓</div>
+      <div class="aod__step">Check</div>
+      <div class="aod__loop-back" aria-hidden="true">↻ repeats until done</div>
+    </div>
+  </div>
+
+  <div class="aod__link" aria-hidden="true">
+    <span>orchestration</span>
+    <span class="aod__link-arrow">→</span>
+  </div>
+
+  <div class="aod__col aod__col--multi">
+    <p class="aod__col-title">Multi-agent system</p>
+    <p class="aod__col-sub">Task split across specialists</p>
+    <div class="aod__team">
+      <div class="aod__step">Research agent</div>
+      <div class="aod__arrow" aria-hidden="true">↓</div>
+      <div class="aod__step">Writing agent</div>
+      <div class="aod__arrow" aria-hidden="true">↓</div>
+      <div class="aod__step">Review agent</div>
+      <div class="aod__loop-back" aria-hidden="true">coordinated by orchestration logic</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .aod {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .aod__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  :root[data-theme='light'] .aod__col {
+    background: #14161c;
+  }
+
+  .aod__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .aod__col-sub {
+    color: #9aa1ad;
+    font-size: 0.82rem;
+    margin: 0 0 16px;
+  }
+
+  .aod__loop,
+  .aod__team {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .aod__step {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    border: 1px solid;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .aod__step span {
+    color: #a7ecd3;
+    font-size: 0.76rem;
+    font-weight: 500;
+  }
+
+  .aod__col--single .aod__step {
+    background: rgba(124, 58, 237, 0.16);
+    border-color: rgba(124, 58, 237, 0.4);
+  }
+
+  .aod__col--multi .aod__step {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .aod__arrow {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 2px 0;
+  }
+
+  .aod__loop-back {
+    margin-top: 10px;
+    color: #9aa1ad;
+    font-size: 0.76rem;
+    font-style: italic;
+  }
+
+  .aod__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-text-faint);
+    font-size: 0.78rem;
+  }
+
+  .aod__link-arrow {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 640px) {
+    .aod {
+      grid-template-columns: 1fr;
+    }
+    .aod__link {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>

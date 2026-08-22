@@ -2,10 +2,162 @@
 day: 12
 week: 2
 title: "Tool Use / Function Calling — How LLMs Take Actions, Not Just Generate Text"
-summary: ""
-published: false
+summary: "The actual mechanism that lets an AI model check a real order, run a real calculation, or send a real email — instead of just describing what it would do."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "30–40 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import ToolUseFlowDiagram from '../../components/ToolUseFlowDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+On Day 2 we defined agentic AI as generative AI given the ability to take actions, not just
+produce text. Today is about the actual mechanism underneath that — how a model that can
+only write words ever manages to check a real order, run a real calculation, or send a real
+email.
+
+## The problem: a model can only write text
+
+A plain language model, on its own, cannot do anything except produce text. It can't check
+today's weather. It can't look up a real customer's order status. It can't send an email.
+It can't even reliably do arithmetic — ask it to multiply two large numbers and it's
+guessing at a pattern, not calculating, and it will sometimes get it wrong.
+
+Left to itself, a model asked "what's the weather in Nairobi right now?" can only do one
+thing: write a plausible-sounding sentence about weather in Nairobi. It has no way to
+actually go and check. This gap — between writing about doing something and actually doing
+it — is exactly what **tool use** (also called **[function calling](https://platform.openai.com/docs/guides/function-calling)**)
+was built to close.
+
+## How tool use actually works
+
+The surrounding software tells the model what tools it's allowed to use — a weather lookup,
+a calculator, a database search, a way to send an email. Each tool is described to the model
+in plain language, like a short job description: what it's called, what it does, and what
+information it needs.
+
+When the model decides it needs one of these tools to properly answer, it doesn't perform
+the action itself — it can't. Instead, it outputs a structured request: essentially "please
+run the weather tool, for the city Nairobi." The software around the model reads that
+request, actually runs the real lookup, and feeds the real result back to the model. Only
+then does the model write its final answer, using that real result instead of a guess.
+
+<ToolUseFlowDiagram />
+
+## A simple way to picture it
+
+Think of a smart assistant who can't personally access the filing cabinet, the calculator,
+or the phone. They can't walk over and check something themselves. But they can turn to a
+colleague sitting next to them and say "please check this," "please calculate that," "please
+call this number" — and then use whatever comes back to finish their answer to you.
+
+The assistant never does the action. Their skill is knowing *when* to ask for something and
+*how* to use what comes back. That's exactly what a model with tool use is doing: it doesn't
+gain new abilities, it gains the judgment to ask for help and the ability to make use of a
+real answer.
+
+## Why this matters for a business leader
+
+This is the actual technical mechanism behind most of what gets called an "AI agent," and a
+huge part of what separates a genuinely useful AI product from a chatbot that can only talk.
+A customer support bot that can check a real order status, an assistant that can actually
+book a real meeting on a real calendar, a coding tool that can run and test real code — all
+of it depends on tool use. Without it, a model can only ever describe things in text. With
+it, a model can trigger real actions in real systems, with real consequences, good and bad.
+
+When you hear a vendor describe an "AI agent" that "handles refunds" or "manages your
+inventory," tool use is the mechanism doing the actual handling and managing. It's worth
+knowing that mechanism exists, because it's also where the risk lives.
+
+## The honest caveat: this is a new risk surface
+
+Because the model itself decides *when* to call a tool and *what* information to send it,
+tool use is also a new kind of risk. A model can call the right tool with wrong information.
+It can call a tool in a situation where it shouldn't. It can even be manipulated — through
+something it reads — into calling a tool it was never meant to trigger in that moment. We'll
+go much deeper on that specific risk, called prompt injection, on Day 17, when we cover AI
+security.
+
+The practical takeaway today is simpler: a responsibly built AI product limits which tools a
+model can reach and what those tools are allowed to do. "Can look up an order" is a very
+different level of risk than "can issue a refund," which is a very different level of risk
+again from "can send money." Deciding which tools a model is allowed to touch, and what
+guardrails sit around each one, is a real governance decision for your business to make — not
+a detail you can leave entirely to engineering.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor demos an "AI agent" that smoothly answers a question about a customer's live
+   order status. Ask: *"Is that coming from the model's own knowledge, or did it just call a
+   tool to look up the real order?"* — separates a real integration from a scripted demo
+   and tells you what's actually happening under the hood.
+2. In an internal build review, an engineer mentions the assistant "has access to a few
+   tools." Ask: *"Which tools exactly, and what's the most damaging thing any one of them
+   could do if the model called it by mistake?"* — turns a vague capability list into a
+   concrete risk conversation before launch, not after.
+3. In a budget conversation about a new AI-powered support tool, someone says it can "look
+   things up and take action for customers." Ask: *"Which actions can it actually take on
+   its own — read-only lookups, or things like issuing refunds or changing account
+   details?"* — surfaces the real scope of what you'd be approving, not the marketing
+   summary of it.
+4. During rollout planning for an agentic feature, someone suggests giving the model broad
+   access "so it doesn't get stuck." Ask: *"Can we start with a narrower set of tools and
+   expand it once we've seen how it behaves?"* — pushes the team toward limiting access by
+   default instead of granting it by default, which is the safer order to do things in.
+
+<DayGlossary terms={[
+  {
+    term: "Tool use (function calling)",
+    definition: "The mechanism that lets an AI model request a real action — such as a lookup, a calculation, or sending a message — from software outside itself, then use the real result to write its answer. The model never performs the action directly; it only requests it."
+  },
+  {
+    term: "Tool",
+    definition: "A specific capability made available to a model, such as a weather lookup, a calculator, or a database search, described to the model in plain language so it knows when and how to request it."
+  },
+  {
+    term: "Structured request",
+    definition: "The precise, machine-readable output a model produces when it wants to use a tool, naming the tool and the information it needs (for example, a city name for a weather tool). Software outside the model reads this request and carries out the real action."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "Why can't a plain language model just check today's weather on its own?",
+    options: [
+      "It can, but chooses not to for cost reasons",
+      "A model can only produce text — it has no way to actually go and check anything in the real world without a tool",
+      "Weather data is too large for a model to process",
+      "Models are only allowed to answer questions about their training data"
+    ],
+    correct: 1,
+    explain: "A plain model's only ability is producing text. To actually check something real, it needs tool use — a way to request a real action from software outside itself."
+  },
+  {
+    q: "When a model decides it needs a tool, what does it actually do?",
+    options: [
+      "It directly performs the action itself, such as running the calculation",
+      "It outputs a structured request describing which tool it needs and what information to send it — the surrounding software then runs the real action",
+      "It asks the user to run the tool and report back",
+      "It skips the question and gives its best guess instead"
+    ],
+    correct: 1,
+    explain: "The model never performs the action. It requests it in a structured way; separate software actually runs the tool and feeds the real result back to the model."
+  },
+  {
+    q: "A vendor says their AI agent 'can look things up and take action for customers.' What's the sharpest follow-up?",
+    options: [
+      "How fast is the model?",
+      "Which specific actions can it actually take on its own — read-only lookups, or things like issuing refunds?",
+      "What programming language was it built in?",
+      "How many tokens does it use per request?"
+    ],
+    correct: 1,
+    explain: "Tool use means different tools carry very different levels of risk. 'Can look up an order' and 'can issue a refund' are not the same claim, and a responsible rollout limits which tools a model can actually reach."
+  }
+]} />
+</DayApply>

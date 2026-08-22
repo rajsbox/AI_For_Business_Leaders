@@ -1,0 +1,189 @@
+---
+// Themed (light/dark aware) "before MCP vs after MCP" comparison diagram.
+// Before: every model wired to every tool with its own one-off connection (tangled).
+// After: every model and every tool plugs into one common standard (clean hub).
+---
+
+<div class="mcd">
+  <div class="mcd__col mcd__col--before">
+    <p class="mcd__col-title">Before a common standard</p>
+    <p class="mcd__col-sub">Every model↔tool pair is custom-built</p>
+    <div class="mcd__tangle" aria-hidden="true">
+      <svg viewBox="0 0 220 160" class="mcd__tangle-svg">
+        <line x1="20" y1="20" x2="200" y2="30" class="mcd__wire" />
+        <line x1="20" y1="20" x2="200" y2="80" class="mcd__wire" />
+        <line x1="20" y1="20" x2="200" y2="130" class="mcd__wire" />
+        <line x1="20" y1="80" x2="200" y2="30" class="mcd__wire" />
+        <line x1="20" y1="80" x2="200" y2="80" class="mcd__wire" />
+        <line x1="20" y1="80" x2="200" y2="130" class="mcd__wire" />
+        <line x1="20" y1="140" x2="200" y2="30" class="mcd__wire" />
+        <line x1="20" y1="140" x2="200" y2="80" class="mcd__wire" />
+        <line x1="20" y1="140" x2="200" y2="130" class="mcd__wire" />
+      </svg>
+      <div class="mcd__labels-left">
+        <span>Model A</span>
+        <span>Model B</span>
+        <span>Model C</span>
+      </div>
+      <div class="mcd__labels-right">
+        <span>CRM</span>
+        <span>Database</span>
+        <span>Docs</span>
+      </div>
+    </div>
+    <p class="mcd__caption">9 custom connections for 3 models × 3 tools</p>
+  </div>
+
+  <div class="mcd__link" aria-hidden="true">
+    <span class="mcd__link-arrow">→</span>
+  </div>
+
+  <div class="mcd__col mcd__col--after">
+    <p class="mcd__col-title">With MCP</p>
+    <p class="mcd__col-sub">Everyone plugs into one common standard</p>
+    <div class="mcd__hub">
+      <div class="mcd__hub-side">
+        <span class="mcd__node">Model A</span>
+        <span class="mcd__node">Model B</span>
+        <span class="mcd__node">Model C</span>
+      </div>
+      <div class="mcd__hub-center">MCP</div>
+      <div class="mcd__hub-side">
+        <span class="mcd__node">CRM</span>
+        <span class="mcd__node">Database</span>
+        <span class="mcd__node">Docs</span>
+      </div>
+    </div>
+    <p class="mcd__caption">Any MCP model works with any MCP tool</p>
+  </div>
+</div>
+
+<style>
+  .mcd {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .mcd__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  :root[data-theme='light'] .mcd__col {
+    background: #14161c;
+  }
+
+  .mcd__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .mcd__col-sub {
+    color: #9aa1ad;
+    font-size: 0.82rem;
+    margin: 0 0 16px;
+  }
+
+  .mcd__tangle {
+    position: relative;
+  }
+
+  .mcd__tangle-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .mcd__wire {
+    stroke: rgba(239, 68, 68, 0.55);
+    stroke-width: 1.5;
+  }
+
+  .mcd__labels-left,
+  .mcd__labels-right {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #d1d5db;
+  }
+
+  .mcd__labels-left {
+    left: -4px;
+    align-items: flex-start;
+  }
+
+  .mcd__labels-right {
+    right: -4px;
+    align-items: flex-end;
+  }
+
+  .mcd__col--after .mcd__caption,
+  .mcd__col--before .mcd__caption {
+    color: #9aa1ad;
+    font-size: 0.78rem;
+    margin: 16px 0 0;
+  }
+
+  .mcd__hub {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .mcd__hub-side {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mcd__node {
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    background: rgba(16, 185, 129, 0.14);
+    color: #a7ecd3;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+  }
+
+  .mcd__hub-center {
+    background: rgba(59, 130, 246, 0.2);
+    border: 2px solid rgba(59, 130, 246, 0.55);
+    color: #bfdbfe;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 14px 10px;
+    border-radius: var(--radius-sm);
+  }
+
+  .mcd__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-faint);
+  }
+
+  .mcd__link-arrow {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 640px) {
+    .mcd {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

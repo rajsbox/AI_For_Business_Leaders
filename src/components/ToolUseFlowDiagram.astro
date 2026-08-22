@@ -1,0 +1,124 @@
+---
+// Themed (light/dark aware) diagram of the tool-use / function-calling flow:
+// question -> model decides a tool is needed -> structured tool request ->
+// the real tool runs -> real result comes back -> model writes the final answer.
+---
+
+<div class="tuf">
+  <div class="tuf__step tuf__step--user">
+    <span class="tuf__kicker">You ask</span>
+    <strong>"What's the weather in Nairobi right now?"</strong>
+  </div>
+
+  <div class="tuf__arrow" aria-hidden="true">↓</div>
+
+  <div class="tuf__step tuf__step--model">
+    <span class="tuf__kicker">Model decides</span>
+    <strong>I can't know this — I need the weather tool</strong>
+  </div>
+
+  <div class="tuf__arrow" aria-hidden="true">↓</div>
+
+  <div class="tuf__step tuf__step--request">
+    <span class="tuf__kicker">Structured tool request</span>
+    <strong>get_weather(city: "Nairobi")</strong>
+  </div>
+
+  <div class="tuf__arrow" aria-hidden="true">↓</div>
+
+  <div class="tuf__step tuf__step--tool">
+    <span class="tuf__kicker">Outside the model</span>
+    <strong>The real tool actually runs — a live weather lookup</strong>
+  </div>
+
+  <div class="tuf__arrow" aria-hidden="true">↓</div>
+
+  <div class="tuf__step tuf__step--result">
+    <span class="tuf__kicker">Real result comes back</span>
+    <strong>"27°C, light rain"</strong>
+  </div>
+
+  <div class="tuf__arrow" aria-hidden="true">↓</div>
+
+  <div class="tuf__step tuf__step--answer">
+    <span class="tuf__kicker">Model writes the final answer</span>
+    <strong>"It's 27°C with light rain in Nairobi right now."</strong>
+  </div>
+</div>
+
+<style>
+  .tuf {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .tuf__step {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  :root[data-theme='light'] .tuf__step {
+    background: #14161c;
+  }
+
+  .tuf__kicker {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9aa1ad;
+  }
+
+  .tuf__step strong {
+    color: #ffffff;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  .tuf__step--user {
+    border-color: rgba(107, 114, 128, 0.5);
+  }
+
+  .tuf__step--model,
+  .tuf__step--answer {
+    background: rgba(59, 130, 246, 0.14);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+
+  .tuf__step--request {
+    background: rgba(124, 58, 237, 0.16);
+    border-color: rgba(124, 58, 237, 0.4);
+  }
+
+  .tuf__step--request strong {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: #c9b8fb;
+  }
+
+  .tuf__step--tool {
+    background: rgba(245, 158, 11, 0.14);
+    border-color: rgba(245, 158, 11, 0.4);
+  }
+
+  .tuf__step--result {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .tuf__arrow {
+    align-self: center;
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 2px 0;
+  }
+</style>

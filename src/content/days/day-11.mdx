@@ -2,10 +2,169 @@
 day: 11
 week: 2
 title: "Prompting vs RAG vs Fine-Tuning — The Decision Framework Every Leader Should Know"
-summary: ""
-published: false
+summary: "A practical decision framework for choosing between prompting, RAG, and fine-tuning — the three ways to make an AI model behave the way your business needs."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "40–50 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import DecisionFrameworkDiagram from '../../components/DecisionFrameworkDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Over the last few days you've picked up three separate ideas: giving the model good
+instructions, RAG, and how models search by meaning. Today those pieces come together into
+one practical question every leader eventually has to answer: when someone proposes an AI
+project, which of the three actual techniques should it use? Get this wrong and you either
+overpay for something simple, or underbuild something that needed more.
+
+## Three ways to change what a model does
+
+There are only three real ways to make an AI model behave the way you want. They differ in
+how much work it takes to set up, and how easy it is to change your mind later.
+
+**Prompting** means simply telling the model what you need, in the message itself, every
+single time. This includes the upgraded version you saw on Day 3 — context engineering,
+where you don't just ask a question but hand the model the right supporting information
+alongside it, like a current price list or a customer's account details. It's the lightest
+touch: no setup beyond writing good instructions, and you can change it instantly by just
+asking differently next time. The catch is that nothing sticks — you (or your software) have
+to re-supply the instructions and the information on every single request, and everything
+you supply has to fit inside the model's [context window](https://en.wikipedia.org/wiki/Large_language_model#Context_window),
+which you met on Day 1.
+
+**RAG**, which you saw this week, automatically fetches relevant information from your own
+documents or database right before the model answers — so it always has current, specific
+information without a person manually pasting it in each time. It takes more work up front
+than plain prompting, because someone has to build that retrieval system. But it scales to
+answering questions over far more information than could ever fit in one context window, and
+it stays current automatically as your underlying documents change — update the source
+document, and the next answer reflects it.
+
+**Fine-tuning** is different in kind from the other two: it means actually continuing the
+training process on your own examples, so the desired behaviour gets baked into the model's
+[parameters](https://en.wikipedia.org/wiki/Neural_network_(machine_learning)#Parameters)
+themselves, rather than being told each time. It's the heaviest touch — the most expensive,
+the slowest to set up, and the slowest to change, since updating it means running the training
+process again. In exchange, it can teach a model a very specific style, format, or specialised
+skill in a way that repeating instructions in a prompt often can't fully achieve.
+
+A simple way to hold all three in mind: prompting is like leaving a sticky note for someone
+every morning. RAG is like giving them a key to a filing cabinet they can check whenever they
+need a fact. Fine-tuning is like sending them back to school to actually learn a new skill —
+worthwhile for something they'll need forever, wasteful for something you'll only ask once.
+
+<DecisionFrameworkDiagram />
+
+## The decision framework
+
+Here's the practical test. Ask these three questions, in order, about whatever the model
+needs to do:
+
+**Does the model just need to know a fact or follow an instruction for this one
+interaction?** Use prompting. Don't build anything more elaborate than you need — a sticky
+note doesn't need a filing cabinet.
+
+**Does the model need to answer using a large amount of your own information that keeps
+changing?** Use RAG. This is the right tool the moment the information is too big to paste
+in every time, or changes often enough that hardcoding it would go stale.
+
+**Does the model need to consistently behave in a very specific way — a format, a tone, a
+specialised skill — across everything it does, and is that need stable, not likely to change
+often?** Only then consider fine-tuning. It's the right call when you've tried prompting and
+it isn't reliable enough, and the behaviour you need is settled, not still evolving.
+
+**The practical norm worth remembering:** most real business AI tools run on prompting and
+RAG together, and reach for fine-tuning rarely. Fine-tuning is the most expensive and slowest
+option to change, so teams only reach for it once they're confident the need is real,
+specific, and stable — not as a first move.
+
+## A common mistake: reaching for fine-tuning too early
+
+A frequent pattern in AI projects: a team hits a limitation with prompting, and someone
+suggests "let's just fine-tune it," assuming that's the serious, professional-grade solution.
+Often the actual problem is one of the other two — the prompt wasn't specific enough, or the
+model needed information it simply didn't have access to, which RAG would solve at a fraction
+of the cost and time. Fine-tuning should usually be the last option tried, not the first,
+because it's the hardest one to undo if it turns out to be the wrong call.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor recommends fine-tuning a model for your customer support tool before anyone has
+   tried improving the prompts. Ask: *"Have we tried giving the model better instructions and
+   the right documents first, before committing to a fine-tuning project?"* — checks whether
+   the heaviest, slowest option is actually necessary, or just the one that sounds most
+   impressive to propose.
+2. In a budget meeting, a fine-tuning project is pitched as a one-time cost. Ask: *"If our
+   product or policies change next quarter, do we have to retrain the model again to keep it
+   accurate?"* — surfaces the ongoing cost of keeping a fine-tuned model current, which a
+   one-time price tag can hide.
+3. During a build review, an engineer says the assistant "just has the company policies in
+   its prompt." Ask: *"As those policies grow, will we keep pasting the whole document in
+   every time, or should this move to a retrieval system instead?"* — flags the moment a
+   project has outgrown plain prompting and needs RAG.
+4. In a rollout planning meeting, someone wants the assistant to always respond in a very
+   specific, consistent format across thousands of daily uses. Ask: *"Is this a case where
+   fine-tuning would actually be more reliable than repeating formatting instructions in every
+   prompt?"* — the rare case for genuinely considering fine-tuning, so the question is asked
+   deliberately instead of by default.
+
+<DayGlossary terms={[
+  {
+    term: "Prompting",
+    definition: "Giving a model instructions and information directly in the message sent to it. It requires no setup beyond writing the message, but nothing supplied this way is retained — it must be resupplied on each request, within the limits of the model's context window."
+  },
+  {
+    term: "Context engineering",
+    definition: "The practice of deliberately assembling the most relevant instructions and supporting information into a prompt, rather than relying on the model's own training knowledge. An upgraded, more deliberate form of prompting."
+  },
+  {
+    term: "RAG (Retrieval-Augmented Generation)",
+    definition: "A technique where a system automatically retrieves relevant information from an external source, such as a document store, and supplies it to the model before it answers — keeping answers current without manual copy-pasting."
+  },
+  {
+    term: "Fine-tuning",
+    definition: "Continuing a model's training process on a specific set of examples so a desired behaviour, style, or skill becomes built into the model's parameters, rather than being supplied at request time."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A team needs their AI assistant to answer questions using a constantly updated internal knowledge base with thousands of documents. Which approach fits best?",
+    options: [
+      "Fine-tuning, since it's the most powerful option",
+      "RAG, since it retrieves current information automatically and scales beyond what fits in a prompt",
+      "Prompting, by pasting the whole knowledge base into every message",
+      "None of these — this isn't something AI can do"
+    ],
+    correct: 1,
+    explain: "RAG is built exactly for this: large amounts of information that change often and are too big to paste into a single prompt every time."
+  },
+  {
+    q: "Why do most real business AI tools rely on prompting and RAG rather than fine-tuning?",
+    options: [
+      "Fine-tuning doesn't actually work",
+      "Fine-tuning is the most expensive and slowest option to set up and to change, so it's reserved for stable, specific needs",
+      "Prompting and RAG are always technically superior",
+      "Fine-tuning is only available to large AI labs"
+    ],
+    correct: 1,
+    explain: "Fine-tuning bakes behaviour into the model itself, which makes it powerful but costly and slow to update. Most needs are better served by the lighter, faster-to-change options first."
+  },
+  {
+    q: "A vendor proposes fine-tuning a model before anyone has tried improving the prompt or adding retrieval. What's the sharpest response?",
+    options: [
+      "Agree immediately, since fine-tuning sounds like the most serious solution",
+      "Ask whether prompting or RAG could solve the problem first, since they're cheaper and faster to change",
+      "Reject the idea outright — fine-tuning is never worth it",
+      "Ask for a bigger model instead"
+    ],
+    correct: 1,
+    explain: "Fine-tuning should usually be a last resort, tried after lighter options, because it's the most expensive and hardest to undo if it turns out to be unnecessary."
+  }
+]} />
+</DayApply>

@@ -2,10 +2,174 @@
 day: 8
 week: 2
 title: "APIs, System Prompts, and Temperature — The Anatomy of an AI-Powered Application"
-summary: ""
-published: false
+summary: "How a business actually builds AI into a product — the API call, the hidden system prompt, and the temperature dial — so you can ask sharper questions about any AI tool you're evaluating."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import ApiRequestDiagram from '../../components/ApiRequestDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Week 1 was about understanding AI as a reader or user of it. Starting today, Week 2 shifts
+altitude: we're looking at how AI actually gets *built into* a product — the pieces an
+engineer assembles when your company builds, or buys, an "AI-powered" feature. You don't
+need to write any of this yourself. You need to recognise the three pieces well enough to
+ask about them.
+
+## What an API actually is
+
+When you type into ChatGPT's website, you're a human clicking through a chat box. But when a
+company builds "AI-powered" into their own product — a support widget, a report generator, a
+search bar — there's usually no chat box at all. Their software sends a request directly to
+the AI company's servers, gets an answer back, and displays it inside their own product. You
+never see any of that happen.
+
+That direct, software-to-software connection is called an
+**[API](https://en.wikipedia.org/wiki/API)** — short for application programming interface.
+Think of it like ordering through a waiter at a restaurant. You never walk into the kitchen;
+you tell the waiter what you want, the waiter relays it to the kitchen, and brings back the
+finished dish. The API is the waiter: it carries a request in, and carries a result back out,
+without you or the end customer ever seeing what happened in between.
+
+This matters because it's the difference between "we use ChatGPT sometimes" and "our product
+is built on top of an AI model." The first is a person using a website. The second is a
+piece of software your company built, quietly calling someone else's model every time a
+customer uses a feature — and every one of those calls is billed, logged, and shaped by
+choices your team made.
+
+## The system prompt: the product's hidden personality
+
+Every time that software sends a request to the model, it doesn't just send the customer's
+message. It first attaches its own hidden instructions, called a
+**[system prompt](https://www.promptingguide.ai/introduction/settings)** — written once by
+whoever built the product, sent silently ahead of every single message, and never shown to
+the end user.
+
+A system prompt might read something like: *"You are a customer support assistant for Acme
+Corp. Only answer questions about our products. Be concise. Never discuss competitors."* The
+customer just sees a helpful, on-brand assistant that stays on topic — they have no idea
+those rules exist, or that a different company using the exact same underlying model could
+have written completely different instructions and gotten a completely different-feeling
+product.
+
+<ApiRequestDiagram />
+
+This is the biggest thing to internalise from today: **two products can use the identical AI
+model and behave nothing alike**, purely because of what's written in their system prompt.
+When a chatbot on one company's website is chatty and casual, and another is terse and
+formal, that's usually not a different model — it's a different set of hidden instructions
+sitting in front of the same one.
+
+## Temperature: the creativity dial
+
+The third piece is a setting called **[temperature](https://platform.openai.com/docs/api-reference/chat/create#chat-create-temperature)**,
+which controls how predictable or how varied the model's answers are.
+
+Picture asking the same knowledgeable colleague the same question many times. At low
+temperature, they give you their single most confident, safest answer, worded almost the
+same way every time. At high temperature, they're more willing to take a chance — to phrase
+things unusually, offer a surprising angle, or suggest something less obvious. Sometimes
+that's a genuinely better answer. Sometimes it's a worse one. High temperature trades
+consistency for variety, in both directions.
+
+That trade-off decides where each setting belongs. A low temperature suits places where
+customers expect the same correct answer every time — looking up a return policy, answering
+a factual question, generating a report from data. A high temperature suits places where
+variety is the actual point — brainstorming marketing taglines, drafting several different
+opening lines for an email, exploring options rather than settling on one. There's no single
+"correct" temperature; it's a deliberate choice for the job the feature is doing, made by
+whoever built it.
+
+## Putting the three together
+
+An API, a system prompt, and a temperature setting are the three levers that were actually
+set by someone, every time a business builds or buys an AI-powered feature. None of them are
+visible to the end user. All of them were decided by a person on the building side — and all
+three can be changed without changing the underlying model at all.
+
+This reframes how you should hear the phrase "it uses AI." That sentence tells you almost
+nothing on its own. The real product is the specific combination: which model is being
+called through the API, what hidden instructions are steering it, and how much freedom it's
+been given to vary its answers. A leader who can ask about all three is evaluating the actual
+product in front of them, not just trusting a label.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor demos a support chatbot that stays perfectly on-brand and never wanders off
+   topic. Ask: *"What's in the system prompt that's keeping it this disciplined — and can we
+   see it, or at least edit it?"* — surfaces whether the vendor actually controls the
+   product's behaviour, or is just hoping the model behaves.
+2. Two teams built similar-sounding AI features, but one feels much more consistent than the
+   other. Ask: *"What temperature setting is each one running at?"* — turns a vague "this
+   one feels better" into a concrete, adjustable setting worth comparing.
+3. In a budget conversation, someone says "we're just using the AI API, it's simple." Ask:
+   *"Every one of our customers' messages is going out over that API and coming back billed
+   — do we know our real request volume?"* — reframes an API call from something invisible
+   into a metered cost that scales with usage.
+4. During a rollout planning meeting, a team proposes reusing one AI assistant for both
+   factual customer lookups and creative marketing copy. Ask: *"Doesn't that need two
+   different temperature settings — and maybe two different system prompts — rather than one
+   assistant trying to do both?"* — catches a design that quietly forces one setting to serve
+   two conflicting jobs.
+
+<DayGlossary terms={[
+  {
+    term: "API (Application Programming Interface)",
+    definition: "A defined way for one piece of software to send a request to another and get a result back, without a human using a website in between. When a product is described as 'AI-powered,' it usually means the product's own software is calling an AI model's API directly."
+  },
+  {
+    term: "System prompt",
+    definition: "Hidden instructions written by whoever builds an AI product, sent to the model ahead of every user message. It sets the product's rules and tone for that entire application, and is never shown to the end user."
+  },
+  {
+    term: "Temperature",
+    definition: "A setting that controls how predictable versus varied a model's answers are. Low temperature produces more consistent, repeatable answers; high temperature produces more varied, less predictable ones."
+  },
+  {
+    term: "Request",
+    definition: "One complete message sent to a model's API — typically the system prompt plus the user's message together — that the model processes and answers in a single response."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A company's chatbot always stays on-topic and refuses to discuss competitors, even though the underlying model is a general-purpose one anyone can use. What most likely explains this?",
+    options: [
+      "The model was specially trained just for this company",
+      "A system prompt with hidden instructions is steering its behaviour",
+      "The temperature is set to zero",
+      "The API only allows on-topic questions"
+    ],
+    correct: 1,
+    explain: "The system prompt is where a product's rules and personality live. The same underlying model can behave completely differently across products, purely based on the hidden instructions each one attaches."
+  },
+  {
+    q: "A team wants one AI assistant to both answer factual policy questions and brainstorm creative marketing slogans. What's the issue?",
+    options: [
+      "This is impossible with any AI model",
+      "These two jobs likely need different temperature settings, since one wants consistency and the other wants variety",
+      "Temperature only affects image generation, not text",
+      "System prompts can't be changed once written"
+    ],
+    correct: 1,
+    explain: "Low temperature suits consistent, factual answers; high temperature suits varied, creative ones. Forcing one setting to serve both jobs means one of them is being done badly."
+  },
+  {
+    q: "When you type into ChatGPT's website versus when a company's own product calls an AI model behind the scenes, what's the key difference?",
+    options: [
+      "There is no real difference",
+      "The website version is free and the API version always costs more",
+      "The website has you interacting directly; the product's software calls the API on your behalf, invisibly",
+      "APIs only work with older AI models"
+    ],
+    correct: 2,
+    explain: "Using a chat website is a human directly typing to the model. An AI-powered product instead has its own software send requests to the model's API — the same relay-through-a-waiter pattern, just automated and invisible to the end user."
+  }
+]} />
+</DayApply>

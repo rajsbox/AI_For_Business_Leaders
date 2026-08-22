@@ -1,0 +1,138 @@
+---
+// Themed (light/dark aware) walkthrough of the basic RAG flow: question in,
+// relevant documents retrieved, both fed into the context window, answer out.
+// Plain HTML/CSS, same pattern as TrainingInferenceDiagram.astro and
+// ContextWindowDiagram.astro.
+---
+
+<div class="rfd">
+  <div class="rfd__row">
+    <div class="rfd__step rfd__step--question">
+      <span class="rfd__num">1</span>
+      <strong>Your question</strong>
+      <span>"What's our refund policy for enterprise customers?"</span>
+    </div>
+    <div class="rfd__arrow" aria-hidden="true">→</div>
+    <div class="rfd__step rfd__step--search">
+      <span class="rfd__num">2</span>
+      <strong>Search your documents</strong>
+      <span>Finds the most relevant pages — how, is Day 10</span>
+    </div>
+    <div class="rfd__arrow" aria-hidden="true">→</div>
+    <div class="rfd__step rfd__step--context">
+      <span class="rfd__num">3</span>
+      <strong>Added to the context window</strong>
+      <span>Retrieved pages + your question, together</span>
+    </div>
+    <div class="rfd__arrow" aria-hidden="true">→</div>
+    <div class="rfd__step rfd__step--answer">
+      <span class="rfd__num">4</span>
+      <strong>Grounded answer</strong>
+      <span>Based on what was actually retrieved</span>
+    </div>
+  </div>
+
+  <div class="rfd__cabinet" aria-hidden="true">
+    <span>Your documents &amp; data</span>
+    <span class="rfd__cabinet-arrow">↑ pulls from</span>
+  </div>
+</div>
+
+<style>
+  .rfd {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .rfd__row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rfd__step {
+    position: relative;
+    background: var(--card);
+    border: 2px solid var(--rule);
+    border-top: 4px solid var(--blue);
+    padding: 18px 14px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    text-align: left;
+  }
+
+  .rfd__step--search {
+    border-top-color: var(--color-warn, var(--blue));
+  }
+
+  .rfd__step--context {
+    border-top-color: var(--color-accent, var(--blue));
+  }
+
+  .rfd__step--answer {
+    border-top-color: var(--color-success, var(--blue));
+  }
+
+  .rfd__num {
+    position: absolute;
+    top: -12px;
+    left: 12px;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .rfd__step strong {
+    color: var(--ink);
+    font-size: 0.9rem;
+  }
+
+  .rfd__step span:not(.rfd__num) {
+    color: var(--sub);
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .rfd__arrow {
+    color: var(--mute);
+    font-size: 1.1rem;
+  }
+
+  .rfd__cabinet {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--mute);
+    font-size: 0.78rem;
+    font-family: var(--font-mono);
+    margin-top: 2px;
+  }
+
+  .rfd__cabinet-arrow {
+    font-size: 0.74rem;
+  }
+
+  @media (max-width: 760px) {
+    .rfd__row {
+      grid-template-columns: 1fr;
+    }
+    .rfd__arrow {
+      transform: rotate(90deg);
+      justify-self: center;
+    }
+  }
+</style>

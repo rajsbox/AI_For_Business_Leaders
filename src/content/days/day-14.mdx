@@ -1,11 +1,175 @@
 ---
 day: 14
 week: 2
-title: "AI Agents & Orchestration — Single Agents, Multi-Agent Systems, and Frameworks"
-summary: ""
-published: false
+title: "AI Agents & Orchestration — Single Agents, Multi-Agent Systems, and Frameworks (LangGraph, CrewAI, Claude Agent SDK)"
+summary: "How agentic AI actually gets built — the single-agent loop, multi-agent systems, orchestration, and why more agents isn't automatically better."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import AgentOrchestrationDiagram from '../../components/AgentOrchestrationDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+On Day 2 you learned what agentic AI *is*: generative AI given the ability to take a goal,
+break it into steps, and carry out those steps on its own. Today is about how that actually
+gets built — what's really running when someone says "we built an agent," and when a
+business problem needs one agent versus a whole team of them. This closes out Week 2, where
+you've picked up tool use and connectivity standards like MCP — today ties those pieces
+into the full picture.
+
+## What a single agent actually does
+
+Strip away the buzzword, and a single AI agent is a model doing one thing on a loop:
+understand the goal, plan the next step, take that step using a tool, check whether it
+worked, and decide what to do next — repeating until the goal is done or it needs to stop
+and ask a person.
+
+<AgentOrchestrationDiagram />
+
+That "take the step" part is where tool use, which you saw earlier this week, comes in —
+the agent doesn't just describe what it would do, it actually does it: runs a search, sends
+an email, updates a record. Without tool use, there's no agent, just a model describing a
+plan it can't carry out.
+
+A simple comparison: a single agent is like one very capable employee handling an entire
+project alone. Give them the goal, and they figure out the steps, do the work, check it, and
+adjust — coming back to you only when they're done or genuinely stuck.
+
+## Multi-agent systems: splitting the work
+
+A **multi-agent system** takes a complex task and splits it across several specialized
+agents, each handling one piece and passing work to the next — one agent researches, another
+writes, another checks the result before it goes out.
+
+The comparison to keep: if a single agent is one capable employee handling a whole project,
+a multi-agent system is a small team where each person has a specific role and hands work to
+each other in sequence, the way a research analyst, a writer, and an editor might divide up
+a report rather than one generalist doing all three jobs.
+
+## Orchestration: the coordination layer
+
+**Orchestration** is the logic that decides which agent acts when, and how results move
+between them. It isn't doing the actual work itself — it's making sure the right work
+happens in the right order and the pieces come back together correctly.
+
+Think of a conductor in front of an orchestra. The conductor doesn't play an instrument.
+Their entire job is timing and coordination — who plays now, who comes in next, how the
+parts combine into one piece of music. Orchestration in a multi-agent system plays the same
+role: a project manager function sitting above the agents, not one of the workers itself.
+
+## Frameworks: the toolkits developers build with
+
+You'll hear names like **[LangGraph](https://langchain-ai.github.io/langgraph/)**,
+**[CrewAI](https://docs.crewai.com/)**, and the
+**[Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)** — these are
+software toolkits developers use to actually build and orchestrate agent systems, rather
+than writing all of that coordination logic from scratch.
+
+A useful comparison: a construction company builds with standard scaffolding, cranes, and
+frameworks rather than inventing new equipment for every building. Which framework a
+development team chooses is an engineering decision, the same way a construction crew's
+choice of crane doesn't change whether the building itself is well designed. As a leader,
+you don't need to know the differences between these frameworks in detail. The practical
+takeaway: "we're building this with an agent framework" is a normal, legitimate engineering
+approach — not by itself a sign of sophistication, and not by itself a sign of hype. The
+framework choice matters to the engineering team; it doesn't tell you whether the business
+problem is actually being solved well.
+
+## The caution: more agents isn't automatically better
+
+This is the part worth remembering after everything else fades. More agents and more
+autonomy is not automatically a better solution. Every additional agent, and every
+additional step where the system acts entirely on its own, is one more place something can
+go wrong. A multi-agent system is genuinely harder to predict, debug, and control than a
+single agent — and a single agent is harder to predict and control than a simple prompt, or
+the RAG setup you saw on Day 9.
+
+The same discipline from earlier in the course applies here: match the tool to the task. A
+genuinely complex, multi-step business process — one that really does split cleanly into
+distinct roles — might be a good fit for a multi-agent system. A task that a single
+well-designed agent, or even just prompting and RAG, can already handle shouldn't be
+rebuilt as a multi-agent system just because it's the more impressive-sounding
+architecture. The most sophisticated-looking system isn't automatically the right one; it's
+often just the one with the most places to fail.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. An engineering team pitches a new internal tool as "a multi-agent system," and the room
+   nods along. Ask: *"Does this task actually split into distinct roles that benefit from
+   separate agents, or could one well-built agent handle it end to end?"* — checks whether
+   the architecture matches the actual complexity of the task, or is just the fancier option.
+2. A vendor demo shows several agents passing work to each other smoothly. Ask: *"What
+   happens when one of those agents in the middle gets something wrong — does the error get
+   caught, or does it just get handed to the next agent?"* — surfaces whether they've
+   actually thought about failure points, not just the happy path.
+3. In a budget conversation, someone justifies a project's cost by saying "it uses
+   LangGraph" or "it's built on an agent framework." Ask: *"Which specific business problem
+   does that solve for us, separate from which framework it's built with?"* — separates the
+   engineering choice, which is legitimate but not the point, from whether the business
+   problem is actually being addressed.
+4. During a rollout planning meeting, a team proposes adding a fourth specialized agent to
+   an already-running three-agent system. Ask: *"What's the specific failure or gap that
+   this new agent fixes, and what new ways can the system now go wrong because of it?"* —
+   makes sure added complexity is solving a real problem, not just sounding more advanced.
+
+<DayGlossary terms={[
+  {
+    term: "Single agent",
+    definition: "One AI agent that handles a task from start to finish on its own, looping through understanding a goal, planning steps, taking actions with tools, and checking progress until the goal is done."
+  },
+  {
+    term: "Multi-agent system",
+    definition: "A system where a complex task is split across several specialized agents, each responsible for one part of the work, coordinating with each other to complete the overall goal."
+  },
+  {
+    term: "Orchestration",
+    definition: "The coordination logic in an agent system that decides which agent acts, when, and how results are passed between agents — it manages the workflow but does not perform the underlying task itself."
+  },
+  {
+    term: "Agent framework",
+    definition: "A software toolkit (examples include LangGraph, CrewAI, and the Claude Agent SDK) that developers use to build and orchestrate agent systems, rather than writing the coordination logic from scratch."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "What's the core difference between a single agent and a multi-agent system?",
+    options: [
+      "A multi-agent system is simply a faster version of a single agent",
+      "A single agent handles a whole task itself; a multi-agent system splits the task across several specialized agents that coordinate",
+      "Multi-agent systems don't use tools, while single agents do",
+      "There's no meaningful difference — it's just marketing language"
+    ],
+    correct: 1,
+    explain: "A single agent works a task start to finish on its own. A multi-agent system divides a complex task across specialized agents — such as one that researches, one that writes, and one that reviews — that pass work between each other."
+  },
+  {
+    q: "What does 'orchestration' refer to in an agent system?",
+    options: [
+      "The specific AI model being used",
+      "The coordination logic that decides which agent acts when, and how results move between agents",
+      "The training process used to build the agents",
+      "A synonym for a single agent's tool use"
+    ],
+    correct: 1,
+    explain: "Orchestration is the coordination layer — like a conductor directing an orchestra — that manages which agent does what and in what order. It doesn't do the underlying work itself."
+  },
+  {
+    q: "A team proposes a five-agent system for a task a single well-built agent could likely handle. What's the sharpest concern?",
+    options: [
+      "Five agents will always outperform one, so there's no real concern",
+      "More agents and more autonomy add more places for something to go wrong, making the system harder to predict, debug, and control without necessarily improving the outcome",
+      "Multi-agent systems are always cheaper to run than single agents",
+      "This is only a concern if the agents use different frameworks"
+    ],
+    correct: 1,
+    explain: "Added agents and autonomy increase complexity and failure points. The right architecture matches the actual complexity of the task — over-engineering a simple task into a multi-agent system just because it sounds more sophisticated is a real risk, not a strength."
+  }
+]} />
+</DayApply>

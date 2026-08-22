@@ -1,0 +1,116 @@
+---
+// Themed (light/dark aware) illustration of "search by meaning": phrases with
+// similar meaning cluster near each other on a simplified map, even when they
+// share no keywords. Plain HTML/CSS divs only — not a real coordinate-plotted
+// chart, just an illustrative layout, following the pattern in
+// TrainingInferenceDiagram.astro.
+---
+
+<div class="mmd">
+  <p class="mmd__title">A simplified map of meaning</p>
+
+  <div class="mmd__plane">
+    <div class="mmd__cluster mmd__cluster--cut" style="top: 18%; left: 10%;">
+      <div class="mmd__dot">"cost cutting"</div>
+      <div class="mmd__dot">"reducing expenses"</div>
+      <div class="mmd__dot">"trimming the budget"</div>
+    </div>
+
+    <div class="mmd__cluster mmd__cluster--hire" style="top: 60%; left: 58%;">
+      <div class="mmd__dot">"hiring plan"</div>
+      <div class="mmd__dot">"headcount growth"</div>
+      <div class="mmd__dot">"bringing on new staff"</div>
+    </div>
+
+    <div class="mmd__cluster mmd__cluster--churn" style="top: 12%; left: 66%;">
+      <div class="mmd__dot">"customer churn"</div>
+      <div class="mmd__dot">"clients leaving"</div>
+    </div>
+
+    <div class="mmd__label" aria-hidden="true">Phrases with similar meaning land near each other — regardless of shared words.</div>
+  </div>
+</div>
+
+<style>
+  .mmd {
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .mmd__title {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mute);
+    margin: 0 0 12px;
+  }
+
+  .mmd__plane {
+    position: relative;
+    min-height: 340px;
+    border: 2px solid var(--rule);
+    background: #14161c;
+    padding: 16px;
+  }
+
+  :root[data-theme='light'] .mmd__plane {
+    background: #14161c;
+  }
+
+  .mmd__cluster {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 210px;
+  }
+
+  .mmd__dot {
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+  }
+
+  .mmd__cluster--cut .mmd__dot {
+    background: rgba(124, 58, 237, 0.18);
+    border-color: rgba(124, 58, 237, 0.45);
+  }
+
+  .mmd__cluster--hire .mmd__dot {
+    background: rgba(16, 185, 129, 0.16);
+    border-color: rgba(16, 185, 129, 0.45);
+  }
+
+  .mmd__cluster--churn .mmd__dot {
+    background: rgba(234, 88, 12, 0.16);
+    border-color: rgba(234, 88, 12, 0.45);
+  }
+
+  .mmd__label {
+    position: absolute;
+    bottom: 14px;
+    left: 16px;
+    right: 16px;
+    color: #9aa1ad;
+    font-size: 0.76rem;
+    font-style: italic;
+  }
+
+  @media (max-width: 640px) {
+    .mmd__plane {
+      min-height: 460px;
+    }
+    .mmd__cluster {
+      max-width: 160px;
+    }
+    .mmd__dot {
+      white-space: normal;
+    }
+  }
+</style>

@@ -2,10 +2,168 @@
 day: 13
 week: 2
 title: "MCP (Model Context Protocol) & A2A — The New Connectivity Standards for AI Systems"
-summary: ""
-published: false
+summary: "Why your AI tools kept needing custom-built connections to your other systems — and the new common standards, MCP and A2A, that are changing that."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "30–40 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import McpConnectivityDiagram from '../../components/McpConnectivityDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Yesterday you saw a model call a single tool — looking up the weather, running a
+calculation. Today is about what happens when a real business has many tools: a CRM, a
+database, internal documents, a calendar, other software. Connecting a model to all of them
+used to mean building a separate, custom connection for every single pairing. Today you'll
+learn about the standards emerging to fix that.
+
+## The problem: every connection was custom-built
+
+Imagine every appliance in your house needed its own uniquely shaped wall socket. Your
+kettle needs one plug shape, your lamp needs a different one, your phone charger needs a
+third. Every time you buy a new appliance, an electrician has to install a new kind of
+socket for it. That's expensive, slow, and doesn't scale.
+
+That was the situation with connecting AI models to business systems. If you wanted Model A
+to use your CRM, someone had to build that specific connection. If you then wanted Model B
+to also use the CRM, that was a second, separate piece of work — even though the CRM hadn't
+changed. Multiply that across several models and several tools, and you get a tangle of
+one-off, brittle connections that someone has to maintain forever.
+
+<McpConnectivityDiagram />
+
+## MCP: a common plug shape for connecting AI to your tools
+
+**[MCP (Model Context Protocol)](https://modelcontextprotocol.io/introduction)** is a
+standard, common way for an AI model to connect to outside tools and data sources. Instead
+of custom-building a connection for every model-and-tool combination, a tool built to the
+MCP standard can be plugged into any MCP-compatible model, and any MCP-compatible model can
+use any MCP-compatible tool.
+
+It's the same idea as a universal power socket. Once everyone agrees on the same plug
+shape, any appliance works with any compatible outlet, instead of every appliance needing
+its own custom wiring. MCP is that agreed shape, but for AI models and the systems they need
+to reach.
+
+> **Why this matters to you:** this is what turns "we built a custom integration for our
+> chatbot" into "we support a standard, so new AI tools plug in with far less custom work."
+> That difference shows up directly in your integration budget and in how fast you can adopt
+> — or switch — AI vendors.
+
+## A2A: how two different AI agents talk to each other
+
+MCP connects a model to a tool or data source. **[A2A (Agent-to-Agent)](https://a2a-protocol.org/latest/)**
+is a related but different standard, for a different problem: letting different AI agents
+(Day 2 and Day 14's topic — AI systems that can carry out multi-step tasks on their own,
+possibly built by different companies) communicate and coordinate with each other directly.
+
+A simple way to keep the two straight: **MCP is how one AI connects to your company's tools
+and data. A2A is how two different AI agents talk to and coordinate with each other.** With
+A2A, one agent can hand off part of a task to another agent — the way one employee might ask
+a colleague in a different department to handle a piece of a project, rather than trying to
+do everything themselves.
+
+**The trap to avoid:** don't assume every "agent" a vendor sells actually uses A2A to talk
+to other agents. Plenty of products marketed as multi-agent systems are really one system
+calling its own internal functions, dressed up in agent language. Ask specifically whether
+separate agents — potentially from different vendors — are coordinating through a standard,
+or whether it's one system talking to itself.
+
+## Why standards like this matter to a business leader
+
+The technical detail of how MCP or A2A works isn't the point for you. The point is what a
+standard does to your negotiating position and your costs:
+
+- **Lower integration cost.** A tool or model that supports a common standard plugs in with
+  far less custom engineering than a one-off integration.
+- **Less vendor lock-in.** If your systems speak a common standard, switching AI vendors
+  later doesn't mean rebuilding every connection from scratch.
+- **A genuine question to evaluate vendors by.** Whether a vendor supports these standards
+  is a real signal of whether they're building an open, interoperable product or trying to
+  keep you inside a closed system — a fair thing to ask about in any AI vendor evaluation.
+
+**Be honest about where this stands.** MCP and A2A are newer, fast-moving standards. The
+exact details will keep evolving, and other standards may emerge or compete with them over
+time. What's stable is the underlying problem: connecting AI to the many systems a real
+business runs is expensive and slow without some shared standard, and that problem is worth
+understanding regardless of which specific standard eventually wins out.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor demo shows their AI assistant pulling live data from three different internal
+   systems. Ask: *"Did your team build a custom connection to each of those systems, or does
+   this use a common standard like MCP?"* — tells you whether adding a fourth system next
+   year is a quick plug-in or another expensive build.
+2. In a vendor evaluation meeting, someone asks what makes one AI platform more "open" than
+   another. Ask: *"Does this platform support MCP, or does connecting our tools mean custom
+   integration work every time?"* — turns a vague word like "open" into a concrete,
+   checkable feature.
+3. A team proposes a "multi-agent system" where several AI agents supposedly coordinate on a
+   task. Ask: *"Are these actually separate agents communicating through something like A2A,
+   or is this one system calling its own internal functions?"* — separates a real
+   multi-agent design from a single system marketed with agent language.
+4. During a budget discussion about switching AI vendors next year, someone worries about
+   the cost of rebuilding every integration. Ask: *"How much of our current setup relies on
+   a common standard versus custom one-off connections?"* — surfaces how locked in you
+   actually are, before you're stuck with the answer.
+
+<DayGlossary terms={[
+  {
+    term: "MCP (Model Context Protocol)",
+    definition: "A standard, common way for an AI model to connect to outside tools and data sources, so a tool built to the standard can work with any compatible model without a custom, one-off integration."
+  },
+  {
+    term: "A2A (Agent-to-Agent)",
+    definition: "A standard for letting separate AI agents — potentially built by different companies — communicate and coordinate with each other directly, including handing off part of a task from one agent to another."
+  },
+  {
+    term: "Vendor lock-in",
+    definition: "A situation where switching to a different vendor's product is costly or difficult because of custom, non-standard integration work, rather than because the alternative product is worse."
+  },
+  {
+    term: "Interoperability",
+    definition: "The ability of different systems, built by different parties, to work together correctly without special custom-built connections between each pair."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "Before a standard like MCP existed, what did connecting an AI model to a company's CRM, database, and internal documents typically require?",
+    options: [
+      "Nothing — models could already reach any system automatically",
+      "A separate, custom-built connection for each model-and-tool combination",
+      "Only a single universal connection that worked everywhere from the start",
+      "Switching to a different model entirely"
+    ],
+    correct: 1,
+    explain: "Without a shared standard, every pairing of a model and a tool needed its own one-off integration work — the equivalent of every appliance needing its own uniquely shaped wall socket."
+  },
+  {
+    q: "What's the clearest way to describe the difference between MCP and A2A?",
+    options: [
+      "They are two names for exactly the same standard",
+      "MCP connects a model to tools and data; A2A lets separate AI agents communicate and coordinate with each other",
+      "MCP is only for large companies, while A2A is only for small companies",
+      "A2A replaced MCP and MCP is no longer used"
+    ],
+    correct: 1,
+    explain: "MCP is how one AI connects to your company's tools and data. A2A is how two different AI agents talk to and coordinate with each other, including handing off part of a task."
+  },
+  {
+    q: "Why should a business leader care whether a vendor's product supports a standard like MCP?",
+    options: [
+      "It has no real business impact, only technical relevance",
+      "It's purely a marketing term with no functional meaning",
+      "It affects integration cost and vendor lock-in — a genuine signal of how open or closed the product is",
+      "It guarantees the vendor's model is more accurate than competitors"
+    ],
+    correct: 2,
+    explain: "Standards support is a real, checkable signal of interoperability. It affects how costly it is to connect new tools and how easily you could switch vendors later, not just a technical detail."
+  }
+]} />
+</DayApply>

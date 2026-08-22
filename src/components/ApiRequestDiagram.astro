@@ -1,0 +1,124 @@
+---
+// Themed (light/dark aware) diagram showing what actually happens when a
+// product calls an AI model's API: the system prompt (set by the builder,
+// hidden from the user) is combined with the user's message before it ever
+// reaches the model, and the model's answer is shaped by both.
+---
+
+<div class="ard">
+  <div class="ard__row">
+    <div class="ard__box ard__box--hidden">
+      <p class="ard__box-label">Set by the builder · hidden from the user</p>
+      <strong>System prompt</strong>
+      <span>"You are a support assistant for Acme. Only answer product questions. Be concise."</span>
+    </div>
+    <div class="ard__plus" aria-hidden="true">+</div>
+    <div class="ard__box ard__box--user">
+      <p class="ard__box-label">Typed by the user</p>
+      <strong>User message</strong>
+      <span>"Do you ship to Canada?"</span>
+    </div>
+  </div>
+
+  <div class="ard__arrow" aria-hidden="true">↓ sent together, in one request, over the API</div>
+
+  <div class="ard__box ard__box--model">
+    <strong>The model</strong>
+    <span>Answers using both — the user only ever sees their own message</span>
+  </div>
+
+  <div class="ard__arrow" aria-hidden="true">↓</div>
+
+  <div class="ard__box ard__box--response">
+    <strong>Response</strong>
+    <span>Shaped by the hidden system prompt, even though it looks like a plain reply</span>
+  </div>
+</div>
+
+<style>
+  .ard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .ard__row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .ard__box {
+    background: var(--card);
+    border: 2px solid var(--rule);
+    padding: 16px 18px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .ard__box-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    margin: 0 0 8px;
+  }
+
+  .ard__box strong {
+    display: block;
+    color: var(--ink);
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+
+  .ard__box span {
+    display: block;
+    color: var(--sub);
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+
+  .ard__box--hidden {
+    border-color: var(--blue);
+    background: color-mix(in srgb, var(--blue) 8%, var(--card));
+  }
+
+  .ard__box--user {
+    background: var(--card);
+  }
+
+  .ard__box--model {
+    max-width: 420px;
+  }
+
+  .ard__box--response {
+    max-width: 420px;
+    border-style: dashed;
+  }
+
+  .ard__plus {
+    font-size: 1.2rem;
+    color: var(--mute);
+    font-weight: 700;
+  }
+
+  .ard__arrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--mute);
+    margin: 6px 0;
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .ard__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

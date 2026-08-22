@@ -1,0 +1,103 @@
+---
+// Themed (light/dark aware) 3-column comparison of Prompting vs RAG vs
+// Fine-Tuning, following the plain HTML/CSS pattern in
+// TrainingInferenceDiagram.astro — no external image files.
+---
+
+<div class="dfd">
+  <div class="dfd__col dfd__col--prompting">
+    <p class="dfd__title">Prompting</p>
+    <p class="dfd__sub">Tell it, every time</p>
+    <div class="dfd__row"><span class="dfd__label">Setup effort</span><span class="dfd__val">Lowest — just write good instructions</span></div>
+    <div class="dfd__row"><span class="dfd__label">Cost</span><span class="dfd__val">Pay per message, repeated every request</span></div>
+    <div class="dfd__row"><span class="dfd__label">Stays current?</span><span class="dfd__val">Only if you re-paste fresh info each time</span></div>
+    <div class="dfd__row"><span class="dfd__label">Best fit</span><span class="dfd__val">A one-off instruction or fact for this interaction</span></div>
+  </div>
+
+  <div class="dfd__col dfd__col--rag">
+    <p class="dfd__title">RAG</p>
+    <p class="dfd__sub">Fetch it, automatically</p>
+    <div class="dfd__row"><span class="dfd__label">Setup effort</span><span class="dfd__val">Moderate — build a retrieval system once</span></div>
+    <div class="dfd__row"><span class="dfd__label">Cost</span><span class="dfd__val">Setup cost, then a lookup on each request</span></div>
+    <div class="dfd__row"><span class="dfd__label">Stays current?</span><span class="dfd__val">Yes — updates as your documents change</span></div>
+    <div class="dfd__row"><span class="dfd__label">Best fit</span><span class="dfd__val">Answering from large, changing, company-specific data</span></div>
+  </div>
+
+  <div class="dfd__col dfd__col--finetune">
+    <p class="dfd__title">Fine-Tuning</p>
+    <p class="dfd__sub">Bake it in</p>
+    <div class="dfd__row"><span class="dfd__label">Setup effort</span><span class="dfd__val">Highest — retrain the model on examples</span></div>
+    <div class="dfd__row"><span class="dfd__label">Cost</span><span class="dfd__val">Most expensive; redo the whole job to update</span></div>
+    <div class="dfd__row"><span class="dfd__label">Stays current?</span><span class="dfd__val">No — frozen until retrained again</span></div>
+    <div class="dfd__row"><span class="dfd__label">Best fit</span><span class="dfd__val">A stable, specific style, format, or skill everywhere</span></div>
+  </div>
+</div>
+
+<style>
+  .dfd {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .dfd__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 20px 18px;
+  }
+
+  :root[data-theme='light'] .dfd__col {
+    background: #14161c;
+  }
+
+  .dfd__title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .dfd__sub {
+    color: #9aa1ad;
+    font-size: 0.8rem;
+    margin: 0 0 16px;
+  }
+
+  .dfd__row {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .dfd__row:first-of-type {
+    border-top: none;
+  }
+
+  .dfd__label {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b7280;
+  }
+
+  .dfd__val {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .dfd__col--prompting .dfd__val { color: #a7ecd3; }
+  .dfd__col--rag .dfd__val { color: #8ecbfb; }
+  .dfd__col--finetune .dfd__val { color: #c9b8fb; }
+
+  @media (max-width: 720px) {
+    .dfd {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

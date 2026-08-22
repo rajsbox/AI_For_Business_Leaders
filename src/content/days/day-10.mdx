@@ -2,10 +2,167 @@
 day: 10
 week: 2
 title: "Embeddings & Vector Databases — How Machines \"Search by Meaning\""
-summary: ""
-published: false
+summary: "How AI systems find 'the most relevant information' by meaning, not keywords — the mechanism behind RAG."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import MeaningMapDiagram from '../../components/MeaningMapDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Yesterday's lesson on RAG glossed over exactly how a system finds "the most relevant
+information" in your documents. It just said the system searches and hands the model what
+it finds. Today's the answer: what that search actually is, and why it's smarter than the
+search box you're used to.
+
+## The problem: keyword search only finds exact words
+
+Think about the search box on your company intranet, or hitting Ctrl+F in a long document.
+It looks for the exact words you typed. Search "cost cutting" and it will find every
+document containing those exact words — and miss a perfectly relevant document titled
+"Reducing Expenses," even though it's about exactly the same thing. The words don't match,
+so the search fails, no matter how relevant the content actually is.
+
+This is a real, familiar frustration. Anyone who has searched a shared drive for something
+they know exists, and come up empty because they guessed the wrong phrasing, has hit this
+exact wall. Traditional keyword search doesn't understand meaning — it only checks for
+matching text.
+
+## Embeddings: turning meaning into numbers
+
+An **[embedding](https://platform.openai.com/docs/guides/embeddings)** is a way of
+converting a piece of text — a word, a sentence, a whole document — into a list of numbers
+that captures what it *means*, not just which words it uses. Two pieces of text with
+similar meaning end up with similar numbers, even if they don't share a single word.
+
+A simple way to picture it: imagine giving every book in a library a set of coordinates on
+a giant map, based on what the book is actually about rather than its exact title wording.
+Books about similar topics end up near each other on the map, regardless of phrasing. On
+that map, "reducing expenses" and "cost cutting" would land in almost the same spot,
+because they mean the same thing — while "cost cutting" and "customer complaints" would
+land far apart, because they don't.
+
+<MeaningMapDiagram />
+
+Turning text into these number-lists is done by a model trained specifically for this job.
+You don't need to know how it works internally — only that this is the step that converts
+plain text into "coordinates on the meaning map."
+
+## Vector databases: searching the map quickly
+
+Once you've converted a large pile of documents into these number-lists — usually called
+**vectors** — you need somewhere to store them and a fast way to find the ones nearest to
+a given point on the map. That's what a **[vector database](https://en.wikipedia.org/wiki/Vector_database)**
+is: a database built specifically to store vectors and quickly answer the question "which
+of these are closest in meaning to this new one?"
+
+This is the literal mechanism behind "search by meaning." When you ask a question, the
+system converts your question into a vector using the same embedding step, then asks the
+vector database to find the stored documents whose vectors sit nearest to it on the map —
+in other words, whose meaning is closest to what you asked, keywords or not.
+
+> **Why this matters to you:** this is exactly the missing step from yesterday's RAG
+> lesson. When a RAG system "searches your documents for the most relevant information,"
+> under the hood it's doing two things: turning your question into an embedding, then
+> using a vector database to find the nearest matches. That's the whole trick — not magic,
+> a specific, buildable piece of infrastructure.
+
+## Why this feels like a big leap from the old intranet search box
+
+The plain business payoff: "search by meaning" is why modern AI search and chatbot tools
+feel dramatically smarter than the keyword search box most companies have used for years.
+It's not that the AI is reading your mind — it's that it's comparing meaning instead of
+exact wording, which is exactly the frustration described at the start of today's lesson.
+
+This is also genuinely one of the more technical days in this course. You don't need to be
+able to build a vector database yourself. You need to know it exists, what job it does, and
+that it's a specific piece of infrastructure you can ask a vendor about — not a black box
+you have to take on faith.
+
+**The trap to avoid:** the quality of "search by meaning" depends entirely on the documents
+that were converted into vectors in the first place, and on keeping that up to date. If your
+policy documents change next month and nobody re-runs the embedding step on the new version,
+the vector database keeps confidently pointing at the old, outdated text — the search will
+still "work," it will just be quietly wrong. This is the same freshness problem from Day 9,
+one layer deeper.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor demos their AI search tool by typing a query that shares no obvious keywords
+   with the document it returns, and the room is impressed. Ask: *"Is this doing keyword
+   matching, or is it comparing meaning using embeddings and a vector database?"* — tells
+   you whether you're looking at real "search by meaning" or a lucky keyword overlap.
+2. In an internal build review, an engineer says the RAG system "searches the documents."
+   Ask: *"What are we using as the vector database, and who's responsible for keeping the
+   embeddings updated as our documents change?"* — surfaces whether there's a real,
+   maintained plan behind that one sentence, or a gap nobody's owned yet.
+3. In a budget conversation, someone frames the vector database as a minor technical detail
+   not worth discussing. Ask: *"If this is what actually finds the relevant information,
+   what happens to answer quality if it's set up poorly or left stale?"* — reframes a
+   "minor detail" as the thing the whole system's accuracy depends on.
+4. During rollout planning, a team proposes launching an AI search tool over documents that
+   change weekly. Ask: *"How often do we re-run the embedding step so the vector database
+   reflects this week's documents, not last month's?"* — catches a freshness gap before it
+   becomes confidently wrong answers in production.
+
+<DayGlossary terms={[
+  {
+    term: "Embedding",
+    definition: "A list of numbers produced from a piece of text that represents its meaning. Text with similar meaning produces similar numbers, even when the wording is completely different."
+  },
+  {
+    term: "Vector",
+    definition: "The technical name for the list of numbers an embedding produces. Vectors can be compared mathematically to measure how close two pieces of text are in meaning."
+  },
+  {
+    term: "Vector database",
+    definition: "A database built specifically to store large numbers of vectors and quickly find the ones nearest in meaning to a given query. This is the infrastructure that powers 'search by meaning' in RAG and AI search tools."
+  },
+  {
+    term: "Keyword search",
+    definition: "Traditional search that matches the exact words typed in a query, such as Ctrl+F or a basic website search box. It fails to find relevant results when the wording differs, even if the meaning is the same."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "Why does searching 'cost cutting' fail to find a document titled 'Reducing Expenses' in a traditional keyword search box?",
+    options: [
+      "The document is corrupted",
+      "Keyword search only matches exact words, not meaning, so different wording is invisible to it",
+      "The search box has a word limit",
+      "The document wasn't indexed"
+    ],
+    correct: 1,
+    explain: "Traditional keyword search checks for matching text, not matching meaning. Two phrases that mean the same thing but use different words will not match each other."
+  },
+  {
+    q: "What does an embedding actually do?",
+    options: [
+      "It translates text into another language",
+      "It compresses a document to save storage space",
+      "It converts text into a list of numbers that represents its meaning, so similar meanings produce similar numbers",
+      "It summarizes a document into one sentence"
+    ],
+    correct: 2,
+    explain: "An embedding turns text into numbers that capture meaning. Texts with similar meaning end up with similar numbers, even without shared words — that's what makes 'search by meaning' possible."
+  },
+  {
+    q: "In a RAG system, what job does the vector database actually do?",
+    options: [
+      "It stores the model's training data",
+      "It stores the document embeddings and quickly finds the ones closest in meaning to a given question",
+      "It generates the AI's final written answer",
+      "It translates the user's question into different phrasings"
+    ],
+    correct: 1,
+    explain: "The vector database is where the document embeddings live. When a question comes in, it's converted into an embedding too, and the vector database finds the stored embeddings nearest to it in meaning — those are handed to the model."
+  }
+]} />
+</DayApply>

@@ -2,10 +2,175 @@
 day: 9
 week: 2
 title: "RAG (Retrieval-Augmented Generation) — Why It's the #1 Enterprise Pattern"
-summary: ""
-published: false
+summary: "How giving a model access to your own current documents — instead of relying on its fixed training — became the default way businesses actually deploy AI."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import RagFlowDiagram from '../../components/RagFlowDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Back on Day 3, we compared the context window to a notepad you hand the model right before
+asking your question — fresh and accurate, unlike its fixed training data. Today's technique
+is how that notepad actually gets filled in most real business tools, automatically, with
+the right pages. It's called RAG, and it's the pattern behind almost every serious AI product
+built for a company's own data.
+
+## What RAG actually is
+
+**[Retrieval-Augmented Generation](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)**,
+or RAG, means the model doesn't just answer from what it learned during training. Instead,
+before it answers, the system first *retrieves* relevant material from your own documents or
+database, and adds that material to the context window alongside your question. The model
+then answers using what was just retrieved — your current, real information — not only its
+trained-in memory.
+
+That's the whole idea. Two things happen instead of one: a search step, then an answer step.
+
+## The filing cabinet analogy
+
+Picture a smart assistant who, before answering your question, walks over to your company's
+filing cabinet, pulls out the few most relevant pages, reads just those, and answers based on
+what's actually written there. That's very different from an assistant answering purely from
+memory of things they skimmed once, a long time ago, and may have half-forgotten or gotten
+slightly wrong since.
+
+RAG is that first assistant. The "memory" is the model's training. The "walk to the filing
+cabinet" is the retrieval step. The model still writes the answer — but it's now writing from
+notes it just pulled, not from recollection alone.
+
+## The basic flow
+
+<RagFlowDiagram />
+
+1. **Your question comes in** — the same as any normal AI interaction.
+2. **The system searches your own documents or database** for the most relevant pieces. We'll
+   cover exactly how that search works — a technique called embeddings and vector
+   search — on Day 10. For today, it's enough to know it's a search step, not a guess.
+3. **Those relevant pieces get added into the context window**, sitting right alongside your
+   question — the notepad from Day 3, now filled in automatically by the search step instead
+   of by a person copy-pasting.
+4. **The model answers using that retrieved material**, the same way it would answer about
+   any document you'd pasted in yourself.
+
+## Why it's called "the #1 enterprise pattern"
+
+Most real business AI tools work this way: a company chatbot that knows your HR policies, a
+support bot that knows your product documentation, an internal assistant that can answer
+questions about your own contracts or reports. All of these are RAG systems under the hood.
+
+The reason is straightforward. As you saw on Day 1, a model's training has a **knowledge
+cutoff** — a fixed date after which it knows nothing — and it was never trained on your
+company's internal documents in the first place, no matter how recent its cutoff is. A
+business needs answers grounded in *its own* current, specific information, not the model's
+generic trained knowledge. RAG is the standard way to bridge that gap without touching the
+model itself.
+
+> **Why this matters to you:** when a vendor demo answers a detailed question about your
+> company correctly, that's almost never the model "knowing" your business. It's RAG — the
+> demo retrieved a document behind the scenes and fed it in. Worth remembering the next time
+> a demo looks like magic.
+
+## Why this beats retraining the model
+
+There's another way to give a model your company's knowledge: retrain it on your own data, a
+process called **fine-tuning**. We'll compare the two properly on Day 11, but the short
+version is that RAG is usually far cheaper and faster to set up. Updating a RAG system means
+updating your documents — adding a new policy PDF, editing a page — not retraining a model.
+That also means your AI tool's knowledge can be kept current on an ordinary schedule, the same
+way you'd update a shared drive, rather than requiring a specialised retraining job every time
+something changes.
+
+## The honest caveat: retrieval is the bottleneck
+
+RAG is only as good as what it retrieves. If the search step in step 2 pulls the wrong or
+irrelevant pages — an outdated policy, a document about the wrong product, a page that's
+merely similar-sounding rather than actually relevant — the model will still write a
+confident, fluent answer. It just won't be a *correct* one, because it's confidently
+summarising the wrong material.
+
+**The trap to avoid:** assuming that if a RAG-based tool gives a wrong answer, the fix is
+"use a smarter model." Often the model behaved perfectly given what it was handed — the real
+problem is upstream, in what got retrieved. Retrieval quality is the actual bottleneck in most
+RAG systems, not the model's intelligence, which is exactly why Day 10's topic — how that
+search step really works — matters for anyone evaluating one of these tools.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor's demo just answered a detailed question about your company's own policy
+   document, and the room is impressed. Ask: *"Is that RAG pulling from a document we gave
+   you, or is the model somehow supposed to already know that?"* — separates a real,
+   repeatable capability from a rehearsed one-off demo.
+2. In a project review, an engineer proposes fine-tuning a model on your company's data
+   instead of building retrieval. Ask: *"Why retrain the model instead of just letting it
+   retrieve from our documents — what does fine-tuning get us that RAG doesn't?"* — makes
+   sure the harder, more expensive path is a deliberate choice, not a default.
+3. A support bot built on your product documentation gives a confidently wrong answer. Ask:
+   *"Was that the model reasoning badly, or did it retrieve the wrong document to begin
+   with?"* — points the debugging effort at the actual likely cause, retrieval, not the model.
+4. During a rollout planning meeting, someone asks how the AI tool's knowledge will stay
+   current after launch. Ask: *"When our policies change next quarter, do we retrain
+   anything, or just update the source documents?"* — surfaces whether the team has actually
+   built this as a RAG system with a simple update path, before you commit to it.
+
+<DayGlossary terms={[
+  {
+    term: "Retrieval-Augmented Generation (RAG)",
+    definition: "A technique where a system first searches an external source — such as a company's own documents or database — for relevant material, then adds that material to the model's context window so it can answer using current, specific information rather than only its fixed training."
+  },
+  {
+    term: "Retrieval",
+    definition: "The search step in a RAG system: finding the most relevant pieces of content from a document set or database before the model is asked to answer."
+  },
+  {
+    term: "Fine-tuning",
+    definition: "Retraining a model on a specific set of data so that knowledge becomes part of the model itself, as an alternative to retrieving that knowledge at answer time."
+  },
+  {
+    term: "Grounding",
+    definition: "Basing a model's answer on specific supplied source material — such as retrieved documents — rather than on its trained-in knowledge alone."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "What does RAG add to how a model normally answers a question?",
+    options: [
+      "It retrains the model on new data before every answer",
+      "It searches your own documents or database first, and adds what it finds to the context window alongside the question",
+      "It makes the model's responses shorter to save cost",
+      "It replaces the model with a simpler search engine"
+    ],
+    correct: 1,
+    explain: "RAG adds a retrieval step before the model answers: relevant material is pulled from your own documents or database and placed into the context window next to the question, so the model can answer from that current material."
+  },
+  {
+    q: "A RAG-based support bot gives a confident but wrong answer about a company policy. What's the most likely root cause?",
+    options: [
+      "The model needs to be replaced with a larger one",
+      "The retrieval step likely pulled the wrong or irrelevant document, and the model answered confidently from that",
+      "RAG systems cannot give wrong answers",
+      "The context window is too large"
+    ],
+    correct: 1,
+    explain: "RAG is only as good as what it retrieves. If the search step surfaces the wrong material, the model will still answer fluently and confidently — just based on the wrong source. Retrieval quality is usually the real bottleneck."
+  },
+  {
+    q: "Why is RAG generally preferred over fine-tuning for keeping a company's AI tool up to date?",
+    options: [
+      "Fine-tuning is not possible for any commercial model",
+      "RAG requires no context window at all",
+      "Updating a RAG system usually just means updating your documents, rather than retraining the model, which is typically slower and more expensive",
+      "RAG and fine-tuning are the exact same process"
+    ],
+    correct: 2,
+    explain: "RAG lets you keep an AI tool current by updating source documents — adding, editing, or removing them — instead of running a specialised retraining job every time something changes. Day 11 covers the full comparison with fine-tuning."
+  }
+]} />
+</DayApply>
