@@ -2,10 +2,178 @@
 day: 5
 week: 1
 title: "Multimodal AI — Text, Vision, Voice, Video: What's Production-Ready vs Demo-Ware"
-summary: ""
-published: false
+summary: "A plain-English guide to what 'multimodal' means, and which of text, vision, voice, and video AI you can actually trust in production today."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import ModalityMaturityDiagram from '../../components/ModalityMaturityDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Most people's first experience of AI is a text chat box — you type, it types back. But the
+same kind of model can now also look at a photo, listen to audio, or generate a picture or a
+video clip. Today is about knowing which of those you can actually rely on, and which ones
+are still mostly a good show.
+
+## What "multimodal" actually means
+
+A "mode" here just means a type of input or output: text, images, audio, or video. A
+**[multimodal](https://en.wikipedia.org/wiki/Multimodal_learning)** AI system is one that can
+work with more than one of these, instead of only text.
+
+Think of it like a colleague who used to only reply to emails, and can now also glance at a
+photo you send them, listen to a voice note, and describe what they see or hear back to you
+in writing. Same colleague, same underlying judgment — just more ways to send information in
+and get it out.
+
+This matters for a simple reason: every modality is not equally mature. A model can be
+excellent at reading text and still be shaky at reliably understanding a blurry photo, or
+generating a five-second video clip that holds together. Treating "multimodal" as one single
+capability, all equally trustworthy, is where a lot of AI projects quietly go wrong.
+
+## The four modalities, honestly ranked by maturity
+
+<ModalityMaturityDiagram />
+
+**Text** is the most mature by a wide margin. Reading and writing text is what these models
+were built to do first, and it's been reliable enough for real business use for a while now —
+drafting, summarising, answering questions from documents.
+
+**Vision** — a model looking at an image and describing or reasoning about what's in it — is
+quite mature and genuinely useful today. Reading a scanned invoice, pulling numbers off a
+photographed whiteboard, or explaining what a chart in a slide is showing are all things
+current models do well and consistently enough to build a real process around.
+
+**Voice** is a mixed picture. Turning speech into text, and turning text into spoken audio,
+are both mature and dependable — this is the same underlying technology behind
+[voice assistants](https://en.wikipedia.org/wiki/Speech_recognition) that have existed for
+years. But a model holding a natural, real-time spoken *conversation* — listening,
+understanding, and responding out loud with no awkward pauses or misunderstandings — is much
+newer, and noticeably less consistent than a straightforward transcription task.
+
+**Video** is the least mature of the four. Generating a video clip, or having a model deeply
+understand a long video the way it can a document, produces some genuinely impressive demos —
+but reliability, cost, and consistency all lag well behind text and vision. A demo video that
+looks flawless once is not the same as that same task working reliably, at your volume, every
+single time.
+
+> **Why this matters to you:** the more visually impressive a modality is, the more likely a
+> vendor is to lead with a heavily rehearsed, cherry-picked example of it. Flashy output is
+> not evidence of reliability — it's evidence that, at least once, under ideal conditions, it
+> worked.
+
+## The core lesson: the flashiest demo is the least representative one
+
+Here's the pattern worth remembering: a vendor's *most impressive* demo is usually built
+around the *least mature* modality, because that's where the "wow" factor lives. A text
+chatbot answering questions well doesn't turn heads anymore. A generated video does. That's
+exactly backwards from how much you should trust it.
+
+Think of it like a restaurant showing you photos of their food on the menu. The dish that
+looks most spectacular in the photo is often the one most different from what actually
+arrives at your table. The plain, ordinary-looking dish is usually closer to what you'll
+really get.
+
+**The trap to avoid:** watching one striking video-generation or live-voice demo and assuming
+that quality is what you'll get every time, on your own material, at your own volume. Ask to
+see it run on *your* data, live and unscripted, not a rehearsed example the vendor has run
+many times to get right. This single question matters more here than almost anywhere else in
+this course, precisely because video and voice are the easiest modalities to make look
+flawless once and hardest to make reliable every time.
+
+## Matching modality maturity to business risk
+
+Not every task needs the most mature modality — but the riskier the task, the less room you
+have to experiment with an immature one.
+
+A low-stakes internal tool — say, a draft generator only your own team sees before editing —
+can tolerate a less mature modality. If a voice-to-text draft note comes out slightly wrong
+occasionally, someone catches it before it goes anywhere.
+
+A customer-facing or compliance-relevant task is a different story. If a customer is relying
+on a live voice assistant to get their account details right, or a generated video is
+representing your brand publicly, you're now exposed to whatever that modality's current
+weak points are. Default to the most mature option for the job — usually text, or vision for
+document-based tasks — unless you've specifically tested the newer modality on your own real
+cases, at your own scale, and it held up.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor plays a slick generated video during their pitch, and the room goes quiet with
+   admiration. Ask: *"Can we see this run live, right now, on something from our own
+   business — not a clip you've already produced?"* — separates a rehearsed showcase from a
+   capability you can actually depend on.
+2. Someone proposes a customer-facing voice assistant to replace part of your call centre.
+   Ask: *"Is this reliable, natural conversation, or is it closer to scripted
+   question-and-answer with a voice layered on top?"* — surfaces whether you're buying mature
+   transcription technology or the far less proven real-time conversation capability.
+3. In a budget meeting, a team wants funding for a tool that reads scanned paperwork using AI
+   vision. Ask: *"Have we tested this on our actual documents — the messy, real ones — not
+   the clean sample set in the vendor's demo?"* — checks that a genuinely mature modality is
+   being applied to your real conditions, not just praised in the abstract.
+4. During rollout planning, someone suggests using AI-generated video for external marketing
+   on a tight deadline. Ask: *"Given video is the least mature of these modalities right now,
+   what's our fallback if it doesn't hold up at the volume and consistency we need?"* — makes
+   sure a demo-stage capability isn't quietly load-bearing for a customer-facing deadline.
+
+<DayGlossary terms={[
+  {
+    term: "Multimodal AI",
+    definition: "An AI system that can process or generate more than one type of input or output — such as text, images, audio, and video — rather than working with text alone."
+  },
+  {
+    term: "Vision (in AI)",
+    definition: "The ability of a model to interpret images, such as photos, scanned documents, or charts, and reason about or describe their content."
+  },
+  {
+    term: "Speech-to-text / text-to-speech",
+    definition: "The conversion of spoken audio into written text, or written text into spoken audio. Both are mature, well-established capabilities, distinct from live, real-time voice conversation."
+  },
+  {
+    term: "Demo-ware",
+    definition: "A capability that looks impressive in a controlled, rehearsed demonstration but is not yet reliable, consistent, or affordable enough for everyday production use."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "What does 'multimodal' mean in AI?",
+    options: [
+      "A model that has been trained on data from multiple countries",
+      "A model that can work with more than one type of input or output, such as text, images, audio, or video",
+      "A model that can run on multiple different computers at once",
+      "A model that supports multiple languages"
+    ],
+    correct: 1,
+    explain: "Multimodal simply means the model isn't limited to text — it can also work with images, audio, and/or video, as input, output, or both."
+  },
+  {
+    q: "Of the four modalities covered today, which is currently the least mature for production use?",
+    options: [
+      "Text",
+      "Vision",
+      "Voice transcription",
+      "Video"
+    ],
+    correct: 3,
+    explain: "Video generation and deep video understanding produce impressive demos, but lag well behind text and vision in reliability, cost, and consistency at production scale."
+  },
+  {
+    q: "A vendor's demo video looks flawless. What's the sharpest response?",
+    options: [
+      "Approve the project immediately, since the demo proves it works",
+      "Ask to see it run live on your own data, not a rehearsed example",
+      "Assume all modalities are equally reliable if one demo looks good",
+      "Focus only on the price, since the capability is clearly proven"
+    ],
+    correct: 1,
+    explain: "A single polished demo, especially in a less mature modality like video, is evidence it can work once under ideal conditions — not evidence it will work reliably on your own material, every time."
+  }
+]} />
+</DayApply>

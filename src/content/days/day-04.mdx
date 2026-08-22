@@ -2,10 +2,186 @@
 day: 4
 week: 1
 title: "The Model Landscape 2026 — Frontier Models, Open-Weight Models, and How to Compare Them"
-summary: ""
-published: false
+summary: "A plain-English guide to frontier vs open-weight models, and how to actually compare them without falling for a headline number."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import ClosedVsOpenDiagram from '../../components/ClosedVsOpenDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+There isn't one AI model — there are dozens of serious options, from a handful of large
+labs and a growing list of alternatives you can run yourself. Today is about telling those
+options apart, and knowing what actually matters when you're picking between them.
+
+## Frontier models vs open-weight models
+
+A **frontier model** is one of the most capable models available at any given time, built
+by one of a small number of well-funded labs — Anthropic (Claude), OpenAI (GPT), and Google
+(Gemini) are the names you'll hear most. These models are **closed-weight**: the company
+runs the model on its own servers, and you access it through an app or an API. You never
+get a copy of the model itself.
+
+An **[open-weight model](https://en.wikipedia.org/wiki/Open-weight_model)** is one where the
+company publishes the model's internal settings — its weights, covered on Day 1 — for anyone
+to download and run. Llama (Meta), Mistral, and DeepSeek are the names you'll hear most here.
+
+A simple comparison: a closed frontier model is like ordering from a professionally-run
+restaurant kitchen. You get a great meal, made by experts, and you never see the kitchen —
+you just pay per order. An open-weight model is like being handed the recipe book itself.
+You can cook it in your own kitchen, change the ingredients, and never pay per meal again —
+but now you're the one running the kitchen.
+
+<ClosedVsOpenDiagram />
+
+Neither one is simply "better." They're a different trade of convenience for control.
+
+## Why a business would pick open-weight
+
+Three reasons come up again and again. **Cost at scale** — once you're running an
+open-weight model on your own infrastructure, you're paying a fixed infrastructure cost
+instead of a per-use fee that climbs with every additional message. **Data privacy and
+control** — the data never leaves your own servers, which matters for regulated industries
+or genuinely sensitive information. **Customization** — you can retrain or adjust an
+open-weight model on your own data in ways a closed model doesn't allow, because you have
+the actual model, not just access to it.
+
+## Why a business would pick a frontier model anyway
+
+The reasons run the other way just as strongly. **Top-tier capability** — the most capable
+models at any given time are usually the closed frontier ones; the best open-weight models
+tend to trail a step behind the best closed ones, though the gap narrows over time.
+**Nothing to manage** — no servers to provision, no model to keep updated, no specialist
+team to hire. **Someone else owns reliability and safety** — uptime, guardrails against
+harmful outputs, and security patching are the vendor's job, not yours.
+
+> **Why this matters to you:** this is a genuine trade-off, not a maturity ladder where
+> "serious" companies eventually graduate to running their own models. Plenty of large,
+> sophisticated companies use frontier models via API forever, because managing a model
+> in-house isn't their business. The right call depends on your volume, your data
+> sensitivity, and whether you have anyone whose job it would be to run it.
+
+## One honest note on model size
+
+As Day 1 covered, a bigger parameter count doesn't mean a better model, and the count itself
+is often not even public. Open-weight labs typically publish the real parameter count for
+each model, because part of the point of open-weighting a model is letting people inspect
+and run it themselves. Frontier labs like Anthropic, OpenAI, and Google generally don't
+publish parameter counts for their latest models at all — it's treated as a competitive
+detail, not a marketing number. Don't expect a specific figure from a frontier vendor, and
+don't take a competitor's guess as fact either.
+
+## How to actually compare models
+
+Once you get past parameter count, four things actually tell you something.
+
+**Benchmarks and evals.** Researchers test models against standardised sets of questions and
+tasks — called **[evals](https://en.wikipedia.org/wiki/Language_model_benchmark)** — and
+publish the scores. These are a useful first filter, but they measure general skill on
+generic tasks, not your task. Day 15 covers how to read and build evals properly; for now,
+just know a benchmark score is a starting point, not a verdict.
+
+**Price per token.** As Day 1 covered, everything you send and receive is billed in tokens.
+Vendors publish a price per million tokens, split between what you send in (input) and what
+the model sends back (output) — and output is usually priced higher, because it costs more
+to generate. Always compare on this basis, not on a vague "per message" or "per seat" claim.
+
+**Context window size.** Also from Day 1 — how much text a model can hold in one
+conversation. If your task involves feeding in long documents, contracts, or codebases, this
+number can matter more than raw capability.
+
+**Testing it on your own task.** This is the one that actually settles the question. A
+headline benchmark score tells you how a model does on someone else's test. Running your own
+real example — your actual support ticket, your actual contract clause, your actual
+spreadsheet — tells you how it does on yours. No comparison table replaces this step.
+
+This site keeps a running **Model Landscape** panel in the sidebar of every day, listing the
+current frontier and open-weight models, their context windows, and where to access them.
+Check it any time you need a quick, current reference — it's kept up to date separately from
+this lesson.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor's slide claims their model "outperforms the competition," with a single
+   benchmark chart as proof. Ask: *"Which benchmark is that, and does it reflect the kind of
+   task we'd actually be using this for?"* — separates a genuine capability claim from a
+   cherry-picked chart.
+2. In a budget meeting, someone proposes running an open-weight model in-house to "cut AI
+   costs." Ask: *"Once we add the infrastructure and the team to run it, is that actually
+   cheaper than what we're paying per token today?"* — makes sure the comparison includes
+   the real cost of self-hosting, not just the licence being free.
+3. During a vendor pitch, someone asks how big the model is, and the vendor gives a vague or
+   evasive answer. Ask: *"Is parameter count something you publish, or is that not something
+   frontier labs disclose?"* — shows you already know closed-weight labs typically don't
+   publish this, so a dodge doesn't read as a red flag by itself.
+4. In a rollout planning meeting, the team is choosing between two shortlisted models based
+   only on their spec sheets. Ask: *"Before we decide, can we run both models on three or
+   four real examples from our own work and compare the actual output?"* — replaces a
+   paper comparison with the one test that actually predicts how the model will perform for
+   you.
+
+<DayGlossary terms={[
+  {
+    term: "Frontier model",
+    definition: "One of the most capable AI models available at a given time, built by a small number of well-resourced labs (e.g. Anthropic, OpenAI, Google). Frontier models are typically closed-weight — accessed via an app or API, not downloaded."
+  },
+  {
+    term: "Closed-weight model",
+    definition: "A model whose internal settings (weights) are kept private by the company that built it. Users access the model through an API or application, never the model itself."
+  },
+  {
+    term: "Open-weight model",
+    definition: "A model whose internal settings (weights) are published for anyone to download, run, and modify on their own infrastructure. Llama, Mistral, and DeepSeek are examples."
+  },
+  {
+    term: "Eval (benchmark)",
+    definition: "A standardised set of questions or tasks used to score and compare AI models. Useful as a general reference point, but it measures performance on generic tasks, not necessarily on any specific business's actual work."
+  },
+  {
+    term: "Price per token",
+    definition: "The standard unit AI vendors use for pricing — a rate per million tokens, usually split between input (what you send) and output (what the model generates), with output typically priced higher."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A vendor won't tell you their frontier model's exact parameter count. What does that tell you?",
+    options: [
+      "The model is probably low quality",
+      "This is normal — closed-weight frontier labs generally don't disclose parameter counts at all",
+      "They're legally required to hide it",
+      "The model has no parameters"
+    ],
+    correct: 1,
+    explain: "Frontier labs like Anthropic, OpenAI, and Google typically treat parameter count as an undisclosed competitive detail, not a marketing figure. It's normal, not a red flag on its own."
+  },
+  {
+    q: "A team wants to self-host an open-weight model to save money. What's the sharpest question to ask first?",
+    options: [
+      "Is the model open-weight or closed-weight?",
+      "What's the model's context window?",
+      "Once infrastructure and staffing to run it are included, is it actually cheaper than paying per token today?",
+      "Which lab built the model?"
+    ],
+    correct: 2,
+    explain: "Open-weight models remove the per-use fee, but running one yourself has real infrastructure and staffing costs. The honest comparison has to include those, not just the absence of a licence fee."
+  },
+  {
+    q: "Two shortlisted models both score well on public benchmarks. What's the most reliable next step before choosing?",
+    options: [
+      "Pick whichever has the higher benchmark score",
+      "Pick whichever has more parameters",
+      "Run both on a handful of your own real tasks and compare the actual results",
+      "Pick whichever is cheaper per token, regardless of quality"
+    ],
+    correct: 2,
+    explain: "Benchmarks measure performance on generic tasks, not yours. Testing both models on your own real examples is the only comparison that actually predicts how each will perform for your use case."
+  }
+]} />
+</DayApply>

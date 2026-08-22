@@ -2,10 +2,145 @@
 day: 7
 week: 1
 title: "Weekly Review + Hands-On — Use 2–3 Frontier Chatbots on Real Work Tasks"
-summary: ""
-published: false
+summary: "No new reading today. Run the same real work task through 2–3 AI chatbots side by side, and see for yourself where they differ."
+published: true
 handsOn: true
-duration: "45–60 min"
+duration: "2–4 hours (active, hands-on — spread across the day if needed)"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+Today there's nothing new to read. You've spent six days building a vocabulary — tokens,
+parameters, the AI/ML/GenAI/agentic map, context windows, the model landscape, multimodal
+maturity, reasoning models. Today you use that vocabulary, not add to it. The whole point of
+a hands-on day is doing, not reading — so close the tab as soon as you've skimmed this, and
+go open two or three chatbots instead.
+
+## Week 1 in one paragraph
+
+An AI chatbot is a very good next-word guessing machine, built from billions of tuned
+**parameters** and reading text in chunks called **tokens** (Day 1). "AI," "machine
+learning," "deep learning," "generative AI," and "agentic AI" are nested, increasingly
+specific terms, not interchangeable buzzwords — and plenty of "AI" is still a decade-old
+prediction model wearing a new label (Day 2). What you type in — the **context window** — is
+a notepad you hand the model fresh each time, separate from what it learned during training
+(Day 3). There's now a genuine landscape of frontier and open-weight models, and comparing
+them by name or parameter count alone tells you almost nothing about which one is right for
+your task (Day 4). Some products can genuinely handle images, voice, or video; plenty of
+"multimodal" claims are still demo-ware, not something you should run production work through
+yet (Day 5). And some models now spend extra time "thinking" before answering, trading speed
+for accuracy on harder problems — a real capability, not just a longer wait (Day 6).
+
+That's the map. Today you use it to test the territory yourself.
+
+## The exercise: same task, two or three tools, your own work
+
+Pick **2–3 chatbot tools from different model families** — for example, something built on
+Claude, something built on ChatGPT, and something built on Gemini. You don't need the latest
+or most expensive tier of each; a mainstream consumer or business plan is fine. The point
+isn't finding the single best product on the market. It's building the habit of checking
+before trusting.
+
+Then pick **2–3 real tasks from your actual job** this week — not toy examples. Good
+candidates:
+
+- A real email or message you genuinely need to send — a difficult one, not a one-liner.
+- A real document, report, or set of meeting notes you need summarised or turned into
+  next steps.
+- A real question about a spreadsheet or dataset you already half-know the answer to, so
+  you can tell if the AI gets it right.
+
+**Run the exact same prompt through every tool.** This is the part people skip, and it's the
+part that makes the comparison fair. If you word the request differently for each tool, you're
+comparing your own prompting, not the tools. Write the prompt once, paste it unchanged into
+each chatbot, and only then look at what comes back.
+
+As you go, keep a simple running note — a notes app or a scrap document is fine — with one
+line per tool per task: what it got right, what it got wrong, and how long it took you to
+get a usable answer.
+
+## What to look for while you compare
+
+This is a light, practical taste of what Day 15 will cover properly under the name
+**evals** — the formal discipline of measuring whether an AI system actually works. Today
+you're just doing it by hand, on one task, for yourself. Four things worth checking on every
+answer:
+
+- **Accuracy against something you can verify.** If you already know the right number, name,
+  or fact, check the answer against it directly — don't just judge whether it *sounds*
+  right. A confident, well-written wrong answer is the most dangerous kind.
+- **Speed versus doing it yourself.** Did the tool actually save time once you include the
+  time spent checking and fixing its output — not just the time it took to generate?
+- **Would you send this unchecked, or does it need a human pass first?** Be honest here.
+  "Good first draft that needs editing" and "ready to send" are very different outcomes, and
+  mixing them up is how bad AI output reaches a customer.
+- **Where did the tools actually disagree?** Note any spot where one tool's answer
+  meaningfully differed from another's on the exact same prompt. That gap is the most useful
+  thing you'll learn all day — it's proof that "the AI said so" isn't one single voice.
+
+Watch in particular for moments where a tool states something wrong with total confidence and
+no hint of doubt — a **hallucination**. It's the single most important thing to catch today,
+because it's also the easiest thing to miss if you're not specifically checking for it.
+
+## What you should walk away with
+
+Not a verdict on which tool is "best" — that answer changes by task, by week, and by which
+company shipped an update most recently, so treat any confident "X is the best AI" claim you
+hear elsewhere with the same skepticism you're practicing today. What you should actually
+walk away with is a habit: **test a tool on a real, checkable task before you trust it with
+something that matters**, and a first-hand sense that different tools genuinely do produce
+different answers on the same real prompt — not just different marketing pages. That habit is
+worth more over the next 23 days than any single tool ranking would have been.
+
+<DayGlossary terms={[
+  {
+    term: "Eval (evaluation)",
+    definition: "A structured way of testing whether an AI system's output is actually correct or good enough, usually by running it against known-answer tasks and scoring the results. Today's exercise is an informal, single-person version of this; Day 15 covers the formal version."
+  },
+  {
+    term: "Hallucination",
+    definition: "A confident, plausible-sounding answer from an AI model that is actually wrong or made up. It's dangerous precisely because it reads the same as a correct answer — there's no built-in warning label."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "You're comparing two chatbots on the same real task. What should you do to keep the comparison fair?",
+    options: [
+      "Word the prompt slightly differently for each tool, so each gets its best shot",
+      "Use the exact same prompt, unchanged, in every tool",
+      "Only test the tool you already expect to win",
+      "Skip verifying the answers, since both tools are 'AI' anyway"
+    ],
+    correct: 1,
+    explain: "If you change the wording between tools, you're comparing your own prompting skill, not the tools themselves. The same prompt, pasted unchanged, is what makes the comparison meaningful."
+  },
+  {
+    q: "One of the chatbots gives you a fact you happen to already know is wrong — but it's stated fluently and confidently. What's this a case of, and what should you do?",
+    options: [
+      "It's a hallucination — a red flag worth noting, even though it read smoothly",
+      "It's just a minor typo and safe to ignore",
+      "It means that tool is broken and should never be used again",
+      "It's fine, since the rest of the answer looked polished"
+    ],
+    correct: 0,
+    explain: "A hallucination is dangerous specifically because it reads just as confidently as a correct answer. Catching it is the most important thing to watch for during today's exercise — polish is not the same as accuracy."
+  },
+  {
+    q: "After running your real task through three chatbots, one gave a fast but shallow answer, one was slower but more accurate, and one got a key fact wrong. What's the right way to think about this?",
+    options: [
+      "Declare the most accurate one 'the best AI' and use only that one from now on",
+      "Ignore the differences — they're all 'AI' so results should be interchangeable",
+      "Note that results genuinely differ by tool and task, and decide per-task whether you'd trust the output unchecked or it needs review",
+      "Assume the fastest tool is always the right choice going forward"
+    ],
+    correct: 2,
+    explain: "The goal isn't crowning one universal winner — it's noticing that tools genuinely differ on real tasks, and building the habit of judging each result on its own merits before trusting it."
+  }
+]} />
+</DayApply>

@@ -1,0 +1,135 @@
+---
+// Themed (light/dark aware) side-by-side comparison of closed frontier models
+// vs. open-weight models, following the pattern in TrainingInferenceDiagram.astro.
+---
+
+<div class="cvo">
+  <div class="cvo__col cvo__col--closed">
+    <p class="cvo__col-title">Frontier (closed-weight)</p>
+    <p class="cvo__col-sub">Claude, GPT, Gemini</p>
+    <div class="cvo__step">
+      <strong>You call an API</strong>
+      <span>The model runs on the vendor's servers</span>
+    </div>
+    <div class="cvo__step">
+      <strong>Vendor manages it</strong>
+      <span>Updates, safety, uptime — their job</span>
+    </div>
+    <div class="cvo__step">
+      <strong>You pay per use</strong>
+      <span>No hardware to buy or maintain</span>
+    </div>
+  </div>
+
+  <div class="cvo__link" aria-hidden="true">
+    <span>vs</span>
+  </div>
+
+  <div class="cvo__col cvo__col--open">
+    <p class="cvo__col-title">Open-weight</p>
+    <p class="cvo__col-sub">Llama, Mistral, DeepSeek</p>
+    <div class="cvo__step">
+      <strong>You download the weights</strong>
+      <span>Run it on your own infrastructure</span>
+    </div>
+    <div class="cvo__step">
+      <strong>You manage it</strong>
+      <span>Updates, safety, uptime — your job</span>
+    </div>
+    <div class="cvo__step">
+      <strong>You pay for infrastructure</strong>
+      <span>Fixed cost, full data control</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cvo {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .cvo__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 22px 20px;
+    text-align: center;
+  }
+
+  :root[data-theme='light'] .cvo__col {
+    background: #14161c;
+  }
+
+  .cvo__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.02rem;
+    margin: 0 0 2px;
+  }
+
+  .cvo__col-sub {
+    color: #9aa1ad;
+    font-size: 0.8rem;
+    margin: 0 0 16px;
+  }
+
+  .cvo__step {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border: 1px solid;
+    margin-bottom: 10px;
+  }
+
+  .cvo__step:last-child {
+    margin-bottom: 0;
+  }
+
+  .cvo__col--closed .cvo__step {
+    background: rgba(59, 130, 246, 0.14);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+
+  .cvo__col--open .cvo__step {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .cvo__step strong {
+    color: #ffffff;
+    font-size: 0.9rem;
+  }
+
+  .cvo__col--closed .cvo__step span {
+    color: #bfdbfe;
+    font-size: 0.78rem;
+  }
+
+  .cvo__col--open .cvo__step span {
+    color: #a7ecd3;
+    font-size: 0.78rem;
+  }
+
+  .cvo__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-faint);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  @media (max-width: 640px) {
+    .cvo {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

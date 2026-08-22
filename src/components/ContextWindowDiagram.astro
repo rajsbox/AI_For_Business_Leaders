@@ -1,0 +1,129 @@
+---
+// Themed (light/dark aware) breakdown of what actually shares space inside
+// a context window on a single request — system instructions, prior
+// conversation, retrieved documents, examples, and the new question —
+// plus the "fills up" bar underneath. Plain HTML/CSS, same pattern as
+// TrainingInferenceDiagram.astro.
+---
+
+<div class="cwd">
+  <div class="cwd__stack">
+    <p class="cwd__stack-title">One request to the model</p>
+    <div class="cwd__slot cwd__slot--system">
+      <strong>System instructions</strong>
+      <span>Rules for how it should behave</span>
+    </div>
+    <div class="cwd__slot cwd__slot--history">
+      <strong>Prior conversation</strong>
+      <span>Everything said so far, this chat</span>
+    </div>
+    <div class="cwd__slot cwd__slot--docs">
+      <strong>Documents &amp; data pasted in</strong>
+      <span>Policies, spreadsheets, reports</span>
+    </div>
+    <div class="cwd__slot cwd__slot--examples">
+      <strong>Examples</strong>
+      <span>Sample answers showing the style you want</span>
+    </div>
+    <div class="cwd__slot cwd__slot--question">
+      <strong>Your actual question</strong>
+      <span>Often the smallest piece of all</span>
+    </div>
+  </div>
+
+  <div class="cwd__meter" aria-hidden="true">
+    <span>Context window</span>
+    <div class="cwd__meter-track">
+      <div class="cwd__meter-fill"></div>
+    </div>
+    <span class="cwd__meter-label">Fixed size — everything above shares this one space</span>
+  </div>
+</div>
+
+<style>
+  .cwd {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .cwd__stack {
+    background: var(--card);
+    border: 2px solid var(--rule);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cwd__stack-title {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--mute);
+    margin: 0 0 6px;
+  }
+
+  .cwd__slot {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 10px 14px;
+    border: 1px solid var(--faint);
+    border-left: 4px solid var(--blue);
+    background: var(--paper);
+  }
+
+  .cwd__slot strong {
+    color: var(--ink);
+    font-size: 0.92rem;
+  }
+
+  .cwd__slot span {
+    color: var(--sub);
+    font-size: 0.8rem;
+  }
+
+  .cwd__slot--question {
+    border-left-color: var(--color-success, var(--blue));
+  }
+
+  .cwd__meter {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--mute);
+    flex-wrap: wrap;
+  }
+
+  .cwd__meter-track {
+    flex: 1 1 160px;
+    height: 10px;
+    background: var(--faint);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .cwd__meter-fill {
+    height: 100%;
+    width: 78%;
+    background: var(--blue);
+  }
+
+  .cwd__meter-label {
+    color: var(--sub);
+    font-size: 0.78rem;
+  }
+
+  @media (max-width: 640px) {
+    .cwd__meter {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+// Themed maturity-ladder diagram for Day 5: a spectrum across the four
+// modalities (text, vision, voice, video), from most to least
+// production-ready. Plain HTML/CSS, follows the pattern in
+// TrainingInferenceDiagram.astro — no external image files.
+
+const modalities = [
+  {
+    name: 'Text',
+    level: 'Most mature',
+    note: 'Reliable in production for years',
+  },
+  {
+    name: 'Vision',
+    level: 'Quite mature',
+    note: 'Solid for reading documents, charts, screenshots',
+  },
+  {
+    name: 'Voice',
+    level: 'Mixed',
+    note: 'Transcription/narration mature; live conversation newer',
+  },
+  {
+    name: 'Video',
+    level: 'Least mature',
+    note: 'Impressive demos, least production-ready',
+  },
+];
+---
+
+<div class="mmd">
+  <p class="mmd__axis-label">
+    <span>Most production-ready</span>
+    <span class="mmd__axis-arrow" aria-hidden="true">→</span>
+    <span>Most demo-ware risk</span>
+  </p>
+  <div class="mmd__row">
+    {modalities.map((m, i) => (
+      <div class="mmd__col" style={`--mmd-i: ${i}`}>
+        <div class="mmd__bar-track">
+          <div class="mmd__bar" />
+        </div>
+        <p class="mmd__name">{m.name}</p>
+        <p class="mmd__level">{m.level}</p>
+        <p class="mmd__note">{m.note}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .mmd {
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .mmd__axis-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mute);
+    margin: 0 0 18px;
+  }
+
+  .mmd__axis-arrow {
+    color: var(--blue);
+    font-size: 0.9rem;
+  }
+
+  .mmd__row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .mmd__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 16px 14px 18px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  :root[data-theme='light'] .mmd__col {
+    background: #14161c;
+  }
+
+  .mmd__bar-track {
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    margin-bottom: 14px;
+  }
+
+  .mmd__bar {
+    height: 100%;
+    /* Column 0 (text) = 100% mature, column 3 (video) = 25% mature. */
+    width: calc(100% - (var(--mmd-i) * 25%));
+    background: var(--blue);
+  }
+
+  .mmd__name {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin: 0 0 4px;
+  }
+
+  .mmd__level {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #a7ecd3;
+    margin: 0 0 10px;
+  }
+
+  .mmd__note {
+    color: #9aa1ad;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .mmd__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

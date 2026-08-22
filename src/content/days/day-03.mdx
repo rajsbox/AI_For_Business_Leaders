@@ -2,10 +2,188 @@
 day: 3
 week: 1
 title: "Context Windows, Prompts, and Why \"Prompt Engineering\" Became \"Context Engineering\""
-summary: ""
-published: false
+summary: "Why crafting a clever question stopped being the skill that matters, and curating what the model sees became the real job."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "35–45 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import ContextWindowDiagram from '../../components/ContextWindowDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+A year or two ago, the hot skill was "prompt engineering" — writing the cleverest possible
+question. That's no longer the main lever. Today you'll see why the real skill shifted to
+deciding *what the model gets to see* in the first place, and why that shift changes how you
+should be evaluating AI projects at work.
+
+## A quick reminder: what a context window is
+
+As you saw on Day 1, a **[context window](https://en.wikipedia.org/wiki/Large_language_model#Context_window)**
+is how much text the model can "hold in mind" during one conversation — like a notepad you
+hand it right before asking your question. It's fixed in size, it resets between separate
+conversations, and everything the model uses to answer you has to fit inside it.
+
+That notepad is the subject of today's lesson, because it turns out *what you write on the
+notepad* matters far more than *how cleverly you phrase the question at the bottom of it*.
+
+## What a prompt actually is
+
+A **prompt** is simply the instruction or question you give the AI — the message you type
+in. "Summarise this contract," "write a follow-up email to this customer," "what's wrong
+with this spreadsheet formula" are all prompts.
+
+Early on, people noticed that *how* you phrased a prompt changed the quality of the answer.
+Asking "explain this simply, like I'm new to the topic" got a different result than just
+pasting a question with no instructions at all. That observation is where "prompt
+engineering" came from.
+
+## Why "prompt engineering" stopped being the whole story
+
+**Prompt engineering** means carefully wording a single instruction — choosing the right
+phrasing, tone, and structure to get a better answer out of the model. Think of it like
+learning to phrase a request to a waiter well: "could I get the sauce on the side, and is
+the fish gluten-free?" gets you a better outcome than a vague "just bring me something
+good." For a while, that phrasing skill genuinely was most of the game.
+
+But as people built real AI-powered tools — customer support assistants, document
+reviewers, coding helpers — they ran into a bigger problem than wording. The model wasn't
+failing because the question was worded badly. It was failing because it simply didn't have
+the right information in front of it: the current policy document, the customer's order
+history, an example of the format the team actually wants.
+
+That's the shift. **Context engineering** is the deliberate practice of curating
+*everything* the model sees before it answers — not just the wording of the question, but
+which documents get included, which prior messages are kept, which examples are shown, and
+what instructions are given about how to behave. The question itself is now just one
+ingredient among several, not the whole recipe.
+
+<ContextWindowDiagram />
+
+Picture a new employee's first day. Prompt engineering is coaching them on how to phrase a
+question well when they ask for help. Context engineering is deciding what's actually in
+their onboarding folder — the org chart, the current price list, last quarter's report, a
+couple of example emails written the way the company likes — before they're asked to do
+anything at all. A perfectly-phrased question from someone with an empty folder still
+produces a worse result than an ordinary question from someone with the right folder.
+
+> **Why this matters to you:** when someone on your team says an AI project is "just a
+> prompting problem," that's usually the wrong diagnosis today. The more common real problem
+> is a context problem — the model isn't being shown the right documents, examples, or
+> history. Fixing that means deciding what data and content get fed in, which is a business
+> and data-governance decision, not a wording tweak.
+
+## The cost and quality tradeoff of stuffing the window
+
+It's tempting to think "more context is always better" — just paste in everything that
+might be relevant. It isn't that simple, for two reasons.
+
+**Cost.** As you saw on Day 1, everything in the context window is made of tokens, and
+tokens are what you're billed for. A longer context window means a bigger bill on every
+single request, not a one-time cost.
+
+**Quality.** Beyond a certain point, adding more content can make answers *worse*, not
+better. If you paste in ten documents to answer a question that only needed one, the model
+has to find the relevant needle in a much bigger haystack, and it's more likely to blend in
+irrelevant details or miss the point buried in the middle. A cluttered desk doesn't help you
+find the one file you need faster — it makes it slower, and it's the same for a model.
+
+**The trap to avoid:** treating "give the model more" as a safe default. The better question
+is always "what's the smallest, most relevant set of information this answer actually
+needs?" — the same discipline you'd apply to briefing a busy colleague, not a "just attach
+everything" instinct.
+
+## What this means for how you evaluate AI work
+
+Once you accept that context, not clever wording, is the real lever, a few things follow for
+how you lead AI projects:
+
+- When a team says an AI feature "isn't working well," the fix is rarely "have someone write
+  better prompts." Ask what the model is actually being shown when it answers, and whether
+  that's the right material.
+- Decisions about which documents, data sources, and examples feed an AI tool are business
+  decisions — about accuracy, currency, and relevance — not just an engineering detail. They
+  deserve the same scrutiny you'd give to what goes into a briefing pack for a new hire.
+  We'll go deeper on the specific technique for doing this well — retrieval — on Day 9.
+- Budget conversations about AI tools should account for context size, not just "which
+  model." A tool that stuffs a huge amount of material into every request will cost more per
+  use than one that's selective, and won't necessarily answer better.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A team reports their AI assistant is giving vague or generic answers, and someone
+   suggests "we just need a better prompt." Ask: *"Or is it not being shown the right
+   documents in the first place? What's actually in its context right now?"* — redirects a
+   wording fix toward the more likely real cause.
+2. A vendor's pricing model charges per request, and someone on your team wants to paste an
+   entire policy manual into every query "just to be safe." Ask: *"What's this costing us
+   per request if we send the whole manual every time, versus just the relevant section?"*
+   — surfaces a cost problem before it shows up on next month's invoice.
+3. In a project review, an engineer says they've "engineered a great prompt" for a new
+   feature. Ask: *"What information does it actually have access to when it answers — and
+   who's responsible for keeping that current?"* — moves the conversation from wording to
+   the ongoing, more important question of data ownership.
+4. During a rollout planning meeting, someone proposes feeding the model every historical
+   document "so it has full context." Ask: *"Could adding all of that actually make answers
+   worse by burying the relevant part, not better?"* — challenges the "more is always
+   safer" instinct before it becomes an expensive default.
+
+<DayGlossary terms={[
+  {
+    term: "Prompt",
+    definition: "The instruction or question a person gives an AI model in a single message."
+  },
+  {
+    term: "Prompt engineering",
+    definition: "Carefully wording a single prompt — its phrasing, structure, and tone — to get a better answer from a model."
+  },
+  {
+    term: "Context engineering",
+    definition: "The deliberate practice of curating everything a model is shown before it answers a request — including documents, prior conversation, examples, and instructions — not just the wording of the question itself."
+  },
+  {
+    term: "Context window",
+    definition: "The fixed amount of text a model can process at once, shared between system instructions, prior conversation, any documents or examples provided, and the current question."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "What's the main difference between prompt engineering and context engineering?",
+    options: [
+      "Prompt engineering focuses on wording a single instruction well; context engineering focuses on curating everything the model sees, including documents, history, and examples",
+      "They are two names for exactly the same activity",
+      "Context engineering only applies to image-generating models",
+      "Prompt engineering is a newer term that replaced context engineering"
+    ],
+    correct: 0,
+    explain: "Prompt engineering is about phrasing one instruction cleverly. Context engineering is the broader, now more important practice of deciding what material — documents, prior conversation, examples, instructions — the model gets to work with in the first place."
+  },
+  {
+    q: "A team wants to paste an entire company handbook into every AI request 'just to be safe.' What's the risk?",
+    options: [
+      "There is no downside — more context always produces a better answer",
+      "It only affects how fast the answer appears, nothing else",
+      "It increases cost on every request, and can actually make answers worse by burying the relevant information",
+      "The model will refuse requests that are too long"
+    ],
+    correct: 2,
+    explain: "Everything in the context window is billed as tokens, so a bigger context means a bigger bill every time. It can also hurt quality — the model has to find what's relevant inside a lot of irrelevant material, which increases the chance of a worse answer."
+  },
+  {
+    q: "An AI assistant at your company keeps giving vague answers. A colleague says it 'just needs better prompts.' What's the sharper first question to ask?",
+    options: [
+      "What font is the interface using?",
+      "What documents and information is the model actually being shown when it answers?",
+      "How many parameters does the underlying model have?",
+      "Whether the model was trained recently"
+    ],
+    correct: 1,
+    explain: "Vague answers are far more often a context problem — missing or irrelevant source material — than a wording problem. Checking what the model actually has access to is the more likely fix."
+  }
+]} />
+</DayApply>

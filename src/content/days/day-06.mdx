@@ -2,10 +2,171 @@
 day: 6
 week: 1
 title: "Reasoning Models & Test-Time Compute — Why \"Thinking\" Models Changed the Economics"
-summary: ""
-published: false
+summary: "Why some AI models pause to 'think' before answering, and why giving a model more time is now a real, controllable cost-vs-quality dial."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "30–40 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import ThinkingTimeDiagram from '../../components/ThinkingTimeDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+You've probably noticed some AI tools now show a "thinking" step before they answer, and
+that a few even let you pick "fast" versus "extended thinking." Today explains what's
+actually happening there, and why it's not just a loading animation — it's a real business
+decision with a real cost attached.
+
+## Blurting out an answer vs. working it out
+
+As Day 1 covered, a model builds its answer one word at a time, guessing the next word
+based on everything before it. A standard model does this immediately — it starts guessing
+the moment it sees your question, the same way someone might blurt out the first answer
+that comes to mind.
+
+A **reasoning model** (also called a "thinking" model) does something different. Before it
+gives you a final answer, it first generates a chunk of intermediate reasoning — working
+through the problem step by step, checking itself, trying an approach and backing out of it
+if it doesn't lead anywhere. Only after that does it write the answer it actually shows you.
+
+A simple way to picture the difference: it's the difference between someone who calls out
+the first move that looks good in a chess game, and someone who sits quietly, plays out a
+few moves in their head, notices one leads to a trap, and only then makes their move. Both
+players eventually move a piece. One of them thought it through first.
+
+## Test-time compute: a third dial, not just a bigger model
+
+Day 1 drew a hard line between two costs: training a model once (expensive, happens up
+front) and running it every time someone asks it something (inference). For a long time,
+those were basically the only two levers a business had — how big the model is, and how it
+was trained.
+
+**Test-time compute** is a third lever, and it's a genuinely new one: instead of only asking
+"how big is the model" or "how was it trained," you can now also ask "how much thinking
+time do we give it on this specific question, right now, at the moment we ask it." The model
+itself doesn't get bigger or retrained — it's the same model. What changes is how much
+computation it's allowed to spend working through your particular question before it
+answers.
+
+<ThinkingTimeDiagram />
+
+This matters because it decouples model quality from model size for the first time. Instead
+of the only way to get a better answer being "buy access to a bigger, more expensive model,"
+you can sometimes get a better answer from the *same* model, on the *same* question, simply
+by letting it think longer.
+
+## Why this changed the economics
+
+Before reasoning models, the cost of asking a model a question was fairly predictable — it
+scaled roughly with how long the answer was. Now, cost also scales with how much *thinking*
+happened before the answer, which the model itself decides based on the difficulty of the
+problem, or which you can sometimes explicitly control.
+
+That creates a real tradeoff that didn't clearly exist before: more thinking time tends to
+produce a better, more reliable answer on hard problems — but it also costs more and takes
+longer to get that answer back. This isn't a fixed cost per model anymore. It's a dial you
+can turn up or down, per question, depending on how much the answer matters.
+
+> **Why this matters to you:** a business can now deliberately spend more "thinking" on a
+> hard, high-stakes question — a contract clause, a tricky piece of code, a multi-step
+> financial analysis — and spend less on a simple one, like drafting a routine email. That's
+> a genuinely new kind of decision. Before, you mostly just picked a model and lived with its
+> fixed cost and speed. Now you're also choosing how hard you want it to work on this
+> particular question.
+
+## Matching the tool to the task
+
+The temptation is to assume "thinking" is always better, and switch everything over to a
+reasoning model by default. It usually isn't worth it. Extra thinking time helps most on
+problems that genuinely have multiple steps or require weighing tradeoffs — planning a
+multi-part project, debugging a subtle problem, working through a dense legal or financial
+document. On those, the extra time is usually worth the extra cost.
+
+On simple, well-defined tasks — drafting a routine email, looking up a fact, reformatting a
+document — extra thinking time buys you very little. The model would likely land on the same
+answer either way, just slower and for more money. Using a reasoning model here is like
+asking someone to play out ten chess moves in their head before deciding what to have for
+lunch: the deliberation doesn't make the decision any better, it just makes it slower.
+
+This is the same lesson from earlier in the course — match the tool to the task — applied to
+a new lever. The skill isn't "always use the thinking model" or "never use it." It's knowing
+which of your questions are actually hard enough to deserve the extra time, and which ones
+aren't.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor demos their new "reasoning" model and it visibly pauses before answering, and
+   the room seems impressed by the pause itself. Ask: *"Is this task actually hard enough to
+   need that extra thinking time, or would a faster model give us the same answer for less?"*
+   — stops "it looks thoughtful" from being mistaken for "it's necessary."
+2. Your team is comparing two AI tools and one is noticeably slower and pricier per
+   response. Ask: *"Is that because it's a bigger model, or because it's spending more time
+   thinking per question — and can we control how much thinking it does?"* — separates a
+   model-size cost from a per-question thinking-time cost, which are different problems with
+   different fixes.
+3. In a budget conversation, someone proposes switching every AI-powered feature in the
+   product to a reasoning model "to improve quality across the board." Ask: *"Which of these
+   features are actually solving multi-step problems, and which are simple lookups that
+   won't benefit from the extra thinking time?"* — turns a blanket upgrade into a targeted
+   one, and avoids paying reasoning-model prices for tasks that don't need it.
+4. During a rollout planning meeting, someone asks why the AI assistant feels slower than
+   the demo they saw last month. Ask: *"Did we turn on extended thinking for this, and if
+   so, is it actually being used on the hard questions, or on everything by default?"* —
+   catches a common misconfiguration where thinking time is switched on globally instead of
+   only where it earns its cost.
+
+<DayGlossary terms={[
+  {
+    term: "Reasoning model (thinking model)",
+    definition: "A model that generates intermediate reasoning steps before producing its final answer, rather than answering immediately. The extra steps are used to work through the problem, and are typically not shown as the final response."
+  },
+  {
+    term: "Test-time compute",
+    definition: "The amount of computation a model is allowed to spend at the moment it answers a specific question, as opposed to compute spent during training beforehand. Increasing test-time compute — giving the model more 'thinking' time — can improve answer quality on hard problems, at the cost of more time and money per question."
+  },
+  {
+    term: "Extended thinking",
+    definition: "A mode or setting, offered by some AI tools, that deliberately increases how much a reasoning model 'thinks' before answering a given question, trading speed and cost for a chance at a better answer."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "What does a reasoning model actually do differently from a standard model?",
+    options: [
+      "It has more parameters than a standard model",
+      "It was trained on a larger dataset",
+      "It generates intermediate reasoning steps before producing its final answer",
+      "It retrains itself slightly on every question it answers"
+    ],
+    correct: 2,
+    explain: "A reasoning model spends extra computation working through the problem step by step before writing the answer it shows you, rather than answering immediately. It's still the same kind of model underneath — just given time to work through the problem first."
+  },
+  {
+    q: "What is 'test-time compute' a lever for, that training size and training method aren't?",
+    options: [
+      "How much data the model was trained on",
+      "How much thinking time and computation the model spends on a specific question, at the moment you ask it",
+      "How many parameters the model has",
+      "How the model's training data was licensed"
+    ],
+    correct: 1,
+    explain: "Test-time compute is spent when a question is actually asked, not during training. It lets you get a better answer from the same model by giving it more time to think on that particular question, independent of how big the model is or how it was trained."
+  },
+  {
+    q: "A team wants to switch every AI feature in their product to a reasoning model with extended thinking, to 'improve quality everywhere.' What's the risk?",
+    options: [
+      "There is no risk — more thinking time always makes every answer better",
+      "Reasoning models cannot be used in production applications",
+      "Simple, well-defined tasks won't benefit much from the extra thinking time, so the team pays more and waits longer for no real gain on those tasks",
+      "Extended thinking only works for coding tasks"
+    ],
+    correct: 2,
+    explain: "Extra thinking time earns its cost on genuinely hard, multi-step problems. On simple tasks like a routine lookup or a short email, it usually just adds cost and latency without materially improving the answer — the skill is matching the tool to the task."
+  }
+]} />
+</DayApply>

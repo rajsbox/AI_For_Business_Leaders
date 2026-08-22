@@ -1,0 +1,156 @@
+---
+// Themed (light/dark aware) diagram contrasting a quick, direct answer against
+// an extended-thinking answer, showing the time/cost vs. quality tradeoff that
+// test-time compute introduces. Plain HTML/CSS, following TrainingInferenceDiagram.astro.
+---
+
+<div class="ttd">
+  <div class="ttd__col ttd__col--quick">
+    <p class="ttd__col-title">Quick answer</p>
+    <p class="ttd__col-sub">Little or no extra thinking time</p>
+    <div class="ttd__step">
+      <strong>Question in</strong>
+      <span>Straight to an answer</span>
+    </div>
+    <div class="ttd__arrow" aria-hidden="true">↓</div>
+    <div class="ttd__step">
+      <strong>Answer out</strong>
+      <span>Fast, cheap</span>
+    </div>
+    <p class="ttd__fit">Best for simple, well-defined tasks</p>
+  </div>
+
+  <div class="ttd__link" aria-hidden="true">
+    <span>same model</span>
+    <span class="ttd__link-arrow">→</span>
+  </div>
+
+  <div class="ttd__col ttd__col--extended">
+    <p class="ttd__col-title">Extended thinking</p>
+    <p class="ttd__col-sub">More reasoning time before answering</p>
+    <div class="ttd__step">
+      <strong>Question in</strong>
+      <span>Works through the problem first</span>
+    </div>
+    <div class="ttd__arrow" aria-hidden="true">↓</div>
+    <div class="ttd__step">
+      <strong>Reasoning steps</strong>
+      <span>Not shown as the final answer</span>
+    </div>
+    <div class="ttd__arrow" aria-hidden="true">↓</div>
+    <div class="ttd__step">
+      <strong>Answer out</strong>
+      <span>Slower, costs more</span>
+    </div>
+    <p class="ttd__fit">Best for hard, multi-step problems</p>
+  </div>
+</div>
+
+<style>
+  .ttd {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 12px;
+    margin: 1.6em 0;
+    font-family: var(--font-sans);
+  }
+
+  .ttd__col {
+    background: #14161c;
+    border: 2px solid var(--rule);
+    padding: 22px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :root[data-theme='light'] .ttd__col {
+    background: #14161c;
+  }
+
+  .ttd__col-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin: 0 0 2px;
+  }
+
+  .ttd__col-sub {
+    color: #9aa1ad;
+    font-size: 0.82rem;
+    margin: 0 0 16px;
+  }
+
+  .ttd__step {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    border: 1px solid;
+  }
+
+  .ttd__col--quick .ttd__step {
+    background: rgba(31, 59, 255, 0.14);
+    border-color: rgba(31, 59, 255, 0.4);
+  }
+
+  .ttd__col--extended .ttd__step {
+    background: rgba(16, 185, 129, 0.14);
+    border-color: rgba(16, 185, 129, 0.4);
+  }
+
+  .ttd__step strong {
+    color: #ffffff;
+    font-size: 0.92rem;
+  }
+
+  .ttd__col--quick .ttd__step span {
+    color: #b7c2ff;
+    font-size: 0.8rem;
+  }
+
+  .ttd__col--extended .ttd__step span {
+    color: #a7ecd3;
+    font-size: 0.8rem;
+  }
+
+  .ttd__arrow {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 4px 0;
+  }
+
+  .ttd__fit {
+    margin: 16px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    color: #9aa1ad;
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  .ttd__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: var(--color-text-faint);
+    font-size: 0.78rem;
+  }
+
+  .ttd__link-arrow {
+    font-size: 1.3rem;
+  }
+
+  @media (max-width: 640px) {
+    .ttd {
+      grid-template-columns: 1fr;
+    }
+    .ttd__link {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+</style>
