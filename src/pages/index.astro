@@ -537,7 +537,8 @@ const weekMeta = weeks.map((w) => {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    gap: 24px;
+    flex-wrap: wrap;
+    gap: 8px 24px;
     padding-bottom: 22px;
     border-bottom: 1px solid var(--tv-ink);
   }
@@ -556,7 +557,13 @@ const weekMeta = weeks.map((w) => {
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--tv-mute);
-    white-space: nowrap;
+  }
+
+  @media (max-width: 480px) {
+    .tv-track__meta {
+      white-space: normal;
+      max-width: 100%;
+    }
   }
 
   .tv-week {
