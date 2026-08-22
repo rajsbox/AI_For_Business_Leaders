@@ -2,10 +2,177 @@
 day: 2
 week: 1
 title: "The Jargon Map — GenAI vs Agentic AI vs Traditional ML vs Deep Learning"
-summary: ""
-published: false
+summary: "A plain-English map of AI, Machine Learning, Deep Learning, GenAI, and Agentic AI, and how they actually relate to each other."
+published: true
 handsOn: false
-duration: "45–60 min"
+duration: "30–40 min"
 ---
 
-{/* Paste today's lesson content below, then set published: true above. */}
+import JargonMapDiagram from '../../components/JargonMapDiagram.astro';
+import DayQuiz from '../../components/DayQuiz.astro';
+import DayApply from '../../components/DayApply.astro';
+import DayGlossary from '../../components/DayGlossary.astro';
+
+You'll hear "AI," "machine learning," "deep learning," "generative AI," and "agentic AI"
+used as if they're interchangeable. They're not. They're more like nesting dolls, with one
+new capability layered on top at the end. Today you'll learn exactly how they fit together,
+so you can tell when a vendor is using the fanciest term available instead of the accurate
+one.
+
+## The nesting dolls: AI, Machine Learning, Deep Learning, GenAI
+
+Think of these four terms as boxes inside boxes, each one a smaller, more specific piece of
+the one before it.
+
+<JargonMapDiagram />
+
+**[Artificial intelligence](https://en.wikipedia.org/wiki/Artificial_intelligence)** is the
+biggest box — any software that does something normally requiring human thinking. That's a
+huge range: a chess program from the 1990s counts. A spam filter counts. So does ChatGPT.
+
+**[Machine learning](https://en.wikipedia.org/wiki/Machine_learning)** is a smaller box
+inside AI. Instead of a programmer writing exact rules ("if the email contains this word,
+mark it as spam"), the software learns patterns by looking at lots of examples — like
+showing someone a thousand photos of cats and a thousand photos of dogs, and letting them
+work out the difference themselves rather than describing "cat" and "dog" in words.
+
+**[Deep learning](https://en.wikipedia.org/wiki/Deep_learning)** is a smaller box inside
+machine learning. It's a particular way of doing the learning, using something called a
+neural network — loosely inspired by how brain cells connect to each other, arranged in
+many stacked layers. "Deep" refers to having many of these layers, not to any special
+intelligence. This is the approach behind most of the AI breakthroughs of the last ten
+years, including image recognition and voice assistants.
+
+**[Generative AI](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)**, or
+GenAI, is a smaller box inside deep learning. It's deep learning specifically trained to
+*create* new things — text, images, audio, video — rather than just recognise or sort
+things. ChatGPT, Claude, and Midjourney are all generative AI. This is the box most of the
+recent hype is actually about.
+
+> **Why this matters to you:** when a vendor says their product "uses AI," that sentence is
+> almost meaningless — a decade-old spam filter also "uses AI." Ask which box they actually
+> mean. "We use machine learning" and "we use generative AI" are very different, specific
+> claims with very different capabilities and costs.
+
+## Agentic AI: a capability, not a bigger box
+
+**Agentic AI** doesn't fit neatly inside the nesting dolls — it's better thought of as
+generative AI plus one extra ability: taking actions, not just producing text.
+
+A generative AI tool writes you an email draft and stops. An agentic AI tool can draft the
+email, check your calendar, decide the best time to send it, and send it — carrying out a
+multi-step task on its own, checking its own progress along the way, with far less
+step-by-step instruction from a person. We'll go deeper on how this actually works on
+Day 14.
+
+A simple way to picture the difference: generative AI is like a very capable assistant who
+writes anything you ask for, but only when you ask. Agentic AI is like handing that
+assistant a goal and a set of tools, and letting them figure out the steps and carry them
+out themselves.
+
+**The trap to avoid:** "agentic" has become a popular label because it sounds impressive.
+Plenty of products calling themselves "agentic" are really just generative AI with a single
+extra button — not something actually planning and carrying out multiple steps on its own.
+The test isn't the label; it's whether the system can take a goal, break it into steps, and
+act on more than one of those steps without a person approving each one individually.
+
+## Traditional ML isn't obsolete — it's often the better tool
+
+It's easy to assume that if generative AI is the newest thing, it must be the best choice
+for everything. It isn't. Plain machine learning — the kind that predicts a number or
+sorts something into a category, without generating any text — is often faster, cheaper,
+and more accurate for the job it's actually built for.
+
+Think of it like tools in a kitchen. A food processor (generative AI) is flexible and can
+do many things reasonably well. But if all you need is to boil an egg, a simple pot (a
+traditional ML model) does it faster, cheaper, and more reliably than the food processor
+ever will.
+
+Examples of traditional ML doing the job better than GenAI would: predicting which
+customers are likely to cancel a subscription, flagging a fraudulent transaction, or
+forecasting next month's demand for a product. These are narrow, well-defined, numbers-in,
+numbers-out problems — exactly what traditional ML is built for, and exactly the kind of
+task where a business shouldn't reach for the newest, most expensive tool by default.
+
+## Four questions that instantly sound credible in an AI meeting
+
+1. A vendor's pitch deck says their product "is powered by AI," and nobody in the room
+   asks what that actually means. Ask: *"When you say AI, do you mean generative AI, or a
+   simpler predictive model? Those are very different things to evaluate."* — forces a
+   vague claim into a specific, checkable one.
+2. A colleague describes a new internal tool as "basically an AI agent." Ask: *"Can it
+   actually carry out a multi-step task on its own, or does it generate one response and
+   stop?"* — separates a genuinely agentic system from generative AI wearing a trendier
+   label.
+3. In a project scoping meeting, someone suggests using a large language model to predict
+   which customers might churn next month. Ask: *"Wouldn't a simpler prediction model do
+   this faster and cheaper, since we're really just sorting customers into categories?"* —
+   stops an expensive tool from being used on a job a cheaper one already does well.
+4. During a roadmap review, a team proposes "an agentic AI system" for a task that's really
+   just answering questions from a document. Ask: *"Does this actually need to take
+   independent actions, or is it really a generative AI lookup task with an impressive
+   name?"* — keeps the project scoped to what it actually needs, not what sounds best in a
+   slide.
+
+<DayGlossary terms={[
+  {
+    term: "Artificial Intelligence (AI)",
+    definition: "Any software that performs tasks normally requiring human thinking, such as recognising images, understanding language, or making predictions. The broadest of these terms — it includes everything from simple rule-based programs to the most advanced generative AI."
+  },
+  {
+    term: "Machine Learning (ML)",
+    definition: "A type of AI where the software improves by learning patterns from examples, instead of following rules written by a programmer."
+  },
+  {
+    term: "Deep Learning",
+    definition: "A type of machine learning that uses neural networks with many stacked layers. It's the approach behind most recent AI breakthroughs, including image recognition and today's generative AI models."
+  },
+  {
+    term: "Generative AI (GenAI)",
+    definition: "Deep learning trained to create new content — text, images, audio, or video — rather than just recognise or sort existing content. ChatGPT and Claude are generative AI."
+  },
+  {
+    term: "Agentic AI",
+    definition: "Generative AI given the ability to take a goal, break it into steps, and carry out those steps on its own — such as checking a calendar and sending an email — rather than only producing a single response to a single request."
+  }
+]} />
+
+<DayApply>
+## Check yourself
+
+<DayQuiz questions={[
+  {
+    q: "A vendor says their product 'uses AI.' What's the most useful next question?",
+    options: [
+      "Which specific type — machine learning, generative AI, or something else — do they actually mean?",
+      "How much does it cost?",
+      "Is AI a new technology?",
+      "What company built it?"
+    ],
+    correct: 0,
+    explain: "'AI' is the broadest possible term and covers everything from decades-old spam filters to today's generative AI. It's a near-meaningless claim on its own until you know which specific type is actually being used."
+  },
+  {
+    q: "What's the key difference between generative AI and agentic AI?",
+    options: [
+      "Agentic AI is simply a newer, more powerful version of generative AI",
+      "Agentic AI can take a goal and carry out multiple steps on its own; generative AI produces a response and stops",
+      "There is no real difference — they're marketing terms for the same thing",
+      "Agentic AI doesn't use machine learning at all"
+    ],
+    correct: 1,
+    explain: "Generative AI creates content when asked and stops there. Agentic AI is generative AI plus the ability to plan and carry out multiple steps toward a goal, with less step-by-step human instruction along the way."
+  },
+  {
+    q: "A team wants to use a large language model to predict which customers will cancel their subscription. What should you consider?",
+    options: [
+      "This is a great use of generative AI, since it's the newest and most powerful option",
+      "A simpler, traditional machine learning model built for this kind of prediction may do the job faster, cheaper, and more accurately",
+      "Predicting customer behaviour isn't something AI can do",
+      "This task requires agentic AI, since it involves a decision"
+    ],
+    correct: 1,
+    explain: "Predicting a number or category from data is exactly what traditional machine learning is built for. Reaching for generative AI by default, just because it's the newest tool, often means paying more for a worse result on this kind of narrow, well-defined task."
+  }
+]} />
+</DayApply>
