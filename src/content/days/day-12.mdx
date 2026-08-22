@@ -71,6 +71,17 @@ When you hear a vendor describe an "AI agent" that "handles refunds" or "manages
 inventory," tool use is the mechanism doing the actual handling and managing. It's worth
 knowing that mechanism exists, because it's also where the risk lives.
 
+**A related but distinct variant worth naming: computer-use agents.** Everything above
+describes a model calling a specific, predefined tool — a weather lookup, a calculator, a
+named action someone built and described to it in advance. A newer kind of agent instead
+looks directly at a screen and operates it the way a person would — moving a cursor,
+clicking buttons, typing into fields, navigating between applications — without a
+purpose-built tool for each individual action. That's more flexible, since it can work with
+software nobody wrote a specific integration for, but it's also less predictable and harder
+to constrain than a model limited to a short list of named tools with known boundaries. The
+same governance question from below applies here even more strongly: what is this agent
+actually allowed to click on, and what happens if it clicks the wrong thing.
+
 ## The honest caveat: this is a new risk surface
 
 Because the model itself decides *when* to call a tool and *what* information to send it,

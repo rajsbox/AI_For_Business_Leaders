@@ -23,43 +23,43 @@ export interface FutureTopic {
   headline: string;
   note: string;
   /** Rough category for grouping — keep short, matches the site's existing week/topic tone. */
-  category: 'Not covered in the course' | 'New since Day 30 was written';
+  category: 'Not covered in the course' | 'New since Day 30 was written' | 'Woven into the course';
 }
 
 export const futureTopics: FutureTopic[] = [
   {
     headline: 'Fine-tuning, on its own terms',
-    note: 'Day 11 compared fine-tuning to prompting and RAG at a decision-framework level, but never covered how fine-tuning actually works, what data it needs, or what it costs to run one.',
-    category: 'Not covered in the course',
+    note: 'Added as a short callout in Day 11 covering how fine-tuning actually works and its ongoing cost — still not a full lesson on building one.',
+    category: 'Woven into the course',
   },
   {
     headline: 'Synthetic data',
-    note: 'Using AI-generated data to train or test AI systems, and the real question of whether that data is trustworthy enough to build on.',
-    category: 'Not covered in the course',
+    note: 'Added as a short callout in Day 24, on using AI-generated data to fill gaps in real data — and why it inherits the same trust questions as any other source.',
+    category: 'Woven into the course',
   },
   {
     headline: 'Computer-use / screen-operating agents',
-    note: 'Distinct from Day 5\'s multimodal or Day 12\'s tool use — an agent that directly sees and controls a screen (clicking, typing, navigating apps) rather than calling a defined tool.',
-    category: 'Not covered in the course',
+    note: 'Added as a short callout in Day 12, distinguishing this from named-tool function calling and flagging the extra governance question it raises.',
+    category: 'Woven into the course',
   },
   {
     headline: 'AI-generated code for non-engineers ("vibe coding")',
-    note: 'What it means for a non-technical leader when AI can write working software from a plain-language description — and where that confidence is and isn\'t warranted.',
-    category: 'Not covered in the course',
+    note: 'Added as a short callout in Day 23, inside the "build custom" option — a real speed boost for building, not a reason to skip the review/maintenance questions.',
+    category: 'Woven into the course',
   },
   {
     headline: 'Watermarking, provenance, and deepfake detection',
-    note: 'How to tell AI-generated content apart from real content, and the emerging (imperfect) standards for marking AI output as AI-generated.',
-    category: 'Not covered in the course',
+    note: 'Added as a short callout in Day 5, flagged honestly as an unsolved, still-evolving problem rather than something a vendor has already handled.',
+    category: 'Woven into the course',
   },
   {
     headline: 'FinOps for AI as its own discipline',
-    note: 'Day 18 covered the mechanics of AI cost (tokens, caching, right-sizing). What it didn\'t cover: the organizational practice of budgeting, forecasting, and allocating AI spend across a company the way cloud FinOps matured over the last decade.',
-    category: 'Not covered in the course',
+    note: 'Added as a short callout in Day 18, on the organizational-budgeting layer above the individual cost levers the day already covered.',
+    category: 'Woven into the course',
   },
   {
     headline: 'AI in specific business functions',
-    note: 'The course stayed function-agnostic on purpose. A follow-on set of topics: what changes specifically for sales, legal, HR, or finance teams adopting AI, beyond the general patterns already covered.',
-    category: 'Not covered in the course',
+    note: 'Added as a short callout in Day 29, naming that a real use-case portfolio tends to cluster by function even though the course taught general patterns.',
+    category: 'Woven into the course',
   },
 ];

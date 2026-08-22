@@ -57,6 +57,17 @@ worthwhile for something they'll need forever, wasteful for something you'll onl
 
 <DecisionFrameworkDiagram />
 
+> **A closer look at fine-tuning itself.** This course treats fine-tuning mostly as "the
+> heavy option" in this decision framework, without walking through how it actually works.
+> In plain terms: it needs a real set of example input-and-output pairs showing the model
+> the exact behaviour you want (often hundreds to thousands of examples, not a handful), a
+> genuine training run against those examples, and a way to test the result before trusting
+> it. It also has an ongoing cost most teams underestimate at the start — every time your
+> underlying policies or product change, you're weighing whether to retrain rather than just
+> editing a document, as you would with RAG. If your business is seriously considering
+> fine-tuning, treat "how do we build and maintain the training set" as its own real project,
+> not an afterthought to picking a model.
+
 ## The decision framework
 
 Here's the practical test. Ask these three questions, in order, about whatever the model
