@@ -32,45 +32,9 @@ const weekMeta = weeks.map((w) => {
             AI strategy. About 45 minutes a day, built one day at a time.
           </p>
           <div class="tv-hero__actions">
-            <a class="tv-btn tv-btn--primary" href={`${base}day/1`} data-resume-link>Start Day 1 <span class="tv-arrow">→</span></a>
+            <a class="tv-btn tv-btn--primary" href={`${base}day/1`}>Start Day 1 <span class="tv-arrow">→</span></a>
             <a class="tv-btn tv-btn--ghost" href="#roadmap">See the 30 days</a>
           </div>
-        </div>
-
-        <div class="tv-progress">
-          <div class="tv-progress__top">
-            <span class="tv-progress__label">Your progress</span>
-            <span class="tv-progress__saved">saved on this device</span>
-          </div>
-          <div class="tv-progress__count">
-            <span class="tv-progress__big" data-progress-count>0</span>
-            <span class="tv-progress__of">of {totalDays} days read</span>
-          </div>
-          <div class="tv-progress__bar">
-            <div class="tv-progress__bar-fill" data-progress-bar style="width: 0%;"></div>
-          </div>
-          <div class="tv-progress__grid" data-progress-grid>
-            {courseDays.map((d) => {
-              const isPublished = publishedByDay.get(d.day) ?? false;
-              return isPublished ? (
-                <a
-                  href={`${base}day/${d.day}`}
-                  class="tv-progress__cell"
-                  data-day={d.day}
-                  title={`Day ${d.day}`}
-                  aria-label={`Day ${d.day}`}
-                >{String(d.day).padStart(2, '0')}</a>
-              ) : (
-                <span
-                  class="tv-progress__cell tv-progress__cell--stub"
-                  data-day={d.day}
-                  title={`Day ${d.day} — not published yet`}
-                  aria-label={`Day ${d.day} — not published yet`}
-                >{String(d.day).padStart(2, '0')}</span>
-              );
-            })}
-          </div>
-          <p class="tv-progress__next" data-progress-next>Pick up at Day 1. Mark a day done at the end of its page.</p>
         </div>
       </div>
     </section>
@@ -102,8 +66,6 @@ const weekMeta = weeks.map((w) => {
                 return (
                   <a
                     class="tv-day-row"
-                    data-day={d.day}
-                    data-published={String(isPublished)}
                     href={isPublished ? `${base}day/${d.day}` : undefined}
                     aria-disabled={isPublished ? undefined : 'true'}
                   >
@@ -111,7 +73,7 @@ const weekMeta = weeks.map((w) => {
                     <span class="tv-day-row__title">{d.title}</span>
                     {d.handsOn && <span class="tv-pill">Hands-on</span>}
                     {isPublished ? (
-                      <span class="tv-day-row__arrow" data-track-status>→</span>
+                      <span class="tv-day-row__arrow">→</span>
                     ) : (
                       <span class="tv-day-row__soon">SOON</span>
                     )}
@@ -129,73 +91,11 @@ const weekMeta = weeks.map((w) => {
           <h2>One topic a day.</h2>
           <p>Thirty days from now you'll run the AI meeting instead of nodding through it.</p>
         </div>
-        <a class="tv-btn tv-btn--inverse" href={`${base}day/1`} data-resume-link>Start Day 1 <span class="tv-arrow">→</span></a>
+        <a class="tv-btn tv-btn--inverse" href={`${base}day/1`}>Start Day 1 <span class="tv-arrow">→</span></a>
       </div>
     </section>
   </main>
 </BaseLayout>
-
-<script>
-  import { loadProgress, nextDay } from '../lib/progress';
-
-  function initProgress() {
-    const grid = document.querySelector('[data-progress-grid]');
-    if (!grid) return;
-
-    const total = grid.querySelectorAll('[data-day]').length;
-    if (total === 0) return;
-
-    const { done } = loadProgress();
-    const doneSet = new Set(done);
-    const doneCount = done.length;
-    const upNext = nextDay(total);
-
-    grid.querySelectorAll<HTMLElement>('[data-day]').forEach((cell) => {
-      const day = Number(cell.dataset.day);
-      if (doneSet.has(day)) cell.classList.add('tv-progress__cell--filled');
-    });
-
-    const countEl = document.querySelector<HTMLElement>('[data-progress-count]');
-    if (countEl) countEl.textContent = String(doneCount);
-
-    const barEl = document.querySelector<HTMLElement>('[data-progress-bar]');
-    if (barEl) barEl.style.width = `${Math.round((doneCount / total) * 100)}%`;
-
-    const nextEl = document.querySelector<HTMLElement>('[data-progress-next]');
-    if (nextEl) {
-      nextEl.textContent = doneCount >= total
-        ? 'All 30 days read. The capstone plan is yours to pressure-test.'
-        : `Pick up at Day ${upNext}. Mark a day done at the end of its page.`;
-    }
-
-    document.querySelectorAll<HTMLElement>('[data-track] , .tv-day-row').forEach(() => {});
-
-    document.querySelectorAll<HTMLAnchorElement>('.tv-day-row').forEach((row) => {
-      const day = Number(row.dataset.day);
-      const isDone = doneSet.has(day);
-      const isCurrent = !isDone && day === upNext;
-      row.classList.toggle('is-done', isDone);
-      row.classList.toggle('is-current', isCurrent);
-      const status = row.querySelector<HTMLElement>('[data-track-status]');
-      if (status && isDone) status.textContent = '✓';
-    });
-
-    const resumeLinks = document.querySelectorAll<HTMLAnchorElement>('[data-resume-link]');
-    if (resumeLinks.length > 0 && doneCount > 0) {
-      const clientBase = import.meta.env.BASE_URL.endsWith('/')
-        ? import.meta.env.BASE_URL
-        : `${import.meta.env.BASE_URL}/`;
-      const label = doneSet.has(upNext) ? 'Review the course →' : `Resume Day ${upNext} →`;
-      resumeLinks.forEach((link) => {
-        link.href = `${clientBase}day/${upNext}`;
-        link.textContent = label;
-      });
-    }
-  }
-
-  initProgress();
-  document.addEventListener('astro:page-load', initProgress);
-</script>
 
 <style>
   /* ------------------------------------------------------------------
@@ -221,7 +121,6 @@ const weekMeta = weeks.map((w) => {
     --tv-accent: #1f3bff;
     --tv-accent-soft-bg: #f2f4ff;
     --tv-accent-soft-border: #c9cfff;
-    --tv-card: #ffffff;
     --tv-ticker-text: var(--tv-faint);
 
     background: var(--tv-paper);
@@ -247,7 +146,6 @@ const weekMeta = weeks.map((w) => {
       --tv-accent: #5470ff;
       --tv-accent-soft-bg: #1a1e33;
       --tv-accent-soft-border: #33396b;
-      --tv-card: #1c1b16;
       --tv-ticker-text: #fbfaf8;
     }
   }
@@ -268,12 +166,10 @@ const weekMeta = weeks.map((w) => {
     --tv-accent: #5470ff;
     --tv-accent-soft-bg: #1a1e33;
     --tv-accent-soft-border: #33396b;
-    --tv-card: #1c1b16;
     --tv-ticker-text: #fbfaf8;
   }
 
   :global(:root[data-theme='light']) .tv-home {
-    --tv-card: #ffffff;
     --tv-ticker-text: var(--tv-faint);
   }
 
@@ -392,113 +288,6 @@ const weekMeta = weeks.map((w) => {
   .tv-home a.tv-btn--inverse:hover {
     background: var(--tv-accent);
     color: #ffffff;
-  }
-
-  /* ---------------- Progress card ---------------- */
-
-  .tv-progress {
-    border: 1px solid var(--tv-border);
-    background: var(--tv-card);
-    padding: 30px clamp(20px, 3vw, 30px) 26px;
-    min-width: 0;
-  }
-
-  .tv-progress__top {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .tv-progress__label {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--tv-mute);
-  }
-
-  .tv-progress__saved {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 10.5px;
-    letter-spacing: 0.08em;
-    color: var(--tv-faint-5);
-  }
-
-  .tv-progress__count {
-    display: flex;
-    align-items: baseline;
-    gap: 9px;
-    margin: 16px 0 20px;
-  }
-
-  .tv-progress__big {
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-size: 62px;
-    line-height: 0.85;
-    letter-spacing: -0.02em;
-  }
-
-  .tv-progress__of {
-    font-size: 14.5px;
-    color: var(--tv-mute);
-  }
-
-  .tv-progress__bar {
-    height: 3px;
-    background: var(--tv-border-2);
-    margin-bottom: 22px;
-  }
-
-  .tv-progress__bar-fill {
-    height: 3px;
-    background: var(--tv-accent);
-    transition: width 200ms ease;
-  }
-
-  .tv-progress__grid {
-    display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 5px;
-  }
-
-  .tv-progress__cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1;
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 10px;
-    border: 1px solid var(--tv-faint-4);
-    background: transparent;
-  }
-
-  .tv-home a.tv-progress__cell,
-  .tv-home a.tv-progress__cell:visited {
-    color: var(--tv-faint);
-  }
-
-  a.tv-progress__cell:hover {
-    border-color: var(--tv-ink);
-  }
-
-  .tv-progress__cell--stub {
-    color: var(--tv-faint-2);
-    cursor: default;
-  }
-
-  .tv-home a.tv-progress__cell.tv-progress__cell--filled,
-  .tv-home a.tv-progress__cell.tv-progress__cell--filled:visited {
-    border-color: var(--tv-accent);
-    background: var(--tv-accent);
-    color: #ffffff;
-  }
-
-  .tv-progress__next {
-    margin: 20px 0 0;
-    font-size: 12.5px;
-    line-height: 1.5;
-    color: var(--tv-mute-2);
   }
 
   /* ---------------- Ticker ---------------- */
@@ -678,18 +467,6 @@ const weekMeta = weeks.map((w) => {
     color: var(--tv-faint-2);
   }
 
-  .tv-day-row.is-done .tv-day-row__num {
-    color: var(--tv-accent);
-  }
-
-  .tv-day-row.is-current .tv-day-row__title {
-    font-weight: 600;
-  }
-
-  .tv-day-row.is-current .tv-day-row__num {
-    color: var(--tv-accent);
-  }
-
   /* ---------------- Closing CTA ---------------- */
 
   .tv-cta {
@@ -726,9 +503,4 @@ const weekMeta = weeks.map((w) => {
     color: var(--tv-faint);
   }
 
-  @media (max-width: 640px) {
-    .tv-progress__grid {
-      grid-template-columns: repeat(6, 1fr);
-    }
-  }
 </style>

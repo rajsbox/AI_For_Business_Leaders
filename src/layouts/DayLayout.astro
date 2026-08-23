@@ -36,10 +36,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
         <span class="day-breadcrumb__sep">/</span>
         <span class="day-breadcrumb__current">DAY {day}</span>
       </div>
-      <div class="day-breadcrumb__pct" id="reading-progress-label" aria-hidden="true">0% READ</div>
-    </div>
-    <div class="day-breadcrumb__track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" aria-label="Reading progress" id="reading-progress">
-      <div class="day-breadcrumb__bar" id="reading-progress-bar"></div>
     </div>
   </nav>
 
@@ -47,7 +43,7 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     <header class="day-header">
       <div class="day-header__badges">
         <span class="badge badge--week-tag">WEEK {String(week).padStart(2, '0')} · {weekTitle(week).toUpperCase()}</span>
-        <span class="badge badge--state" id="day-state-badge" data-published={String(published)} data-day={day}>
+        <span class="badge badge--state">
           {published ? 'READY' : 'LOCKED'}
         </span>
       </div>
@@ -93,7 +89,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 
     {published && (
       <div class="day-action-row">
-        <div class="day-action-row__pct" id="day-action-pct">0% OF DAY {day} READ</div>
         <div class="day-action-row__buttons">
           {prev && (
             <a class="day-action-row__prev" href={`${base}day/${prev.day}`}>← Day {prev.day}</a>
@@ -109,9 +104,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
           ) : (
             <span class="day-action-row__next day-action-row__next--end">COURSE COMPLETE</span>
           )}
-          <button type="button" class="btn btn--primary day-action-row__complete" id="day-complete-btn" data-day={day}>
-            Mark Day {day} complete
-          </button>
         </div>
       </div>
     )}
@@ -119,34 +111,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 </BaseLayout>
 
 <script>
-  import { isDayDone, setDayDone } from '../lib/progress';
-
-  // Whole-page scroll-percentage reading progress, tracked while on a day page.
-  function initReadingProgress() {
-    const bar = document.getElementById('reading-progress-bar');
-    const track = document.getElementById('reading-progress');
-    const label = document.getElementById('reading-progress-label');
-    const actionPct = document.getElementById('day-action-pct');
-    if (!bar) return;
-
-    const dayAttr = document.getElementById('day-complete-btn')?.dataset.day;
-    const day = dayAttr ? Number(dayAttr) : NaN;
-
-    function update() {
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - window.innerHeight;
-      const pct = max > 0 ? Math.min(100, Math.max(0, Math.round((window.scrollY / max) * 100))) : 0;
-      bar!.style.width = `${pct}%`;
-      track?.setAttribute('aria-valuenow', String(pct));
-      if (label) label.textContent = `${pct}% READ`;
-      if (actionPct && !Number.isNaN(day)) actionPct.textContent = `${pct}% OF DAY ${day} READ`;
-    }
-
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-  }
-
   // Section count in the day header meta line, derived from rendered h2 headings.
   function initSectionCount() {
     const el = document.getElementById('day-section-count');
@@ -156,43 +120,8 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     el.textContent = String(count);
   }
 
-  // State badge (READY / LOCKED / COMPLETE) reflects real visitor progress.
-  function initStateBadge() {
-    const badge = document.getElementById('day-state-badge');
-    if (!badge) return;
-    const day = Number(badge.dataset.day);
-    const published = badge.dataset.published === 'true';
-    if (!published || Number.isNaN(day)) return;
-    badge.textContent = isDayDone(day) ? 'COMPLETE' : 'READY';
-  }
-
-  // Mark-complete button in the combined action row.
-  function initCompleteButton() {
-    const btn = document.getElementById('day-complete-btn');
-    if (!(btn instanceof HTMLButtonElement)) return;
-    const day = Number(btn.dataset.day);
-    if (Number.isNaN(day)) return;
-
-    function paint() {
-      const done = isDayDone(day);
-      btn!.textContent = done ? `Day ${day} complete ✓` : `Mark Day ${day} complete`;
-      btn!.classList.toggle('is-done', done);
-      const badge = document.getElementById('day-state-badge');
-      if (badge) badge.textContent = done ? 'COMPLETE' : 'READY';
-    }
-
-    paint();
-    btn.addEventListener('click', () => {
-      setDayDone(day, !isDayDone(day));
-      paint();
-    });
-  }
-
   function init() {
-    initReadingProgress();
     initSectionCount();
-    initStateBadge();
-    initCompleteButton();
   }
 
   init();
@@ -241,26 +170,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
 
   .day-breadcrumb__current {
     color: var(--mute);
-  }
-
-  .day-breadcrumb__pct {
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    color: var(--mute);
-  }
-
-  .day-breadcrumb__track {
-    height: 5px;
-    background: var(--faint);
-  }
-
-  .day-breadcrumb__bar {
-    height: 100%;
-    width: 0%;
-    background: var(--blue);
-    transition: width 0.08s linear;
   }
 
   .day-page {
@@ -415,14 +324,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
     padding-top: 22px;
   }
 
-  .day-action-row__pct {
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    color: var(--mute);
-  }
-
   .day-action-row__buttons {
     display: flex;
     flex-wrap: wrap;
@@ -463,16 +364,6 @@ const base = import.meta.env.BASE_URL.endsWith('/')
   .day-action-row__next--end {
     color: var(--blue);
     border-color: var(--blue);
-  }
-
-  .day-action-row__complete {
-    padding: 14px 24px;
-  }
-
-  .day-action-row__complete.is-done {
-    background: var(--color-success);
-    border-color: var(--color-success);
-    box-shadow: none;
   }
 
   @media (max-width: 640px) {

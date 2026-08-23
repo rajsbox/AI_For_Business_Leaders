@@ -1,15 +1,15 @@
 ---
-// Read / Apply / Discuss tabs for a day page, plus a private per-day note.
+// Read / Apply / Discuss tabs for a day page.
 //
 // - Read: the full rendered lesson (the default `<slot />` content).
 // - Apply: anything a day's .mdx wrapped in <DayApply>…</DayApply> (see that
-//   component) is lifted out of Read and shown here, alongside a "mark done"
-//   button. Days with no <DayApply> block show an empty state — nothing
-//   breaks for the 29 days that don't have one yet.
+//   component) is lifted out of Read and shown here. Days with no
+//   <DayApply> block show an empty state — nothing breaks for days that
+//   don't have one.
 // - Discuss: placeholder for now — no comment backend exists yet.
 //
 // Note: the Read panel keeps the `day-content` class so DayToc's heading
-// scan and DayLayout's reading-progress bar keep working unchanged.
+// scan keeps working unchanged.
 interface Props {
   day: number;
 }
@@ -31,14 +31,13 @@ const { day } = Astro.props;
     <div class="day-tabs__panel day-tabs__panel--apply" data-tab-panel="apply" hidden>
       <div class="day-tabs__apply-head">
         <div class="day-tabs__apply-title">Apply it today</div>
-        <div class="day-tabs__apply-meta">5 min · Saved on this device</div>
+        <div class="day-tabs__apply-meta">5 min</div>
       </div>
       <div class="day-tabs__apply-body">
         <div data-apply-target></div>
         <p class="day-tabs__empty" data-apply-empty>No hands-on exercise for this day yet.</p>
         <div class="day-tabs__apply-actions">
           <button type="button" class="btn btn--ghost day-tabs__back-to-read" data-back-to-read>← Back to read</button>
-          <button type="button" class="btn btn--primary day-tabs__mark-done" data-mark-done>Mark Day {day} done</button>
         </div>
       </div>
     </div>
@@ -191,13 +190,6 @@ const { day } = Astro.props;
     font-size: 0.94rem;
   }
 
-  .day-tabs__mark-done.is-done {
-    background: var(--color-success);
-    border-color: var(--color-success);
-    color: #ffffff;
-    box-shadow: none;
-  }
-
   [data-tab-panel='discuss'] {
     padding: 0;
   }
@@ -322,19 +314,15 @@ const { day } = Astro.props;
 </style>
 
 <script>
-  import { isDayDone, setDayDone } from '../lib/progress';
-
   function initDayTabs() {
     document.querySelectorAll<HTMLElement>('.day-tabs').forEach((root) => {
       if (root.dataset.tabsInit === 'true') return;
       root.dataset.tabsInit = 'true';
 
-      const day = Number(root.dataset.day);
       const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tab-target]'));
       const panels = new Map(
         Array.from(root.querySelectorAll<HTMLElement>('[data-tab-panel]')).map((p) => [p.dataset.tabPanel as string, p])
       );
-      const progressBar = document.getElementById('reading-progress');
 
       // Lift any <DayApply> sections out of Read and into the Apply panel.
       const readPanel = panels.get('read');
@@ -358,10 +346,6 @@ const { day } = Astro.props;
         panels.forEach((panel, key) => {
           panel.hidden = key !== name;
         });
-        // The reading-progress rail only makes sense while actually reading.
-        if (progressBar instanceof HTMLElement) {
-          progressBar.style.display = name === 'read' ? '' : 'none';
-        }
       }
 
       tabs.forEach((t) => {
@@ -370,41 +354,6 @@ const { day } = Astro.props;
 
       const backToReadBtn = root.querySelector<HTMLButtonElement>('[data-back-to-read]');
       backToReadBtn?.addEventListener('click', () => activate('read'));
-
-      // Also reflect state on the shared action-row controls in DayLayout,
-      // which track the same localStorage-backed progress.
-      function syncExternalState() {
-        const done = isDayDone(day);
-        const badge = document.getElementById('day-state-badge');
-        if (badge) badge.textContent = done ? 'COMPLETE' : 'READY';
-        const rowBtn = document.getElementById('day-complete-btn');
-        if (rowBtn instanceof HTMLButtonElement) {
-          rowBtn.textContent = done ? `Day ${day} complete ✓` : `Mark Day ${day} complete`;
-          rowBtn.classList.toggle('is-done', done);
-        }
-      }
-
-      const markBtn = root.querySelector<HTMLButtonElement>('[data-mark-done]');
-      function paintMarkBtn() {
-        if (!markBtn || Number.isNaN(day)) return;
-        const done = isDayDone(day);
-        markBtn.textContent = done ? `Day ${day} done ✓` : `Mark Day ${day} done`;
-        markBtn.classList.toggle('is-done', done);
-      }
-      paintMarkBtn();
-      markBtn?.addEventListener('click', () => {
-        if (Number.isNaN(day)) return;
-        setDayDone(day, !isDayDone(day));
-        paintMarkBtn();
-        syncExternalState();
-      });
-
-      // The action-row's own "mark complete" button (in DayLayout) also
-      // writes to the same store; keep this panel's button in sync with it.
-      const rowBtn = document.getElementById('day-complete-btn');
-      rowBtn?.addEventListener('click', () => {
-        paintMarkBtn();
-      });
     });
   }
 
