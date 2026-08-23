@@ -6,7 +6,7 @@
    the Claude Design wireframe (AI Fluency Wireframes.dc.html).
 --------------------------------------------------------------- */
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
 :root {
   --paper: #f4f2ec;
@@ -17,6 +17,10 @@
   --rule: #0d0f14;
   --faint: #c9c6bd;
   --blue: #1f3bff;
+  /* Text color for content sitting directly on a --blue background. White
+     reads fine on the light-mode indigo; dark mode's accent is a bright
+     neon green, so it needs dark text instead — redefined per theme below. */
+  --blue-contrast: #ffffff;
 
   /* Back-compat aliases so existing components keep working unchanged. */
   --color-bg: var(--paper);
@@ -32,7 +36,7 @@
   --color-accent: var(--blue);
   --color-accent-hover: var(--blue);
   --color-accent-soft: color-mix(in srgb, var(--blue) 12%, transparent);
-  --color-accent-contrast: #ffffff;
+  --color-accent-contrast: var(--blue-contrast);
 
   --color-success: #0f7a4f;
   --color-success-soft: #e5f5ee;
@@ -62,36 +66,48 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --paper: #0d0f14;
-    --card: #171b22;
-    --ink: #f4f2ec;
+    --paper: #07090b;
+    --card: #0d1114;
+    --ink: #e8ecea;
     --sub: #d3d6dd;
-    --mute: #8b909c;
-    --rule: #f4f2ec;
-    --faint: #3c414c;
+    --mute: #9aa49e;
+    --rule: #e8ecea;
+    --faint: #2b322e;
+    --blue: #4aff9e;
+    --blue-contrast: #07090b;
 
     --color-success: #4fd39a;
     --color-success-soft: #10281f;
     --color-warn: #e0a94a;
     --color-warn-soft: #2b220f;
 
+    --font-sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-serif: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+
     color-scheme: dark;
   }
 }
 
 :root[data-theme='dark'] {
-  --paper: #0d0f14;
-  --card: #171b22;
-  --ink: #f4f2ec;
+  --paper: #07090b;
+  --card: #0d1114;
+  --ink: #e8ecea;
   --sub: #d3d6dd;
-  --mute: #8b909c;
-  --rule: #f4f2ec;
-  --faint: #3c414c;
+  --mute: #9aa49e;
+  --rule: #e8ecea;
+  --faint: #2b322e;
+  --blue: #4aff9e;
+  --blue-contrast: #07090b;
 
   --color-success: #4fd39a;
   --color-success-soft: #10281f;
   --color-warn: #e0a94a;
   --color-warn-soft: #2b220f;
+
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
 
   color-scheme: dark;
 }
@@ -187,7 +203,7 @@ p {
   width: 26px;
   height: 26px;
   background: var(--blue);
-  color: #ffffff;
+  color: var(--blue-contrast);
   font-size: 10px;
   font-weight: 800;
 }
@@ -214,7 +230,7 @@ p {
 
 .site-nav a:hover {
   background: var(--blue);
-  color: #ffffff;
+  color: var(--blue-contrast);
 }
 
 .theme-toggle {
@@ -257,14 +273,14 @@ p {
 
 .btn--primary {
   background: var(--blue);
-  color: #ffffff;
+  color: var(--blue-contrast);
   border-color: var(--blue);
   box-shadow: 5px 5px 0 var(--rule);
 }
 
 .btn--primary:hover {
   background: var(--blue);
-  color: #ffffff;
+  color: var(--blue-contrast);
   transform: translate(2px, 2px);
   box-shadow: 3px 3px 0 var(--rule);
 }
@@ -410,7 +426,7 @@ p {
   align-self: flex-start;
   padding: 14px 24px;
   background: var(--blue);
-  color: #ffffff;
+  color: var(--blue-contrast);
   font-family: var(--font-sans);
   font-weight: 700;
   font-size: 0.72rem;
@@ -422,7 +438,7 @@ p {
 }
 
 .site-footer__cta:hover {
-  color: #ffffff;
+  color: var(--blue-contrast);
   transform: translate(2px, 2px);
   box-shadow: 3px 3px 0 var(--paper);
 }
@@ -503,7 +519,7 @@ p {
 
 .site-footer__badge {
   background: var(--blue);
-  color: #ffffff;
+  color: var(--blue-contrast);
   padding: 6px 12px;
   font-family: var(--font-sans);
   font-weight: 800;
