@@ -1,25 +1,27 @@
 /* ---------------------------------------------------------------
-   AI Fluency Course — "Signal Grid" design system
-   Editorial/brutalist: thick black rules, hard offset shadows,
-   uppercase Archivo display type, JetBrains Mono for labels/meta.
-   Cream paper light mode; near-black paper dark mode. Ported from
-   the Claude Design wireframe (AI Fluency Wireframes.dc.html).
+   AI Fluency Course — "Mission Control" design system
+   Structural language kept from the earlier "Signal Grid" system
+   (thick rules, hard offset shadows, uppercase display type) but
+   recolored/refonted to match the mission-control wireframe: off-
+   white paper + deep green accent in light mode, near-black paper +
+   neon green accent in dark mode. Space Grotesk display type,
+   IBM Plex Mono for labels/meta, in both themes.
 --------------------------------------------------------------- */
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
 
 :root {
-  --paper: #f4f2ec;
+  --paper: #f7f8f6;
   --card: #ffffff;
-  --ink: #0d0f14;
-  --sub: #31353f;
-  --mute: #7a8090;
-  --rule: #0d0f14;
-  --faint: #c9c6bd;
-  --blue: #1f3bff;
-  /* Text color for content sitting directly on a --blue background. White
-     reads fine on the light-mode indigo; dark mode's accent is a bright
-     neon green, so it needs dark text instead — redefined per theme below. */
+  --ink: #0c1210;
+  --sub: #33403a;
+  --mute: #6b7871;
+  --rule: #0c1210;
+  --faint: #d3d8d4;
+  --blue: #0e8f52;
+  /* Text color for content sitting directly on a --blue background. Dark
+     mode's accent is a bright neon green needing dark text; light mode's
+     accent is a deep green dark enough for white text to still read well. */
   --blue-contrast: #ffffff;
 
   /* Back-compat aliases so existing components keep working unchanged. */
@@ -48,9 +50,9 @@
   --week-3: var(--blue);
   --week-4: var(--blue);
 
-  --font-sans: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Consolas, monospace;
 
   --radius-sm: 0px;
   --radius-md: 0px;
