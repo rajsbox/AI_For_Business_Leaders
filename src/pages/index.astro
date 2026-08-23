@@ -21,61 +21,106 @@ const weekMeta = weeks.map((w) => {
 ---
 
 <BaseLayout title="30-Day AI Fluency Course for Business Leaders">
-  <main class="tv-home">
-    <section class="tv-hero">
-      <div class="container tv-hero__inner">
-        <div class="tv-hero__lead">
-          <div class="tv-hero__kicker"><span class="tv-hero__kicker-bar"></span>30 DAYS · ONE TOPIC A DAY</div>
-          <h1 class="tv-hero__title">AI fluency for<br>business leaders</h1>
-          <p class="tv-hero__lede">
-            A daily, no-fluff path to speaking AI credibly — from how LLMs work to writing your own
-            AI strategy. About 45 minutes a day, built one day at a time.
-          </p>
-          <div class="tv-hero__actions">
-            <a class="tv-btn tv-btn--primary" href={`${base}day/1`}>Start Day 1 <span class="tv-arrow">→</span></a>
-            <a class="tv-btn tv-btn--ghost" href="#roadmap">See the 30 days</a>
+  <main class="mc-home">
+    <div class="mc-gridlines" aria-hidden="true"></div>
+
+    <section class="mc-hero">
+      <div class="container mc-hero__inner">
+        <div class="mc-hero__lead">
+          <div class="mc-hero__kicker">
+            <span class="mc-hero__dot"></span>
+            30-DAY PROGRAM · SELF-PACED
           </div>
+          <h1 class="mc-hero__title">Run the AI meeting.<br /><span class="mc-hero__title-dim">Don't nod through it.</span></h1>
+          <p class="mc-hero__lede">
+            A daily path to AI fluency for business leaders — from how LLMs actually work to writing
+            your own AI strategy. One topic a day, about 45 minutes each.
+          </p>
+          <div class="mc-hero__actions">
+            <a class="mc-btn mc-btn--primary" href={`${base}day/1`}>INITIATE DAY 01 <span class="mc-arrow">→</span></a>
+            <a class="mc-btn mc-btn--ghost" href="#track">View the track</a>
+          </div>
+        </div>
+
+        <div class="mc-status">
+          <span class="mc-status__corner mc-status__corner--tl"></span>
+          <span class="mc-status__corner mc-status__corner--br"></span>
+          <div class="mc-status__top">
+            <span class="mc-status__label">MISSION STATUS</span>
+            <span class="mc-status__local">LOCAL · THIS DEVICE</span>
+          </div>
+          <div class="mc-status__count">
+            <span class="mc-status__big" data-status-count>00</span>
+            <span class="mc-status__of">/ {totalDays} DAYS</span>
+          </div>
+          <div class="mc-status__bar">
+            <div class="mc-status__bar-fill" data-status-bar style="width: 0%;"></div>
+            <div class="mc-status__bar-sweep" aria-hidden="true"></div>
+          </div>
+          <div class="mc-status__grid" data-status-grid>
+            {courseDays.map((d) => {
+              const isPublished = publishedByDay.get(d.day) ?? false;
+              return isPublished ? (
+                <a
+                  href={`${base}day/${d.day}`}
+                  class="mc-status__cell"
+                  data-day={d.day}
+                  title={`Day ${d.day}`}
+                  aria-label={`Day ${d.day}`}
+                >{String(d.day).padStart(2, '0')}</a>
+              ) : (
+                <span
+                  class="mc-status__cell mc-status__cell--stub"
+                  data-day={d.day}
+                  title={`Day ${d.day} — not published yet`}
+                  aria-label={`Day ${d.day} — not published yet`}
+                >{String(d.day).padStart(2, '0')}</span>
+              );
+            })}
+          </div>
+          <p class="mc-status__next" data-status-next>▸ NEXT UP: DAY 01 — INITIATE THE PROGRAM</p>
         </div>
       </div>
     </section>
 
-    <div class="tv-ticker" aria-hidden="true">
-      <div class="tv-ticker__track">
-        <span>TOKENS &nbsp;·&nbsp; CONTEXT ENGINEERING &nbsp;·&nbsp; AGENTIC AI &nbsp;·&nbsp; TEST-TIME COMPUTE &nbsp;·&nbsp; OPEN-WEIGHT MODELS &nbsp;·&nbsp; MULTIMODAL &nbsp;·&nbsp; RAG &nbsp;·&nbsp; EVALS &nbsp;·&nbsp; TOKENOMICS &nbsp;·&nbsp; AI STRATEGY &nbsp;·&nbsp; </span><span>TOKENS &nbsp;·&nbsp; CONTEXT ENGINEERING &nbsp;·&nbsp; AGENTIC AI &nbsp;·&nbsp; TEST-TIME COMPUTE &nbsp;·&nbsp; OPEN-WEIGHT MODELS &nbsp;·&nbsp; MULTIMODAL &nbsp;·&nbsp; RAG &nbsp;·&nbsp; EVALS &nbsp;·&nbsp; TOKENOMICS &nbsp;·&nbsp; AI STRATEGY &nbsp;·&nbsp; </span>
+    <div class="mc-sysline" aria-hidden="true">
+      <div class="container mc-sysline__inner">
+        <span class="mc-sysline__label">SYS.MODULES</span>
+        <span class="mc-sysline__rule"></span>
+        <span class="mc-sysline__text">TOKENS · RAG · AGENTS · EVALS · GUARDRAILS · TOKENOMICS · GOVERNANCE · STRATEGY</span>
       </div>
     </div>
 
-    <section id="roadmap" class="tv-track container">
-      <div class="tv-track__header">
-        <h2>The track</h2>
-        <span class="tv-track__meta">4 weeks · 30 topics · {publishedCount} of {totalDays} published</span>
-      </div>
-
+    <section id="track" class="mc-track container">
       {weekMeta.map((w) => (
-        <div class="tv-week" id={`week-${w.week}`}>
-          <div class="tv-week__side">
-            <div class="tv-week__num">WEEK {String(w.week).padStart(2, '0')}</div>
-            <h3 class="tv-week__title">{w.title}</h3>
-            <div class="tv-week__meta">Days {w.first}–{w.last} · {w.count} topics</div>
+        <div class="mc-week">
+          <div class="mc-week__header">
+            <div class="mc-week__title-row">
+              <span class="mc-week__num">W{w.week}</span>
+              <h2 class="mc-week__title">{w.title}</h2>
+            </div>
+            <span class="mc-week__meta">DAYS {String(w.first).padStart(2, '0')}–{String(w.last).padStart(2, '0')} · {w.count} MODULES</span>
           </div>
-          <div class="tv-week__days">
+          <div class="mc-week__days">
             {courseDays
               .filter((d) => d.week === w.week)
               .map((d) => {
                 const isPublished = publishedByDay.get(d.day) ?? false;
                 return (
                   <a
-                    class="tv-day-row"
+                    class="mc-day-row"
                     href={isPublished ? `${base}day/${d.day}` : undefined}
                     aria-disabled={isPublished ? undefined : 'true'}
+                    data-day={d.day}
                   >
-                    <span class="tv-day-row__num">{String(d.day).padStart(2, '0')}</span>
-                    <span class="tv-day-row__title">{d.title}</span>
-                    {d.handsOn && <span class="tv-pill">Hands-on</span>}
+                    <span class="mc-day-row__num" data-day-num>{String(d.day).padStart(2, '0')}</span>
+                    <span class="mc-day-row__title">{d.title}</span>
+                    {isPublished && <span class="mc-day-row__read" data-day-read hidden>■ READ</span>}
+                    {d.handsOn && <span class="mc-pill">HANDS-ON</span>}
                     {isPublished ? (
-                      <span class="tv-day-row__arrow">→</span>
+                      <span class="mc-day-row__arrow">→</span>
                     ) : (
-                      <span class="tv-day-row__soon">SOON</span>
+                      <span class="mc-day-row__soon">SOON</span>
                     )}
                   </a>
                 );
@@ -83,424 +128,630 @@ const weekMeta = weeks.map((w) => {
           </div>
         </div>
       ))}
+      <p class="mc-track__meta-line">{publishedCount} of {totalDays} modules published</p>
     </section>
 
-    <section class="tv-cta">
-      <div class="container tv-cta__inner">
-        <div class="tv-cta__copy">
-          <h2>One topic a day.</h2>
-          <p>Thirty days from now you'll run the AI meeting instead of nodding through it.</p>
+    <section class="mc-cta">
+      <div class="container">
+        <div class="mc-cta__panel">
+          <span class="mc-status__corner mc-status__corner--tl" style="width: 18px; height: 18px;"></span>
+          <span class="mc-status__corner mc-status__corner--br" style="width: 18px; height: 18px;"></span>
+          <div class="mc-cta__copy">
+            <div class="mc-cta__kicker">T-MINUS 30 DAYS</div>
+            <h2 class="mc-cta__title">Fluency is a decision.<br />Make it today.</h2>
+          </div>
+          <a class="mc-btn mc-btn--primary mc-btn--large" href={`${base}day/1`}>INITIATE DAY 01 <span class="mc-arrow">→</span></a>
         </div>
-        <a class="tv-btn tv-btn--inverse" href={`${base}day/1`}>Start Day 1 <span class="tv-arrow">→</span></a>
       </div>
     </section>
   </main>
 </BaseLayout>
 
+<script>
+  function initMissionStatus() {
+    const grid = document.querySelector('[data-status-grid]');
+    if (!grid) return;
+
+    const total = grid.querySelectorAll('[data-day]').length;
+    if (total === 0) return;
+
+    let done: number[] = [];
+    try {
+      const raw = window.localStorage.getItem('aifl-days-read');
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) done = parsed.filter((n) => typeof n === 'number');
+      }
+    } catch {
+      // ignore (private browsing / storage disabled)
+    }
+
+    const doneSet = new Set(done);
+    const doneCount = doneSet.size;
+
+    grid.querySelectorAll<HTMLElement>('[data-day]').forEach((cell) => {
+      const day = Number(cell.dataset.day);
+      if (doneSet.has(day)) cell.classList.add('mc-status__cell--filled');
+    });
+
+    const countEl = document.querySelector<HTMLElement>('[data-status-count]');
+    if (countEl) countEl.textContent = String(doneCount).padStart(2, '0');
+
+    const barEl = document.querySelector<HTMLElement>('[data-status-bar]');
+    if (barEl) barEl.style.width = `${Math.round((doneCount / total) * 100)}%`;
+
+    let next = 1;
+    while (doneSet.has(next) && next <= total) next++;
+
+    const nextEl = document.querySelector<HTMLElement>('[data-status-next]');
+    if (nextEl) {
+      nextEl.textContent = doneCount >= total
+        ? '▸ ALL MODULES COMPLETE. CAPSTONE UNLOCKED.'
+        : `▸ NEXT UP: DAY ${String(next).padStart(2, '0')} — RESUME WHERE YOU LEFT OFF`;
+    }
+
+    document.querySelectorAll<HTMLAnchorElement>('.mc-day-row').forEach((row) => {
+      const day = Number(row.dataset.day);
+      const isDone = doneSet.has(day);
+      const numEl = row.querySelector<HTMLElement>('[data-day-num]');
+      const readEl = row.querySelector<HTMLElement>('[data-day-read]');
+      if (isDone && numEl) numEl.classList.add('mc-day-row__num--done');
+      if (isDone && readEl) readEl.hidden = false;
+    });
+  }
+
+  initMissionStatus();
+  document.addEventListener('astro:page-load', initMissionStatus);
+</script>
+
 <style>
   /* ------------------------------------------------------------------
-     Homepage-only "editorial" design — scoped entirely to this page.
-     Deliberately independent of the sitewide Signal Grid tokens in
-     global.css (different fonts, palette, and visual treatment).
+     Homepage-only "mission control" design — scoped entirely to this
+     page. Deliberately independent of the sitewide Signal Grid tokens
+     in global.css (different fonts, palette, and visual treatment).
   ------------------------------------------------------------------ */
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-  .tv-home {
-    --tv-paper: #fbfaf8;
-    --tv-ink: #14140f;
-    --tv-sub: #46453e;
-    --tv-mute: #6b6a63;
-    --tv-mute-2: #8a887f;
-    --tv-border: #e4e1da;
-    --tv-border-2: #edeae3;
-    --tv-faint: #a8a69d;
-    --tv-faint-2: #c4c1b8;
-    --tv-faint-3: #d8d4cb;
-    --tv-faint-4: #ddd9d0;
-    --tv-faint-5: #9a9890;
-    --tv-accent: #1f3bff;
-    --tv-accent-soft-bg: #f2f4ff;
-    --tv-accent-soft-border: #c9cfff;
-    --tv-ticker-text: var(--tv-faint);
+  .mc-home {
+    --mc-bg: #07090b;
+    --mc-ink: #e8ecea;
+    --mc-sub: #9aa49e;
+    --mc-mute: #7b857f;
+    --mc-mute-2: #5c6660;
+    --mc-faint: #4a534e;
+    --mc-faint-2: #3e4642;
+    --mc-border: rgba(232, 236, 234, 0.09);
+    --mc-border-2: rgba(232, 236, 234, 0.07);
+    --mc-border-3: rgba(232, 236, 234, 0.13);
+    --mc-panel: rgba(13, 17, 20, 0.7);
+    --mc-panel-2: rgba(13, 17, 20, 0.5);
+    --mc-accent: #4aff9e;
+    --mc-accent-glow: rgba(74, 255, 158, 0.35);
+    --mc-accent-soft: rgba(74, 255, 158, 0.08);
 
-    background: var(--tv-paper);
-    color: var(--tv-ink);
-    font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    padding: 0 0 0;
+    position: relative;
+    background:
+      radial-gradient(1100px 520px at 78% -8%, rgba(74, 255, 158, 0.09), transparent 65%),
+      radial-gradient(800px 500px at 8% 30%, rgba(74, 255, 158, 0.04), transparent 60%),
+      var(--mc-bg);
+    background-attachment: fixed;
+    color: var(--mc-ink);
+    font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .tv-home:not([data-theme='light']) {
-      --tv-paper: #14140f;
-      --tv-ink: #fbfaf8;
-      --tv-sub: #d8d5cc;
-      --tv-mute: #a8a69d;
-      --tv-mute-2: #9a9890;
-      --tv-border: #2b2a24;
-      --tv-border-2: #232219;
-      --tv-faint: #55534a;
-      --tv-faint-2: #45443c;
-      --tv-faint-3: #3a3931;
-      --tv-faint-4: #2f2e27;
-      --tv-faint-5: #6b6a63;
-      --tv-accent: #5470ff;
-      --tv-accent-soft-bg: #1a1e33;
-      --tv-accent-soft-border: #33396b;
-      --tv-ticker-text: #fbfaf8;
-    }
-  }
-
-  :global(:root[data-theme='dark']) .tv-home {
-    --tv-paper: #14140f;
-    --tv-ink: #fbfaf8;
-    --tv-sub: #d8d5cc;
-    --tv-mute: #a8a69d;
-    --tv-mute-2: #9a9890;
-    --tv-border: #2b2a24;
-    --tv-border-2: #232219;
-    --tv-faint: #55534a;
-    --tv-faint-2: #45443c;
-    --tv-faint-3: #3a3931;
-    --tv-faint-4: #2f2e27;
-    --tv-faint-5: #6b6a63;
-    --tv-accent: #5470ff;
-    --tv-accent-soft-bg: #1a1e33;
-    --tv-accent-soft-border: #33396b;
-    --tv-ticker-text: #fbfaf8;
-  }
-
-  :global(:root[data-theme='light']) .tv-home {
-    --tv-ticker-text: var(--tv-faint);
-  }
-
-  .tv-home .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 clamp(20px, 4vw, 56px);
-  }
-
-  .tv-home a {
+  .mc-home a {
     color: inherit;
     text-decoration: none;
   }
 
+  .mc-home .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 44px);
+  }
+
+  .mc-gridlines {
+    position: absolute;
+    inset: 0;
+    height: 900px;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(232, 236, 234, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(232, 236, 234, 0.028) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 35%, transparent 100%);
+  }
+
+  @keyframes mc-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  @keyframes mc-sweep {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(340%); }
+  }
+
   /* ---------------- Hero ---------------- */
 
-  .tv-hero {
-    padding: clamp(56px, 7vw, 96px) 0 0;
+  .mc-hero {
+    position: relative;
+    padding: clamp(64px, 9vw, 120px) 0 0;
   }
 
-  .tv-hero__inner {
+  .mc-hero__inner {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-    gap: clamp(40px, 6vw, 88px);
-    align-items: end;
-  }
-
-  .tv-hero__kicker {
-    display: flex;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+    gap: clamp(44px, 6vw, 96px);
     align-items: center;
-    gap: 12px;
-    margin-bottom: 28px;
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--tv-accent);
   }
 
-  .tv-hero__kicker-bar {
-    width: 26px;
-    height: 1px;
-    background: var(--tv-accent);
-  }
-
-  .tv-hero__title {
-    margin: 0;
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
-    font-size: clamp(44px, 7vw, 84px);
-    line-height: 0.98;
-    letter-spacing: -0.025em;
-    text-wrap: balance;
-  }
-
-  .tv-hero__lede {
-    margin: 30px 0 0;
-    max-width: 30em;
-    font-size: 18.5px;
-    line-height: 1.55;
-    color: var(--tv-sub);
-    text-wrap: pretty;
-  }
-
-  .tv-hero__actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 40px;
-  }
-
-  .tv-btn {
+  .mc-hero__kicker {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 15px 26px;
-    border-radius: 2px;
-    font-size: 14.5px;
-    font-weight: 500;
-    transition: background 120ms, border-color 120ms, color 120ms;
-  }
-
-  .tv-arrow {
+    border: 1px solid rgba(74, 255, 158, 0.35);
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin-bottom: 30px;
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    color: var(--mc-accent);
   }
 
-  .tv-home a.tv-btn--primary {
-    background: var(--tv-ink);
-    color: var(--tv-paper);
+  .mc-hero__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--mc-accent);
+    box-shadow: 0 0 8px var(--mc-accent);
+    flex: none;
   }
 
-  .tv-home a.tv-btn--primary:hover {
-    background: var(--tv-accent);
-    color: #ffffff;
-  }
-
-  .tv-btn--ghost {
-    padding: 15px 24px;
-    border: 1px solid var(--tv-faint-3);
-  }
-
-  .tv-home a.tv-btn--ghost {
-    color: var(--tv-ink);
-  }
-
-  .tv-btn--ghost:hover {
-    border-color: var(--tv-ink);
-  }
-
-  .tv-home a.tv-btn--inverse {
-    background: var(--tv-paper);
-    color: var(--tv-ink);
-  }
-
-  .tv-home a.tv-btn--inverse:hover {
-    background: var(--tv-accent);
-    color: #ffffff;
-  }
-
-  /* ---------------- Ticker ---------------- */
-
-  .tv-ticker {
-    margin: clamp(48px, 8vw, 84px) 0 0;
-    padding: 13px 0;
-    border-top: 1px solid var(--tv-border);
-    border-bottom: 1px solid var(--tv-border);
-    overflow: hidden;
-    white-space: nowrap;
-  }
-
-  .tv-ticker__track {
-    display: inline-block;
-    animation: tv-tick 46s linear infinite;
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    color: var(--tv-ticker-text);
-  }
-
-  @keyframes tv-tick {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .tv-ticker__track {
-      animation: none;
-    }
-  }
-
-  /* ---------------- Track / roadmap ---------------- */
-
-  .tv-track {
-    padding: clamp(56px, 8vw, 96px) 0 40px;
-  }
-
-  .tv-track__header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px 24px;
-    padding-bottom: 22px;
-    border-bottom: 1px solid var(--tv-ink);
-  }
-
-  .tv-track__header h2 {
+  .mc-hero__title {
     margin: 0;
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
-    font-size: 40px;
-    letter-spacing: -0.02em;
+    font-weight: 600;
+    font-size: clamp(38px, 6.4vw, 78px);
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
   }
 
-  .tv-track__meta {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--tv-mute);
+  .mc-hero__title-dim {
+    color: var(--mc-mute-2);
   }
 
-  @media (max-width: 480px) {
-    .tv-track__meta {
-      white-space: normal;
-      max-width: 100%;
-    }
+  .mc-hero__lede {
+    margin: 28px 0 0;
+    max-width: 32em;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--mc-sub);
+    text-wrap: pretty;
   }
 
-  .tv-week {
+  .mc-hero__actions {
     display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 40px;
     flex-wrap: wrap;
-    gap: clamp(20px, 4vw, 56px);
-    padding: clamp(32px, 4vw, 46px) 0;
-    border-bottom: 1px solid var(--tv-border);
-    scroll-margin-top: 84px;
   }
 
-  .tv-week__side {
-    flex: 1 1 200px;
+  .mc-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 28px;
+    font-weight: 600;
+    font-size: 14.5px;
+    letter-spacing: 0.02em;
+    transition: box-shadow 150ms, border-color 150ms;
+  }
+
+  .mc-arrow {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  .mc-home a.mc-btn--primary {
+    background: var(--mc-accent);
+    color: var(--mc-bg);
+    box-shadow: 0 0 28px rgba(74, 255, 158, 0.28);
+  }
+
+  .mc-home a.mc-btn--primary:hover {
+    box-shadow: 0 0 44px rgba(74, 255, 158, 0.5);
+  }
+
+  .mc-btn--large {
+    padding: 17px 32px;
+    font-size: 15px;
+  }
+
+  .mc-btn--ghost {
+    padding: 16px 24px;
+    border: 1px solid var(--mc-border-3);
+  }
+
+  .mc-home a.mc-btn--ghost {
+    color: var(--mc-ink);
+  }
+
+  .mc-home a.mc-btn--ghost:hover {
+    border-color: var(--mc-accent);
+  }
+
+  /* ---------------- Mission status card ---------------- */
+
+  .mc-status {
+    position: relative;
+    border: 1px solid var(--mc-border);
+    background: var(--mc-panel);
+    backdrop-filter: blur(6px);
+    padding: clamp(24px, 3vw, 32px);
     min-width: 0;
   }
 
-  .tv-week__num {
-    font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    color: var(--tv-faint);
+  .mc-status__corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    pointer-events: none;
   }
 
-  .tv-week__title {
-    margin: 12px 0 0;
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
-    font-size: 27px;
-    line-height: 1.15;
+  .mc-status__corner--tl {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid var(--mc-accent);
+    border-left: 1px solid var(--mc-accent);
+  }
+
+  .mc-status__corner--br {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid var(--mc-accent);
+    border-right: 1px solid var(--mc-accent);
+  }
+
+  .mc-status__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+
+  .mc-status__label {
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    color: var(--mc-mute);
+  }
+
+  .mc-status__local {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--mc-faint);
+  }
+
+  .mc-status__count {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin: 22px 0 6px;
+  }
+
+  .mc-status__big {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 58px;
+    line-height: 0.9;
+    font-weight: 500;
+    color: var(--mc-accent);
+    text-shadow: 0 0 24px rgba(74, 255, 158, 0.35);
+  }
+
+  .mc-status__of {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 15px;
+    color: var(--mc-mute-2);
+  }
+
+  .mc-status__bar {
+    position: relative;
+    height: 4px;
+    background: rgba(232, 236, 234, 0.08);
+    margin: 20px 0 24px;
+    overflow: hidden;
+  }
+
+  .mc-status__bar-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: var(--mc-accent);
+    box-shadow: 0 0 12px rgba(74, 255, 158, 0.6);
+    transition: width 200ms ease;
+  }
+
+  .mc-status__bar-sweep {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 30%;
+    background: linear-gradient(90deg, transparent, rgba(232, 236, 234, 0.14), transparent);
+    animation: mc-sweep 3.2s ease-in-out infinite;
+  }
+
+  .mc-status__grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
+  }
+
+  .mc-status__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    border: 1px solid var(--mc-border-3);
+    background: transparent;
+    transition: border-color 120ms, color 120ms;
+  }
+
+  .mc-home a.mc-status__cell,
+  .mc-home a.mc-status__cell:visited {
+    color: var(--mc-mute-2);
+  }
+
+  a.mc-status__cell:hover {
+    border-color: var(--mc-accent);
+    color: var(--mc-accent);
+  }
+
+  .mc-status__cell--stub {
+    color: var(--mc-faint-2);
+    cursor: default;
+  }
+
+  .mc-home a.mc-status__cell.mc-status__cell--filled,
+  .mc-home a.mc-status__cell.mc-status__cell--filled:visited {
+    border-color: transparent;
+    background: var(--mc-accent);
+    color: var(--mc-bg);
+    box-shadow: 0 0 10px rgba(74, 255, 158, 0.35);
+  }
+
+  .mc-status__next {
+    margin: 22px 0 0;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--mc-mute);
+  }
+
+  /* ---------------- Sys line ---------------- */
+
+  .mc-sysline {
+    position: relative;
+    margin: clamp(56px, 8vw, 100px) 0 0;
+  }
+
+  .mc-sysline__inner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--mc-faint-2);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .mc-sysline__label {
+    flex: none;
+  }
+
+  .mc-sysline__rule {
+    flex: 1;
+    height: 1px;
+    background: var(--mc-border);
+  }
+
+  .mc-sysline__text {
+    flex: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ---------------- Track ---------------- */
+
+  .mc-track {
+    position: relative;
+    padding: clamp(40px, 5vw, 64px) 0 24px;
+  }
+
+  .mc-week {
+    margin-bottom: clamp(36px, 5vw, 60px);
+  }
+
+  .mc-week__header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .mc-week__title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    min-width: 0;
+  }
+
+  .mc-week__num {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: clamp(30px, 4vw, 44px);
+    font-weight: 500;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(74, 255, 158, 0.55);
+    letter-spacing: 0.02em;
+  }
+
+  .mc-week__title {
+    margin: 0;
+    font-weight: 600;
+    font-size: clamp(20px, 2.4vw, 27px);
     letter-spacing: -0.015em;
     text-wrap: pretty;
   }
 
-  .tv-week__meta {
-    margin-top: 14px;
-    font-size: 13px;
-    color: var(--tv-mute-2);
+  .mc-week__meta {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    color: var(--mc-mute-2);
+    padding-bottom: 8px;
   }
 
-  .tv-week__days {
-    flex: 4 1 320px;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
+  .mc-week__days {
+    border: 1px solid var(--mc-border);
+    background: var(--mc-panel-2);
   }
 
-  .tv-day-row {
+  .mc-day-row {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 16px 14px;
-    border-bottom: 1px solid var(--tv-border-2);
-    transition: background 120ms;
+    gap: 18px;
+    flex-wrap: wrap;
+    padding: 15px clamp(14px, 2.5vw, 24px);
+    border-bottom: 1px solid var(--mc-border-2);
+    border-left: 2px solid transparent;
+    transition: background 130ms, border-color 130ms;
   }
 
-  a.tv-day-row:hover {
-    background: color-mix(in srgb, var(--tv-ink) 5%, transparent);
+  .mc-week__days .mc-day-row:last-child {
+    border-bottom: none;
   }
 
-  .tv-day-row[aria-disabled='true'] {
+  a.mc-day-row:hover {
+    background: rgba(74, 255, 158, 0.05);
+    border-left-color: var(--mc-accent);
+  }
+
+  .mc-day-row[aria-disabled='true'] {
     cursor: default;
-    opacity: 0.6;
+    opacity: 0.55;
   }
 
-  .tv-day-row__num {
+  .mc-day-row__num {
     flex: none;
-    width: 26px;
+    width: 30px;
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
     font-size: 12px;
-    color: var(--tv-faint);
+    color: var(--mc-faint);
   }
 
-  .tv-day-row__title {
+  .mc-day-row__num--done {
+    color: var(--mc-accent);
+  }
+
+  .mc-day-row__title {
     flex: 1;
-    font-size: 15.5px;
-    line-height: 1.4;
-    color: var(--tv-ink);
+    min-width: 200px;
+    font-size: 15px;
+    line-height: 1.45;
+    color: #c9d1cc;
     text-wrap: pretty;
   }
 
-  .tv-pill {
+  .mc-day-row__read {
     flex: none;
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
     font-size: 9.5px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--tv-accent);
-    border: 1px solid var(--tv-accent-soft-border);
-    background: var(--tv-accent-soft-bg);
-    padding: 4px 7px;
+    letter-spacing: 0.16em;
+    color: var(--mc-accent);
   }
 
-  .tv-day-row__arrow {
+  .mc-pill {
     flex: none;
-    width: 18px;
-    text-align: right;
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 13px;
-    color: var(--tv-faint-2);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--mc-bg);
+    background: var(--mc-accent);
+    padding: 4px 8px;
   }
 
-  .tv-day-row__soon {
+  .mc-day-row__arrow {
     flex: none;
     font-family: 'IBM Plex Mono', ui-monospace, monospace;
-    font-size: 10px;
+    font-size: 12px;
+    color: var(--mc-faint-2);
+  }
+
+  .mc-day-row__soon {
+    flex: none;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 9.5px;
     letter-spacing: 0.1em;
-    color: var(--tv-faint-2);
+    color: var(--mc-faint-2);
+  }
+
+  .mc-track__meta-line {
+    margin: 20px 0 0;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mc-faint);
   }
 
   /* ---------------- Closing CTA ---------------- */
 
-  .tv-cta {
-    padding: clamp(52px, 6vw, 76px) 0 clamp(64px, 7vw, 96px);
+  .mc-cta {
+    padding: clamp(24px, 4vw, 48px) 0 clamp(72px, 9vw, 110px);
   }
 
-  .tv-cta__inner {
+  .mc-cta__panel {
+    position: relative;
+    border: 1px solid rgba(74, 255, 158, 0.3);
+    background: linear-gradient(135deg, rgba(74, 255, 158, 0.07), rgba(74, 255, 158, 0.015) 55%);
+    padding: clamp(36px, 5vw, 60px);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(28px, 4vw, 40px);
+    gap: clamp(28px, 4vw, 48px);
     flex-wrap: wrap;
-    background: var(--tv-ink);
-    color: var(--tv-paper);
-    padding: clamp(36px, 5vw, 54px) clamp(24px, 5vw, 56px);
   }
 
-  .tv-cta__copy {
+  .mc-cta__copy {
     min-width: 0;
   }
 
-  .tv-cta__copy h2 {
+  .mc-cta__kicker {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    color: var(--mc-accent);
+    margin-bottom: 16px;
+  }
+
+  .mc-cta__title {
     margin: 0;
-    font-family: 'Instrument Serif', Georgia, serif;
-    font-weight: 400;
-    font-size: 46px;
+    font-weight: 600;
+    font-size: clamp(28px, 3.6vw, 44px);
     line-height: 1.05;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
   }
 
-  .tv-cta__copy p {
-    margin: 14px 0 0;
-    font-size: 16px;
-    color: var(--tv-faint);
+  @media (max-width: 640px) {
+    .mc-status__grid {
+      grid-template-columns: repeat(6, 1fr);
+    }
   }
-
 </style>
