@@ -228,16 +228,45 @@ const weekMeta = weeks.map((w) => {
     --mc-accent: #4aff9e;
     --mc-accent-glow: rgba(74, 255, 158, 0.35);
     --mc-accent-soft: rgba(74, 255, 158, 0.08);
+    --mc-glow-1: rgba(74, 255, 158, 0.09);
+    --mc-glow-2: rgba(74, 255, 158, 0.04);
+    --mc-gridline: rgba(232, 236, 234, 0.028);
 
     position: relative;
     background:
-      radial-gradient(1100px 520px at 78% -8%, rgba(74, 255, 158, 0.09), transparent 65%),
-      radial-gradient(800px 500px at 8% 30%, rgba(74, 255, 158, 0.04), transparent 60%),
+      radial-gradient(1100px 520px at 78% -8%, var(--mc-glow-1), transparent 65%),
+      radial-gradient(800px 500px at 8% 30%, var(--mc-glow-2), transparent 60%),
       var(--mc-bg);
     background-attachment: fixed;
     color: var(--mc-ink);
     font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* Light-mode variant: same structure, off-white bg + deep-green accent,
+     matching the sitewide light-mode tokens in global.css. Falls back to
+     the dark palette above when no theme is chosen and the OS prefers
+     light (:not([data-theme='dark']) below only fires under an explicit
+     system preference, same pattern as global.css's own light override). */
+  :global(:root[data-theme='light']) .mc-home {
+    --mc-bg: #f7f8f6;
+    --mc-ink: #0c1210;
+    --mc-sub: #33403a;
+    --mc-mute: #6b7871;
+    --mc-mute-2: #869089;
+    --mc-faint: #a8b0aa;
+    --mc-faint-2: #c3c9c5;
+    --mc-border: rgba(12, 18, 16, 0.1);
+    --mc-border-2: rgba(12, 18, 16, 0.08);
+    --mc-border-3: rgba(12, 18, 16, 0.16);
+    --mc-panel: rgba(255, 255, 255, 0.75);
+    --mc-panel-2: rgba(255, 255, 255, 0.55);
+    --mc-accent: #0e8f52;
+    --mc-accent-glow: rgba(14, 143, 82, 0.28);
+    --mc-accent-soft: rgba(14, 143, 82, 0.08);
+    --mc-glow-1: rgba(14, 143, 82, 0.07);
+    --mc-glow-2: rgba(14, 143, 82, 0.03);
+    --mc-gridline: rgba(12, 18, 16, 0.045);
   }
 
   .mc-home a {
@@ -257,8 +286,8 @@ const weekMeta = weeks.map((w) => {
     height: 900px;
     pointer-events: none;
     background-image:
-      linear-gradient(rgba(232, 236, 234, 0.028) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(232, 236, 234, 0.028) 1px, transparent 1px);
+      linear-gradient(var(--mc-gridline) 1px, transparent 1px),
+      linear-gradient(90deg, var(--mc-gridline) 1px, transparent 1px);
     background-size: 56px 56px;
     mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 35%, transparent 100%);
   }
@@ -291,7 +320,7 @@ const weekMeta = weeks.map((w) => {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    border: 1px solid rgba(74, 255, 158, 0.35);
+    border: 1px solid var(--mc-accent-glow);
     padding: 7px 14px;
     border-radius: 999px;
     margin-bottom: 30px;
@@ -358,11 +387,11 @@ const weekMeta = weeks.map((w) => {
   .mc-home a.mc-btn--primary {
     background: var(--mc-accent);
     color: var(--mc-bg);
-    box-shadow: 0 0 28px rgba(74, 255, 158, 0.28);
+    box-shadow: 0 0 28px color-mix(in srgb, var(--mc-accent) 28%, transparent);
   }
 
   .mc-home a.mc-btn--primary:hover {
-    box-shadow: 0 0 44px rgba(74, 255, 158, 0.5);
+    box-shadow: 0 0 44px color-mix(in srgb, var(--mc-accent) 50%, transparent);
   }
 
   .mc-btn--large {
@@ -448,7 +477,7 @@ const weekMeta = weeks.map((w) => {
     line-height: 0.9;
     font-weight: 500;
     color: var(--mc-accent);
-    text-shadow: 0 0 24px rgba(74, 255, 158, 0.35);
+    text-shadow: 0 0 24px var(--mc-accent-glow);
   }
 
   .mc-status__of {
@@ -460,7 +489,7 @@ const weekMeta = weeks.map((w) => {
   .mc-status__bar {
     position: relative;
     height: 4px;
-    background: rgba(232, 236, 234, 0.08);
+    background: var(--mc-border);
     margin: 20px 0 24px;
     overflow: hidden;
   }
@@ -469,7 +498,7 @@ const weekMeta = weeks.map((w) => {
     position: absolute;
     inset: 0 auto 0 0;
     background: var(--mc-accent);
-    box-shadow: 0 0 12px rgba(74, 255, 158, 0.6);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--mc-accent) 60%, transparent);
     transition: width 200ms ease;
   }
 
@@ -477,7 +506,7 @@ const weekMeta = weeks.map((w) => {
     position: absolute;
     inset: 0 auto 0 0;
     width: 30%;
-    background: linear-gradient(90deg, transparent, rgba(232, 236, 234, 0.14), transparent);
+    background: linear-gradient(90deg, transparent, var(--mc-border-3), transparent);
     animation: mc-sweep 3.2s ease-in-out infinite;
   }
 
@@ -519,7 +548,7 @@ const weekMeta = weeks.map((w) => {
     border-color: transparent;
     background: var(--mc-accent);
     color: var(--mc-bg);
-    box-shadow: 0 0 10px rgba(74, 255, 158, 0.35);
+    box-shadow: 0 0 10px var(--mc-accent-glow);
   }
 
   .mc-status__next {
@@ -597,7 +626,7 @@ const weekMeta = weeks.map((w) => {
     font-size: clamp(30px, 4vw, 44px);
     font-weight: 500;
     color: transparent;
-    -webkit-text-stroke: 1px rgba(74, 255, 158, 0.55);
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--mc-accent) 55%, transparent);
     letter-spacing: 0.02em;
   }
 
@@ -638,7 +667,7 @@ const weekMeta = weeks.map((w) => {
   }
 
   a.mc-day-row:hover {
-    background: rgba(74, 255, 158, 0.05);
+    background: var(--mc-accent-soft);
     border-left-color: var(--mc-accent);
   }
 
@@ -718,8 +747,8 @@ const weekMeta = weeks.map((w) => {
 
   .mc-cta__panel {
     position: relative;
-    border: 1px solid rgba(74, 255, 158, 0.3);
-    background: linear-gradient(135deg, rgba(74, 255, 158, 0.07), rgba(74, 255, 158, 0.015) 55%);
+    border: 1px solid color-mix(in srgb, var(--mc-accent) 30%, transparent);
+    background: linear-gradient(135deg, var(--mc-accent-soft), color-mix(in srgb, var(--mc-accent) 1.5%, transparent) 55%);
     padding: clamp(36px, 5vw, 60px);
     display: flex;
     align-items: center;
