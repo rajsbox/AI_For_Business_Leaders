@@ -519,22 +519,6 @@ p {
   opacity: 0.6;
 }
 
-.site-footer__badge {
-  display: inline-flex;
-  background: var(--blue);
-  color: var(--blue-contrast);
-  padding: 6px 12px;
-  font-family: var(--font-sans);
-  font-weight: 800;
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  transition: opacity 120ms ease;
-}
-
-a.site-footer__badge:hover {
-  opacity: 0.8;
-}
-
 .site-footer__linkedin {
   display: inline-flex;
   align-items: center;
