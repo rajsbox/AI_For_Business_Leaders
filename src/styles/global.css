@@ -535,6 +535,24 @@ a.site-footer__badge:hover {
   opacity: 0.8;
 }
 
+.site-footer__linkedin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--faint);
+  color: var(--paper);
+  opacity: 0.75;
+  transition: opacity 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+
+a.site-footer__linkedin:hover {
+  opacity: 1;
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
 @media (max-width: 640px) {
   .site-header__inner {
     height: auto;
