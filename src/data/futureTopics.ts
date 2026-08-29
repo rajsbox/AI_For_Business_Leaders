@@ -17,7 +17,7 @@
 // invented specifics. If something is speculative or still unsettled,
 // say so plainly rather than presenting it as fact.
 
-export const lastReviewed = '2026-08-22';
+export const lastReviewed = '2026-08-29';
 
 export interface FutureTopic {
   headline: string;
@@ -27,6 +27,36 @@ export interface FutureTopic {
 }
 
 export const futureTopics: FutureTopic[] = [
+  {
+    headline: 'World models as a distinct AI paradigm beyond LLMs',
+    note: "Real money and top researchers (Yann LeCun's AMI Labs, Google DeepMind's Genie 3, Waymo's simulation use) are now betting on systems that learn the physical world from sensory data, not text prediction — a different cost and capability profile than the chatbot/RAG/agent stack this course teaches.",
+    category: 'Not covered in the course',
+  },
+  {
+    headline: 'Agentic commerce: agents that can actually pay',
+    note: "Google's Agent Payments Protocol (AP2) and OpenAI/Stripe's competing Agentic Commerce Protocol (ACP) now let AI agents make authorized purchases via cryptographically signed permissions — a new governance question (who authorized this, and how is it proven?) beyond the tool-calling this course already covers.",
+    category: 'Not covered in the course',
+  },
+  {
+    headline: 'Agent protocol governance went neutral',
+    note: "The Linux Foundation's Agentic AI Foundation now governs both MCP and A2A jointly (with AWS, Anthropic, Google, Microsoft, and OpenAI as members), moving the connectivity standards this course teaches from single-vendor projects to shared, neutral governance.",
+    category: 'Not covered in the course',
+  },
+  {
+    headline: "NIST's AI Agent Standards Initiative",
+    note: "A formal U.S. government effort (launched Feb 2026) aimed at agent interoperability, security, and identity standards — the first dedicated federal answer to the \"how do we govern agents acting on our behalf\" question this course raises but doesn't yet name.",
+    category: 'Not covered in the course',
+  },
+  {
+    headline: "The EU AI Act's transparency rules are already live",
+    note: 'A "Digital Omnibus" delayed the high-risk system deadline to Dec 2027, but the transparency obligations — disclosing AI-generated content, labeling deepfakes, disclosing chatbot use — took effect on schedule in August 2026, ahead of what this course currently reflects.',
+    category: 'Not covered in the course',
+  },
+  {
+    headline: 'US federal push to preempt state AI laws',
+    note: "An executive order, a federal Litigation Task Force, and a White House policy framework are actively trying to replace the state-by-state US AI regulatory patchwork with a single federal standard — still unresolved, but a real compliance-planning uncertainty this course's EU-centric regulation coverage doesn't mention.",
+    category: 'Not covered in the course',
+  },
   {
     headline: 'Fine-tuning, on its own terms',
     note: 'Added as a short callout in Day 11 covering how fine-tuning actually works and its ongoing cost — still not a full lesson on building one.',
